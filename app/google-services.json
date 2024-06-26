@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "647347570806",
+    "project_id": "trekscape-a197e",
+    "storage_bucket": "trekscape-a197e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647347570806:android:b80a9496936c92eaf53757",
+        "android_client_info": {
+          "package_name": "com.spherixlabs.trekscape"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcCJzUWCRRG4I6xzrnzuxLjH0C9X_lqwc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
