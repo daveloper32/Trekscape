@@ -29,6 +29,14 @@ dagger-hilt = "2.44"
 firebase-bom = "33.1.1"
 google-maps-compose = "4.4.1"
 
+# Project versions
+projectApplicationId = "com.spherixlabs.trekscape"
+projectVersionName = "1.0.0"
+projectMinSdkVersion = "26"
+projectTargetSdkVersion = "34"
+projectCompileSdkVersion = "34"
+projectVersionCode = "1"
+
 [libraries]
 kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }

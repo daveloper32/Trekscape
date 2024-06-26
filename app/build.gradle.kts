@@ -12,14 +12,14 @@ plugins {
 
 android {
     namespace = "com.spherixlabs.trekscape"
-    compileSdk = 34
+    compileSdk = libs.versions.projectCompileSdkVersion.get().toInt()
 
     defaultConfig {
-        applicationId = "com.spherixlabs.trekscape"
-        minSdk = 26
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.0"
+        applicationId = libs.versions.projectApplicationId.get()
+        minSdk        = libs.versions.projectMinSdkVersion.get().toInt()
+        targetSdk     = libs.versions.projectTargetSdkVersion.get().toInt()
+        versionCode   = libs.versions.projectVersionCode.get().toInt()
+        versionName   = libs.versions.projectVersionName.get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
