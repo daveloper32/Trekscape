@@ -1,4 +1,4 @@
-package com.spherixlabs.trekscape.core.data.network.utils
+package com.spherixlabs.trekscape.core.utils.http
 
 import com.spherixlabs.trekscape.core.domain.utils.results.DataError
 import com.spherixlabs.trekscape.core.domain.utils.results.Result
