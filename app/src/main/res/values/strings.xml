@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Trekscape</string>
+    <string name="app_name">TrekScape</string>
+    <string name="lab_next">Next</string>
 </resources>

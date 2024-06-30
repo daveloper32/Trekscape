@@ -7,7 +7,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -15,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.spherixlabs.trekscape.core.presentation.ui.navigation.routes.HomeRoute
 import com.spherixlabs.trekscape.core.presentation.ui.navigation.routes.WelcomeRoute
+import com.spherixlabs.trekscape.welcome.presentation.screens.name_request.NameRequestScreenRoot
 
 @Composable
 fun NavigationRoot(
@@ -34,18 +34,13 @@ fun NavigationRoot(
 private fun NavGraphBuilder.welcomeGraph(
     navController : NavHostController
 ) {
-    navigation<HomeRoute>(
-        startDestination = HomeRoute.Home,
+    navigation<WelcomeRoute>(
+        startDestination = WelcomeRoute.NameRequest,
     ) {
         composable<WelcomeRoute.NameRequest> {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text(text = "Name Request Screen")
-            }
+            NameRequestScreenRoot(
+                onGoToSetupPreferencesClick = { /*TODO*/ }
+            )
         }
     }
 }

@@ -25,7 +25,8 @@ timber = "5.0.1"
 google-services = "4.4.2"
 room = "2.6.1"
 ksp = "1.9.22-1.0.17"
-dagger-hilt = "2.48"
+dagger-hilt = "2.49"
+hilt-navigation-compose = "1.2.0"
 firebase-bom = "33.1.1"
 google-maps-compose = "4.4.1"
 
@@ -41,9 +42,11 @@ projectVersionCode = "1"
 kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
+compose-foundation-android = { module = "androidx.compose.foundation:foundation-android", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
@@ -65,6 +68,7 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger-hilt" }
 dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger-hilt" }
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx", version = "unspecified" }
 firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx", version = "unspecified" }
