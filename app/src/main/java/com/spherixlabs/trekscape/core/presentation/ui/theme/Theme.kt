@@ -35,7 +35,7 @@ fun TrekScapeTheme(
 
     MaterialTheme(
         colorScheme = colors,
-        typography  = Typography,
+        typography  = themeTypography,
         content     = content,
     )
 }
