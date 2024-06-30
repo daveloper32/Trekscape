@@ -3,8 +3,11 @@
 
     <style name="Theme.TrekScape" parent="android:Theme.Material.Light.NoActionBar" />
 
+
     <style name="Theme.SplashTheme" parent="Theme.SplashScreen">
-        <item name="android:windowBackground">@drawable/bg_splash_screen_under_v31</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo_500px</item>
+        <item name="android:windowSplashScreenAnimationDuration">3000</item>
+        <item name="android:windowBackground">@drawable/bg_splash_screen</item>
         <item name="postSplashScreenTheme">@style/Theme.TrekScape</item>
     </style>
 </resources>
