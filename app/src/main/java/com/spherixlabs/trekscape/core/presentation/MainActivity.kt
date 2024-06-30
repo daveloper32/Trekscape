@@ -1,4 +1,4 @@
-package com.spherixlabs.trekscape
+package com.spherixlabs.trekscape.core.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -16,8 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.spherixlabs.trekscape.ui.theme.TrekscapeTheme
+import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekscapeTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,4 +1,4 @@
-package com.spherixlabs.trekscape.ui.theme
+package com.spherixlabs.trekscape.core.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
