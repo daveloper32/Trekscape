@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekscapeTheme
+import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekScapeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         enableEdgeToEdge()
         setContent {
-            TrekscapeTheme {
+            TrekScapeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column(
                         modifier = Modifier
@@ -51,5 +51,5 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    TrekscapeTheme {}
+    TrekScapeTheme {}
 }
