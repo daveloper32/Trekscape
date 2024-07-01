@@ -103,7 +103,9 @@ fun TrekScapeTextField(
                             alpha = 0.05f,
                         )
                     } else {
-                        MaterialTheme.colorScheme.surface
+                        MaterialTheme.colorScheme.onSurface.copy(
+                            alpha = 0.1f,
+                        )
                     }
                 )
                 .border(
@@ -169,7 +171,7 @@ fun TrekScapeTextField(
 
 @Preview
 @Composable
-private fun RuniqueTextFieldPreview() {
+private fun TrekScapeTextFieldPreview() {
     TrekScapeTheme {
         TrekScapeTextField(
             text           = "",
