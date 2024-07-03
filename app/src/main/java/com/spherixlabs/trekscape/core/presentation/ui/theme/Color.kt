@@ -125,8 +125,9 @@ object Triadic2Color {
     val LIGHT   = C50
     val DARK    = C900
 }
-val TextBlack   = Color(0XFF535353)
-val DarkGrey    = Color(0xFF282C31)
+val TextBlack        = Color(0XFF535353)
+val DarkGrey         = Color(0xFF282C31)
+val BlackTransparent = Color(0x4D000000)
 
 /**
  * Custom Light Color Scheme [ColorScheme] for the app.
