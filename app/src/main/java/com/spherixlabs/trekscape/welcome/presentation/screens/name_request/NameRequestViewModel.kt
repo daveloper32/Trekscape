@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.spherixlabs.trekscape.core.domain.storage.UserStorage
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,8 +19,9 @@ import javax.inject.Inject
  * The [NameRequestViewModel] is a core or base View Model that is responsible for handling the
  * control of the name request of the application.
  * */
+@HiltViewModel
 class NameRequestViewModel @Inject constructor(
-
+    private val userStorage : UserStorage,
 ) : ViewModel() {
 
     /**
@@ -53,6 +56,7 @@ class NameRequestViewModel @Inject constructor(
                     name = action.name,
                     canGoNext = action.name.isNotEmpty(),
                 )
+                userStorage.name = action.name
             }
             is NameRequestAction.OnNextClicked -> {
                 viewModelScope.launch {

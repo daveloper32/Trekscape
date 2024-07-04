@@ -2,6 +2,8 @@ package com.spherixlabs.trekscape.di
 
 import android.app.Application
 import com.spherixlabs.trekscape.core.data.db.TrekScapeDatabase
+import com.spherixlabs.trekscape.core.data.settings.UserSettingsImpl
+import com.spherixlabs.trekscape.core.domain.storage.UserStorage
 import com.spherixlabs.trekscape.core.utils.room.createARoomDatabase
 import dagger.Module
 import dagger.Provides
@@ -65,4 +67,11 @@ object DataModule {
         context = app,
         name    = TrekScapeDatabase.DATABASE_NAME,
     )
+
+    /**DI function that provides a singleton of a [UserStorage]*/
+    @Provides
+    @Singleton
+    fun provideUserStorage(
+        app: Application
+    ): UserStorage = UserSettingsImpl(app)
 }
