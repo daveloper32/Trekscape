@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">TrekScape</string>
     <string name="lab_next">Next</string>
+    <string name="let_get">Let\'s Get</string>
+    <string name="started">Started</string>
+    <string name="enter_name">Enter your name</string>
 </resources>

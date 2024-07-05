@@ -53,8 +53,9 @@ class NameRequestViewModel @Inject constructor(
         when (action) {
             is NameRequestAction.OnNameChanged -> {
                 state = state.copy(
-                    name = action.name,
-                    canGoNext = action.name.isNotEmpty(),
+                    name      = action.name,
+                    showNext  = action.name.isNotEmpty(),
+                    canGoNext = action.name.length >= 3,
                 )
                 userStorage.name = action.name
             }
