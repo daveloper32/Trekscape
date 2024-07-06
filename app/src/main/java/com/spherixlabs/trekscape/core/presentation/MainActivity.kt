@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()
-                        .systemBarsPadding()
+//                        .systemBarsPadding()
                         .imePadding(),
                     color = MaterialTheme.colorScheme.background
                 ) {

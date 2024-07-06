@@ -15,6 +15,7 @@ import androidx.navigation.compose.navigation
 import com.spherixlabs.trekscape.core.presentation.ui.navigation.routes.HomeRoute
 import com.spherixlabs.trekscape.core.presentation.ui.navigation.routes.WelcomeRoute
 import com.spherixlabs.trekscape.welcome.presentation.screens.name_request.NameRequestScreenRoot
+import com.spherixlabs.trekscape.welcome.presentation.screens.preferences_request.PreferencesRequestScreenRoot
 
 @Composable
 fun NavigationRoot(
@@ -39,8 +40,11 @@ private fun NavGraphBuilder.welcomeGraph(
     ) {
         composable<WelcomeRoute.NameRequest> {
             NameRequestScreenRoot(
-                onGoToSetupPreferencesClick = { /*TODO*/ }
+                onGoToSetupPreferencesClick = { navController.navigate(WelcomeRoute.PreferencesRequest) }
             )
+        }
+        composable<WelcomeRoute.PreferencesRequest> {
+            PreferencesRequestScreenRoot()
         }
     }
 }

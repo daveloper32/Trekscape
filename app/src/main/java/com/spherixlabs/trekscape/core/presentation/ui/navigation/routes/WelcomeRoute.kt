@@ -12,4 +12,9 @@ object WelcomeRoute {
      * */
     @Serializable
     object NameRequest
+    /**
+     * [NameRequest] is the route for the preferences request screen.
+     * */
+    @Serializable
+    object PreferencesRequest
 }

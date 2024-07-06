@@ -4,4 +4,38 @@
     <string name="let_get">Let\'s Get</string>
     <string name="started">Started</string>
     <string name="enter_name">Enter your name</string>
+    <string name="nature_and_adventure">Nature and Adventure</string>
+    <string name="nature_and_adventure_description">Are you passionate about nature and adventure? Choose the options that best suit your exploring spirit!</string>
+    <string name="culture_and_history">Culture and History</string>
+    <string name="culture_and_history_description">Are you a lover of culture and history? Select destinations that awaken your curiosity and passion for the past.</string>
+    <string name="relaxation_and_wellbeing">Relaxation and Wellbeing</string>
+    <string name="relaxation_and_wellbeing_description">Looking to relax and recharge? Select destinations that offer you maximum tranquility and well-being.</string>
+
+    <!--PREFERENCES    -->
+    <string name="mountain_p">Mountains</string>
+    <string name="beach_p">Beaches</string>
+    <string name="national_parks_p">National Parks</string>
+    <string name="jungles_p">Jungles</string>
+    <string name="forests_p">Forests</string>
+    <string name="safaris_p">Safaris</string>
+    <string name="deserts_p">deserts</string>
+
+    <string name="historic_cities_p">Historic cities</string>
+    <string name="museums_p">Museums</string>
+    <string name="art_galleries_p">Art Galleries</string>
+    <string name="archaeological_sites_p">Archaeological sites</string>
+    <string name="festivals_p">Festivals</string>
+    <string name="cultural_events_p">Cultural events</string>
+    <string name="historical_monuments_p">Historical monuments</string>
+    <string name="castles_p">Castles</string>
+
+    <string name="spas_p">Spas</string>
+    <string name="tropical_islands_p">tropical islands</string>
+    <string name="resorts_p">All-inclusive resorts</string>
+    <string name="yoga_p">Yoga retreat</string>
+    <string name="meditation_p">Meditation</string>
+    <string name="spa_centers_p">Spa centers</string>
+    <string name="hotels_p">Hotels</string>
+
+
 </resources>

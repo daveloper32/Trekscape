@@ -29,6 +29,7 @@ dagger-hilt = "2.49"
 hilt-navigation-compose = "1.2.0"
 firebase-bom = "33.1.1"
 google-maps-compose = "4.4.1"
+flow-layout = "0.24.13-rc"
 
 # Project versions
 projectApplicationId = "com.spherixlabs.trekscape"
@@ -73,6 +74,7 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx", version = "unspecified" }
 firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx", version = "unspecified" }
 google-maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "google-maps-compose" }
+flow-layout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "flow-layout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
