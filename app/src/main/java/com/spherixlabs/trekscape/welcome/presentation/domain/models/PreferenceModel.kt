@@ -37,7 +37,32 @@ data class PreferenceModel(
     val id   : String,
     val title: UiText,
     val icon : ImageVector
-)
+) {
+    /**
+     * Checks if the preference is associated with the [NatureAdventure] category.
+     *
+     * @return [Boolean] True if the preference is [NatureAdventure], false otherwise.
+     * */
+    fun isNatureAdventure() : Boolean {
+        return NatureAdventure.Companion.Types.entries.find { it.name == id } != null
+    }
+    /**
+     * Checks if the preference is associated with the [CultureHistory] category.
+     *
+     * @return [Boolean] True if the preference is [CultureHistory], false otherwise.
+     * */
+    fun isCultureHistory() : Boolean {
+        return CultureHistory.Companion.Types.entries.find { it.name == id } != null
+    }
+    /**
+     * Checks if the preference is associated with the [Relaxation] category.
+     *
+     * @return [Boolean] True if the preference is [Relaxation], false otherwise.
+     * */
+    fun isRelaxation() : Boolean {
+        return Relaxation.Companion.Types.entries.find { it.name == id } != null
+    }
+}
 
 class NatureAdventure  {
     companion object {

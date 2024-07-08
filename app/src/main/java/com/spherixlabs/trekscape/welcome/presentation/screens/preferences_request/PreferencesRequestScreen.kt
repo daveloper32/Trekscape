@@ -18,15 +18,13 @@ import com.spherixlabs.trekscape.core.presentation.Animations.ZoomInOrOutAnimati
 import com.spherixlabs.trekscape.core.presentation.components.TrekScapeFloatingButton
 import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekScapeTheme
 import com.spherixlabs.trekscape.welcome.presentation.components.CircleView
-import com.spherixlabs.trekscape.welcome.presentation.domain.models.CategoryPreferenceModel
 import com.spherixlabs.trekscape.welcome.presentation.screens.preferences_request.components.BodyPreferencesRequestScreen
 
 @Composable
 fun PreferencesRequestScreenRoot(
-    viewModel  : PreferencesRequestViewModel = hiltViewModel(),
+    viewModel : PreferencesRequestViewModel = hiltViewModel(),
 ) {
     PreferencesRequestScreen(
-        categories = viewModel.getCategories(),
         state      = viewModel.state,
         onAction   = viewModel::onAction,
     )
@@ -35,15 +33,12 @@ fun PreferencesRequestScreenRoot(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 private fun PreferencesRequestScreen(
-    state     : PreferencesRequestState,
-    onAction  : (PreferencesRequestAction) -> Unit,
-    categories: List<CategoryPreferenceModel>,
+    state    : PreferencesRequestState,
+    onAction : (PreferencesRequestAction) -> Unit,
 ) {
-
-
     Scaffold(
         floatingActionButton = {
-            ZoomInOrOutAnimation(show = true){
+            ZoomInOrOutAnimation(show = state.showNext){
                 TrekScapeFloatingButton(
                     onClick  = { onAction.invoke(PreferencesRequestAction.OnNextCategoryPreference)},
                     content  = { Icon(Icons.AutoMirrored.Rounded.NavigateNext, contentDescription = "TrekScapeFloatingButton") },
@@ -58,9 +53,9 @@ private fun PreferencesRequestScreen(
                 modifier    = Modifier.padding(50.dp)
             )
             BodyPreferencesRequestScreen(
-                list     = categories,
                 state    = state,
-                onAction = onAction)
+                onAction = onAction
+            )
         }
     }
 }
@@ -72,7 +67,6 @@ private fun PreferencesRequestScreenPreview() {
         PreferencesRequestScreen(
             state = PreferencesRequestState(),
             onAction = {  },
-            categories = listOf()
         )
     }
 }

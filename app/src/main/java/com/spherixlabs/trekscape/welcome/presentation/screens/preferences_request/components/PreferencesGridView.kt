@@ -32,7 +32,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun PreferencesGridView(
-    selections : List<String>,
+    selections : List<PreferenceModel>,
     preferences: List<PreferenceModel>,
     modifier   : Modifier = Modifier,
     selectColor: Color = MaterialTheme.colorScheme.primary,
@@ -42,7 +42,7 @@ fun PreferencesGridView(
         preferences.forEach { preference ->
             PreferenceItem(
                 preference  = preference,
-                isSelect    = selections.contains(preference.id),
+                isSelect    = selections.find { it.id == preference.id } != null,
                 selectColor = selectColor,
                 onSelect    = { onSelect(preference) }
             )

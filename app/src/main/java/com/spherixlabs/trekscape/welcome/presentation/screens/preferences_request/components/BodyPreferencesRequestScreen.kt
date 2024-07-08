@@ -15,19 +15,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.spherixlabs.trekscape.welcome.presentation.domain.models.CategoryPreferenceModel
+import com.spherixlabs.trekscape.R
 import com.spherixlabs.trekscape.welcome.presentation.screens.preferences_request.PreferencesRequestAction
 import com.spherixlabs.trekscape.welcome.presentation.screens.preferences_request.PreferencesRequestState
 
 @Composable
 fun BodyPreferencesRequestScreen (
-    list    : List<CategoryPreferenceModel>,
     state   : PreferencesRequestState,
     onAction: (PreferencesRequestAction) -> Unit
 ){
-    val data = list[state.currentCategory]
+    val data = state.categories[state.currentCategory]
     Column(
         horizontalAlignment = Alignment.Start,
         modifier            = Modifier
@@ -52,7 +53,20 @@ fun BodyPreferencesRequestScreen (
         )
         Spacer(modifier = Modifier.height(20.dp))
         PreferencesGridView(preferences = data.listPreferences, selections = state.preferencesSelected){
-            onAction.invoke(PreferencesRequestAction.OnSelectOrDeselectPreference(it.id))
+            onAction.invoke(PreferencesRequestAction.OnSelectOrDeselectPreference(it))
+        }
+        if (!state.showNext) {
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text  = stringResource(id = R.string.lab_select_one_or_more),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center,
+            )
+            Spacer(modifier = Modifier.height(48.dp))
         }
     }
 }
