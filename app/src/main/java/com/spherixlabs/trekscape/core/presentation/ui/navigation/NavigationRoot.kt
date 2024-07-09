@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.spherixlabs.trekscape.core.presentation.ui.navigation.routes.HomeRoute
 import com.spherixlabs.trekscape.core.presentation.ui.navigation.routes.WelcomeRoute
+import com.spherixlabs.trekscape.home.presentation.HomeScreenRoot
 import com.spherixlabs.trekscape.welcome.presentation.screens.name_request.NameRequestScreenRoot
 import com.spherixlabs.trekscape.welcome.presentation.screens.preferences_request.PreferencesRequestScreenRoot
 
@@ -67,14 +68,7 @@ private fun NavGraphBuilder.homeGraph(
         startDestination = HomeRoute.Home,
     ) {
         composable<HomeRoute.Home> {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text(text = "Home")
-            }
+            HomeScreenRoot()
         }
     }
 }

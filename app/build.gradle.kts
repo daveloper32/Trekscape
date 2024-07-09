@@ -132,6 +132,8 @@ dependencies {
     implementation(libs.firebase.firestore.ktx)
     // Timber logging
     implementation(libs.timber)
+    // Permissions
+    implementation(libs.google.accompanist.permissions)
     //
     debugImplementation(libs.compose.ui.tooling)
 }

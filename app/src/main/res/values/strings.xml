@@ -38,5 +38,11 @@
     <string name="hotels_p">Hotels</string>
     <string name="lab_select_one_or_more">Select one or more</string>
 
-
+    <string name="lab_yes">Yes</string>
+    <string name="lab_no">No</string>
+    <string name="lab_required_permission">Permission required</string>
+    <string name="lab_app_needs_permission_to_access_location">Would you like to improve your experience and get better and accurate travel recommendations based on your location?</string>
+    <string name="lab_history">History</string>
+    <string name="lab_recommend">Recommend</string>
+    <string name="lab_profile">Profile</string>
 </resources>

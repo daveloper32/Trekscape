@@ -2,7 +2,9 @@ package com.spherixlabs.trekscape.di
 
 import android.app.Application
 import com.spherixlabs.trekscape.core.data.db.TrekScapeDatabase
+import com.spherixlabs.trekscape.core.data.settings.PermissionsStateSettingsImpl
 import com.spherixlabs.trekscape.core.data.settings.UserSettingsImpl
+import com.spherixlabs.trekscape.core.domain.storage.PermissionsStateStorage
 import com.spherixlabs.trekscape.core.domain.storage.UserStorage
 import com.spherixlabs.trekscape.core.utils.room.createARoomDatabase
 import dagger.Module
@@ -74,4 +76,11 @@ object DataModule {
     fun provideUserStorage(
         app: Application
     ): UserStorage = UserSettingsImpl(app)
+
+    /**DI function that provides a singleton of a [PermissionsStateStorage]*/
+    @Provides
+    @Singleton
+    fun providePermissionStateStorage(
+        app: Application
+    ): PermissionsStateStorage = PermissionsStateSettingsImpl(app)
 }
