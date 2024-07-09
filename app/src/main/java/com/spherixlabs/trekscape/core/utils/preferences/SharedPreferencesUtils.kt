@@ -45,3 +45,10 @@ fun SharedPreferences.Editor.putBooleanValue(
         commit()
     }
 }
+/**Extension function to modify the value of a [Set] key of a [SharedPreferences] manager*/
+fun SharedPreferences.Editor.putStringSetValue(key: String, ids: Set<String>) {
+    with(this) {
+        putStringSet(key, ids)
+        commit()
+    }
+}

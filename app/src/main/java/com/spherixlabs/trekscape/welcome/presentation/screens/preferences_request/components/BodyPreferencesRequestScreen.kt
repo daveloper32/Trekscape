@@ -20,6 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.spherixlabs.trekscape.R
+import com.spherixlabs.trekscape.core.presentation.Animations.JumpingInfiniteAnimation
+import com.spherixlabs.trekscape.core.presentation.Animations.ZoomInOrOutAnimation
 import com.spherixlabs.trekscape.welcome.presentation.screens.preferences_request.PreferencesRequestAction
 import com.spherixlabs.trekscape.welcome.presentation.screens.preferences_request.PreferencesRequestState
 
@@ -55,18 +57,20 @@ fun BodyPreferencesRequestScreen (
         PreferencesGridView(preferences = data.listPreferences, selections = state.preferencesSelected){
             onAction.invoke(PreferencesRequestAction.OnSelectOrDeselectPreference(it))
         }
-        if (!state.showNext) {
-            Spacer(modifier = Modifier.weight(1f))
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                text  = stringResource(id = R.string.lab_select_one_or_more),
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurface,
-                textAlign = TextAlign.Center,
-            )
-            Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.weight(1f))
+        JumpingInfiniteAnimation {
+            ZoomInOrOutAnimation(show = !state.showNext) {
+                Text(
+                    text       = stringResource(id = R.string.lab_select_one_or_more),
+                    style      = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.SemiBold,
+                    color      = MaterialTheme.colorScheme.onSurface,
+                    textAlign  = TextAlign.Center,
+                    modifier   = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 48.dp),
+                )
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ package com.spherixlabs.trekscape.core.data.settings
 import android.content.Context
 import com.spherixlabs.trekscape.core.domain.storage.UserStorage
 import com.spherixlabs.trekscape.core.utils.constants.Constants.EMPTY_STR
+import com.spherixlabs.trekscape.core.utils.preferences.putStringSetValue
 import com.spherixlabs.trekscape.core.utils.preferences.putStringValue
 import javax.inject.Inject
 
@@ -22,9 +23,14 @@ class UserSettingsImpl @Inject constructor(
         get() = sharedPreferences.getString(Keys.NAME.key, EMPTY_STR) ?: EMPTY_STR
         set(value) = preferencesEditor.putStringValue(Keys.NAME.key, value)
 
+    override var preferences: Set<String>
+        get() = sharedPreferences.getStringSet(Keys.PREFERENCES.key, emptySet()) ?: emptySet()
+        set(value) = preferencesEditor.putStringSetValue(Keys.PREFERENCES.key, value)
+
 
     override fun clear() {
         name = EMPTY_STR
+        preferences = emptySet()
     }
 
     companion object {
@@ -33,7 +39,7 @@ class UserSettingsImpl @Inject constructor(
          * [Keys] specify all the keys used in [UserSettingsImpl]
          * */
         enum class Keys {
-            NAME;
+            NAME, PREFERENCES;
             val key get() = this.name
         }
     }

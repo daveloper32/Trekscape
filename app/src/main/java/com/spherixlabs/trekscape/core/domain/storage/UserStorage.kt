@@ -9,6 +9,10 @@ interface UserStorage {
      * */
     var name : String
     /**
+     * Get/Set user's preferences
+     * */
+    var preferences : Set<String>
+    /**
      * Clear all user data
      * */
     fun clear()

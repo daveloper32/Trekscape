@@ -63,6 +63,11 @@ data class PreferenceModel(
         return Relaxation.Companion.Types.entries.find { it.name == id } != null
     }
 }
+/**
+ * Extracts a set of IDs from a list of PreferenceModel objects.
+ * @return A set of strings representing the IDs extracted from the list.
+ */
+fun List<PreferenceModel>.extractIds(): Set<String> = this.map { it.id }.toSet()
 
 class NatureAdventure  {
     companion object {

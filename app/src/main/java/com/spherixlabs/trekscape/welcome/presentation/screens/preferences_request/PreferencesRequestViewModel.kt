@@ -5,12 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.spherixlabs.trekscape.R
+import com.spherixlabs.trekscape.core.domain.storage.UserStorage
 import com.spherixlabs.trekscape.core.presentation.ui.utils.UiText
 import com.spherixlabs.trekscape.welcome.presentation.domain.models.CategoryPreferenceModel
 import com.spherixlabs.trekscape.welcome.presentation.domain.models.CultureHistory
 import com.spherixlabs.trekscape.welcome.presentation.domain.models.NatureAdventure
 import com.spherixlabs.trekscape.welcome.presentation.domain.models.PreferenceModel
 import com.spherixlabs.trekscape.welcome.presentation.domain.models.Relaxation
+import com.spherixlabs.trekscape.welcome.presentation.domain.models.extractIds
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +24,7 @@ import javax.inject.Inject
  * */
 @HiltViewModel
 class PreferencesRequestViewModel @Inject constructor(
+    private val userStorage : UserStorage,
 ) : ViewModel() {
 
     /**
@@ -47,7 +50,10 @@ class PreferencesRequestViewModel @Inject constructor(
     ) {
         when (action) {
             PreferencesRequestAction.OnNextCategoryPreference -> {
-                if (state.isShowingLastCategory) return
+                if (state.isShowingLastCategory) {
+                    userStorage.preferences = state.preferencesSelected.extractIds()
+                    return
+                }
                 val currentCategory = state.currentCategory + 1
                 state = state.copy(
                     currentCategory       = currentCategory,
