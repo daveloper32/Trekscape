@@ -1,6 +1,7 @@
 package com.spherixlabs.trekscape.welcome.presentation.screens.preferences_request
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,10 +12,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.spherixlabs.trekscape.core.presentation.Animations.ZoomInOrOutAnimation
+import com.spherixlabs.trekscape.core.presentation.animations.ZoomInOrOutAnimation
+import com.spherixlabs.trekscape.core.presentation.components.ObserveAsEvents
 import com.spherixlabs.trekscape.core.presentation.components.TrekScapeFloatingButton
 import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekScapeTheme
 import com.spherixlabs.trekscape.welcome.presentation.components.CircleView
@@ -22,8 +25,24 @@ import com.spherixlabs.trekscape.welcome.presentation.screens.preferences_reques
 
 @Composable
 fun PreferencesRequestScreenRoot(
+    onGoHomeClick : () -> Unit,
     viewModel : PreferencesRequestViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
+    ObserveAsEvents(flow = viewModel.events) { event ->
+        when (event) {
+            is PreferencesRequestEvent.NavigateToHome -> {
+                onGoHomeClick()
+            }
+            is PreferencesRequestEvent.Error -> {
+                Toast.makeText(
+                    context,
+                    event.error.asString(context),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
     PreferencesRequestScreen(
         state      = viewModel.state,
         onAction   = viewModel::onAction,

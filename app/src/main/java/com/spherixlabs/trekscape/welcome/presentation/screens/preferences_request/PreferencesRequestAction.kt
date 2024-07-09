@@ -1,6 +1,6 @@
 package com.spherixlabs.trekscape.welcome.presentation.screens.preferences_request
 
-import com.spherixlabs.trekscape.welcome.presentation.domain.models.PreferenceModel
+import com.spherixlabs.trekscape.welcome.domain.model.PreferenceModel
 
 /**
  * [PreferencesRequestAction] Describe all the actions that can happen in the view.

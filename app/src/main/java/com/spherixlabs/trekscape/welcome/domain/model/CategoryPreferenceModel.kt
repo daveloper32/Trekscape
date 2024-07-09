@@ -1,4 +1,4 @@
-package com.spherixlabs.trekscape.welcome.presentation.domain.models
+package com.spherixlabs.trekscape.welcome.domain.model
 
 import com.spherixlabs.trekscape.core.presentation.ui.utils.UiText
 

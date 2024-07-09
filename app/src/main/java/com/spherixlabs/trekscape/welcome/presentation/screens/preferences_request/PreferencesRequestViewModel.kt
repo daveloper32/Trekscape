@@ -4,18 +4,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.spherixlabs.trekscape.R
 import com.spherixlabs.trekscape.core.domain.storage.UserStorage
 import com.spherixlabs.trekscape.core.presentation.ui.utils.UiText
-import com.spherixlabs.trekscape.welcome.presentation.domain.models.CategoryPreferenceModel
-import com.spherixlabs.trekscape.welcome.presentation.domain.models.CultureHistory
-import com.spherixlabs.trekscape.welcome.presentation.domain.models.NatureAdventure
-import com.spherixlabs.trekscape.welcome.presentation.domain.models.PreferenceModel
-import com.spherixlabs.trekscape.welcome.presentation.domain.models.Relaxation
-import com.spherixlabs.trekscape.welcome.presentation.domain.models.extractIds
+import com.spherixlabs.trekscape.welcome.domain.model.CategoryPreferenceModel
+import com.spherixlabs.trekscape.welcome.domain.model.CultureHistory
+import com.spherixlabs.trekscape.welcome.domain.model.NatureAdventure
+import com.spherixlabs.trekscape.welcome.domain.model.PreferenceModel
+import com.spherixlabs.trekscape.welcome.domain.model.Relaxation
+import com.spherixlabs.trekscape.welcome.domain.model.extractIds
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -32,6 +37,17 @@ class PreferencesRequestViewModel @Inject constructor(
      * */
     var state by mutableStateOf(PreferencesRequestState())
         private set
+
+    /**
+     * Private mutable [Channel] that exposes the current events [PreferencesRequestEvent] launched by
+     * the view model that should be consumed by the view.
+     * */
+    private val eventChannel = Channel<PreferencesRequestEvent>()
+    /**
+     * Public mutable [Channel] as a [Flow] that exposes the current events [PreferencesRequestEvent]
+     * launched by the view model that should be consumed by the view.
+     * */
+    val events = eventChannel.receiveAsFlow()
 
     init {
         state = state.copy(
@@ -52,6 +68,11 @@ class PreferencesRequestViewModel @Inject constructor(
             PreferencesRequestAction.OnNextCategoryPreference -> {
                 if (state.isShowingLastCategory) {
                     userStorage.preferences = state.preferencesSelected.extractIds()
+                    viewModelScope.launch {
+                        eventChannel.send(
+                            PreferencesRequestEvent.NavigateToHome
+                        )
+                    }
                     return
                 }
                 val currentCategory = state.currentCategory + 1

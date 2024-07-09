@@ -19,12 +19,13 @@ import com.spherixlabs.trekscape.welcome.presentation.screens.preferences_reques
 
 @Composable
 fun NavigationRoot(
-    navController : NavHostController,
-    modifier      : Modifier = Modifier,
+    navController     : NavHostController,
+    isBasicInfoFilled : Boolean = false,
+    modifier          : Modifier = Modifier,
 ) {
     NavHost(
         navController = navController,
-        startDestination = WelcomeRoute,
+        startDestination = if (!isBasicInfoFilled) { WelcomeRoute } else { HomeRoute  },
         modifier = modifier,
     ) {
         welcomeGraph(navController)
@@ -40,11 +41,21 @@ private fun NavGraphBuilder.welcomeGraph(
     ) {
         composable<WelcomeRoute.NameRequest> {
             NameRequestScreenRoot(
-                onGoToSetupPreferencesClick = { navController.navigate(WelcomeRoute.PreferencesRequest) }
+                onGoToSetupPreferencesClick = {
+                    navController.navigate(WelcomeRoute.PreferencesRequest)
+                }
             )
         }
         composable<WelcomeRoute.PreferencesRequest> {
-            PreferencesRequestScreenRoot()
+            PreferencesRequestScreenRoot(
+                onGoHomeClick = {
+                    navController.navigate(HomeRoute) {
+                        popUpTo(WelcomeRoute) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
     }
 }

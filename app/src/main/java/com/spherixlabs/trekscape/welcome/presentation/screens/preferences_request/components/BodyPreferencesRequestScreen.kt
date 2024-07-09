@@ -20,8 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.spherixlabs.trekscape.R
-import com.spherixlabs.trekscape.core.presentation.Animations.JumpingInfiniteAnimation
-import com.spherixlabs.trekscape.core.presentation.Animations.ZoomInOrOutAnimation
+import com.spherixlabs.trekscape.core.presentation.animations.JumpingInfiniteAnimation
+import com.spherixlabs.trekscape.core.presentation.animations.ZoomInOrOutAnimation
 import com.spherixlabs.trekscape.welcome.presentation.screens.preferences_request.PreferencesRequestAction
 import com.spherixlabs.trekscape.welcome.presentation.screens.preferences_request.PreferencesRequestState
 

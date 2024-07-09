@@ -1,4 +1,4 @@
-package com.spherixlabs.trekscape.welcome.presentation.domain.models
+package com.spherixlabs.trekscape.welcome.domain.model
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Air

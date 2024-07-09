@@ -1,7 +1,7 @@
 package com.spherixlabs.trekscape.welcome.presentation.screens.preferences_request
 
-import com.spherixlabs.trekscape.welcome.presentation.domain.models.CategoryPreferenceModel
-import com.spherixlabs.trekscape.welcome.presentation.domain.models.PreferenceModel
+import com.spherixlabs.trekscape.welcome.domain.model.CategoryPreferenceModel
+import com.spherixlabs.trekscape.welcome.domain.model.PreferenceModel
 
 
 /**

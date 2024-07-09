@@ -27,7 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
-import com.spherixlabs.trekscape.welcome.presentation.domain.models.PreferenceModel
+import com.spherixlabs.trekscape.welcome.domain.model.PreferenceModel
 import kotlinx.coroutines.delay
 
 @Composable

@@ -11,7 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.spherixlabs.trekscape.core.presentation.Animations.ColorTransitionAnimation
+import com.spherixlabs.trekscape.core.presentation.animations.ColorTransitionAnimation
 
 @Composable
 fun TrekScapeFloatingButton(

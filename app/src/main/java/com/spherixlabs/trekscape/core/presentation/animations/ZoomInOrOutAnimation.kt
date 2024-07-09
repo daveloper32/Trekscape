@@ -1,4 +1,4 @@
-package com.spherixlabs.trekscape.core.presentation.Animations
+package com.spherixlabs.trekscape.core.presentation.animations
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
