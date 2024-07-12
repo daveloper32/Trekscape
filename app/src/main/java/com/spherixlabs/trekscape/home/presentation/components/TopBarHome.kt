@@ -29,7 +29,7 @@ fun TopBarHome(name : String){
             .safeDrawingPadding()
             .padding(10.dp)
             .clip(CircleShape)
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
             .padding(horizontal = 15.dp, vertical = 5.dp)
     ) {
         Image(

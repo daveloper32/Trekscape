@@ -33,7 +33,7 @@ fun BottomBarHome(onItemClicked  : ( HomeType) -> Unit, ){
             .safeDrawingPadding()
             .padding(20.dp)
             .clip(CircleShape)
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
             .padding(5.dp)
             .fillMaxWidth()
 

@@ -3,18 +3,14 @@
 package com.spherixlabs.trekscape.home.presentation
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -31,13 +27,15 @@ import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.spherixlabs.trekscape.core.domain.storage.model.permissions.GrantPermissionData
 import com.spherixlabs.trekscape.core.presentation.components.ObserveAsEvents
-import com.spherixlabs.trekscape.core.presentation.components.TrekScapeDialog
+import com.spherixlabs.trekscape.core.presentation.components.TrekScapeSheetDialog
 import com.spherixlabs.trekscape.core.presentation.components.handlers.AutoFinishBackPressHandler
 import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekScapeTheme
 import com.spherixlabs.trekscape.core.utils.context.findActivity
 import com.spherixlabs.trekscape.core.utils.intent.IntentUtils
+import com.spherixlabs.trekscape.historical.presentation.screens.HistoricalScreenRoot
 import com.spherixlabs.trekscape.home.domain.enums.HomeType
-import com.spherixlabs.trekscape.home.presentation.components.bottom_bar.HomeBottomBar
+import com.spherixlabs.trekscape.home.presentation.components.BottomBarHome
+import com.spherixlabs.trekscape.home.presentation.components.TopBarHome
 import com.spherixlabs.trekscape.home.presentation.components.dialogs.RequestLocationPermissionDialog
 
 @Composable
@@ -96,6 +94,7 @@ fun HomeScreenRoot(
     )
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
     state    : HomeState,
@@ -103,66 +102,48 @@ fun HomeScreen(
 ) {
     AutoFinishBackPressHandler()
     val cameraPositionState = rememberCameraPositionState()
-    var navigationSelectedItem by rememberSaveable {
-        mutableIntStateOf(1)
-    }
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier  = Modifier.fillMaxSize(),
+        topBar    = { TopBarHome(state.userName) },
         bottomBar = {
-            HomeBottomBar(
-                currentIndexItemSelected = navigationSelectedItem,
-                onItemClicked            = { index, itemData ->
-                    navigationSelectedItem = index
-                    when (itemData.type) {
-                        HomeType.HISTORY -> {
-                            onAction(HomeAction.OnHistoryClicked)
-                        }
-                        HomeType.RECOMMENDATIONS -> {
-                            onAction(HomeAction.OnRecommendationsClicked)
-                        }
-                        HomeType.PROFILE -> {
-                            onAction(HomeAction.OnProfileClicked)
-                        }
+            BottomBarHome {itemData->
+                when (itemData) {
+                    HomeType.HISTORY -> {
+                        onAction(HomeAction.OnHistoryClicked)
+                    }
+                    HomeType.RECOMMENDATIONS -> {
+                        onAction(HomeAction.OnRecommendationsClicked)
+                    }
+                    HomeType.PROFILE -> {
+                        onAction(HomeAction.OnProfileClicked)
                     }
                 }
-            )
-        }
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .padding(paddingValues)
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                GoogleMap(
-                    cameraPositionState = cameraPositionState,
-                    properties          = MapProperties(
-                        isMyLocationEnabled = state.isMyLocationEnabled,
-                        mapType             = MapType.NORMAL,
-                        isTrafficEnabled    = false,
-                    )
-                )
             }
+        }
+    ) {
+        Box{
+            GoogleMap(
+                modifier = Modifier.fillMaxSize(),
+                cameraPositionState = cameraPositionState,
+                properties          = MapProperties(
+                    isMyLocationEnabled = state.isMyLocationEnabled,
+                    mapType             = MapType.NORMAL,
+                    isTrafficEnabled    = false,
+                )
+            )
             RequestLocationPermissionDialog(
                 isOpen     = state.isLocationPermissionBeingRequested,
                 onDismiss  = { onAction(HomeAction.OnNotGrantLocationPermissions) },
                 onYesClick = { onAction(HomeAction.OnGrantLocationPermissions) },
                 onNoClick  = { onAction(HomeAction.OnNotGrantLocationPermissions) }
             )
-            TrekScapeDialog(
+            TrekScapeSheetDialog(
                 isOpen = state.isShowingHistory,
                 onDismiss = { onAction(HomeAction.OnDismissHistory) }
             ) {
-                Text(
-                    modifier = Modifier
-                        .padding(60.dp),
-                    text = "History"
-                )
+                HistoricalScreenRoot()
             }
-            TrekScapeDialog(
+            TrekScapeSheetDialog(
                 isOpen = state.isShowingProfile,
                 onDismiss = { onAction(HomeAction.OnDismissProfile) }
             ) {

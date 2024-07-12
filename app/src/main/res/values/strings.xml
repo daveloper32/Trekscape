@@ -45,4 +45,6 @@
     <string name="lab_history">History</string>
     <string name="lab_recommend">Recommend</string>
     <string name="lab_profile">Profile</string>
+    <string name="lab_swipe_up">Swipe Up</string>
+    <string name="lab_hi">Hi!!</string>
 </resources>

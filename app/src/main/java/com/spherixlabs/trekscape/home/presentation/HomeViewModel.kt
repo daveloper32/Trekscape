@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.spherixlabs.trekscape.core.data.provider.ResourceProvider
 import com.spherixlabs.trekscape.core.domain.storage.PermissionsStateStorage
+import com.spherixlabs.trekscape.core.domain.storage.UserStorage
 import com.spherixlabs.trekscape.core.domain.storage.model.permissions.GrantPermissionData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -23,6 +24,7 @@ import javax.inject.Inject
  * */
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+                userStorage        : UserStorage,
     private val resourceProvider   : ResourceProvider,
     private val permissionsStorage : PermissionsStateStorage,
 ) : ViewModel() {
@@ -32,6 +34,12 @@ class HomeViewModel @Inject constructor(
      * */
     var state by mutableStateOf(HomeState())
         private set
+
+    init {
+        state = state.copy(
+            userName = userStorage.name
+        )
+    }
 
     /**
      * Private mutable [Channel] that exposes the current events [HomeEvent] launched by

@@ -88,6 +88,8 @@ android {
 }
 
 dependencies {
+    // Glide
+    implementation(libs.glide)
     // Grid Preferences
     implementation(libs.flow.layout)
     // Splash Screen

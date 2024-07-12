@@ -7,10 +7,12 @@ package com.spherixlabs.trekscape.home.presentation
  * @param isMyLocationEnabled [Boolean] True if the my location is enabled, false otherwise.
  * @param isShowingHistory [Boolean] True if the history is being shown, false otherwise.
  * @param isShowingProfile [Boolean] True if the profile is being shown, false otherwise.
+ * @param userName [String] this is the username.
  * */
 data class HomeState(
     val isLocationPermissionBeingRequested : Boolean = false,
     val isMyLocationEnabled                : Boolean = false,
     val isShowingHistory                   : Boolean = false,
     val isShowingProfile                   : Boolean = false,
+    val userName                           : String  = ""
 )

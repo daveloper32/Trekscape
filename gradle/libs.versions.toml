@@ -30,6 +30,7 @@ hilt-navigation-compose = "1.2.0"
 firebase-bom = "33.1.1"
 google-maps-compose = "4.4.1"
 flow-layout = "0.24.13-rc"
+glide = "1.0.0-beta01"
 google-accompanist-permissions = "0.34.0"
 
 # Project versions
@@ -76,6 +77,7 @@ firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx"
 firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx", version = "unspecified" }
 google-maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "google-maps-compose" }
 flow-layout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "flow-layout" }
+glide = { module = "com.github.bumptech.glide:compose", version.ref = "glide" }
 google-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "google-accompanist-permissions" }
 
 [plugins]
