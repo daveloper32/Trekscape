@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.spherixlabs.trekscape.core.presentation.components.TrekScapeSheetDialog
 import com.spherixlabs.trekscape.core.presentation.components.handlers.AutoFinishBackPressHandler
 import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekScapeTheme
 import com.spherixlabs.trekscape.historical.presentation.components.HeaderHistoricalView
@@ -18,19 +19,32 @@ import com.spherixlabs.trekscape.historical.presentation.components.ItemHistoric
 fun HistoricalScreenRoot(
     viewModel : HistoricalViewModel = hiltViewModel(),
 ) {
-    HistoricalScreen(state = viewModel.state)
+    HistoricalScreen(
+        state    = viewModel.state,
+        onAction = viewModel::onAction
+    )
 }
 
 @Composable
 fun HistoricalScreen(
-    state : HistoricalState,
+    state   : HistoricalState,
+    onAction: (HistoricalAction) -> Unit
 ) {
     AutoFinishBackPressHandler()
     Box {
         LazyColumn(modifier = Modifier.padding(horizontal = 20.dp)) {
             item { HeaderHistoricalView() }
             itemsIndexed(state.historicalList) { _, historicalModel ->
-                ItemHistoricalView( historicalModel  = historicalModel)
+                ItemHistoricalView( historicalModel  = historicalModel){
+                    onAction(HistoricalAction.OnHistoricalClicked(historicalModel))
+                }
+            }
+        }
+        TrekScapeSheetDialog(
+            isOpen    = state.isShowingDetailHistorical != null,
+            onDismiss = { onAction(HistoricalAction.OnDismissDetailHistorical)}) {
+            ItemHistoricalView(historicalModel = state.isShowingDetailHistorical!!) {
+                
             }
         }
     }
@@ -41,6 +55,9 @@ fun HistoricalScreen(
 @Composable
 private fun HistoricalScreenPreview() {
     TrekScapeTheme {
-        HistoricalScreen(state = HistoricalState())
+        HistoricalScreen(
+            state    = HistoricalState(),
+            onAction = {}
+        )
     }
 }

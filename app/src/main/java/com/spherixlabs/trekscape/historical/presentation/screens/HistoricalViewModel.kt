@@ -31,7 +31,30 @@ class HistoricalViewModel @Inject constructor(
             historicalList = getHistorical(),
         )
     }
-
+    /**
+     * This function receives all the possible actions [HistoricalAction] from the view and
+     * updates the state to reflect the new action.
+     *
+     * @param action [HistoricalAction].
+     * */
+    fun onAction(
+        action : HistoricalAction
+    ) {
+        when (action) {
+            HistoricalAction.OnDismissDetailHistorical -> handleHistoricalItemClicked(null)
+            is HistoricalAction.OnHistoricalClicked    -> handleHistoricalItemClicked(action.historicalModel)
+        }
+    }
+    /**
+     * This function handles the history click action.
+     * */
+    private fun handleHistoricalItemClicked(historicalModel: HistoricalModel?) {
+        try {
+            state = state.copy(
+                isShowingDetailHistorical = historicalModel,
+            )
+        } catch (e: Exception) { Unit }
+    }
     /**
      * Returns a list of historical that the user searched.
      *

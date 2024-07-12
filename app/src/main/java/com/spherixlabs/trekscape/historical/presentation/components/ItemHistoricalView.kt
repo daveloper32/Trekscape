@@ -1,8 +1,10 @@
 package com.spherixlabs.trekscape.historical.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,12 +30,17 @@ import com.spherixlabs.trekscape.historical.domain.model.HistoricalModel
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun ItemHistoricalView(historicalModel: HistoricalModel, corners : Dp = 20.dp) {
+fun ItemHistoricalView(
+    historicalModel: HistoricalModel,
+    corners        : Dp = 20.dp,
+    onClick        : (HistoricalModel) -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 20.dp)
             .height(200.dp)
+            .clickable { onClick(historicalModel) }
     ) {
         GlideImage(
             model              = historicalModel.urlImage,
@@ -54,6 +61,13 @@ fun ItemHistoricalView(historicalModel: HistoricalModel, corners : Dp = 20.dp) {
             Icon(Icons.Rounded.LocationOn, contentDescription = "", tint = Color.White)
             Text(
                 text     = historicalModel.name,
+                style    = MaterialTheme.typography.bodyLarge,
+                color    = Color.White,
+                modifier = Modifier.padding(start = 10.dp)
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text     = "100 km",
                 style    = MaterialTheme.typography.bodyLarge,
                 color    = Color.White,
                 modifier = Modifier.padding(start = 10.dp)
