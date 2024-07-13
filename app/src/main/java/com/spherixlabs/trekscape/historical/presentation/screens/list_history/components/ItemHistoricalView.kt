@@ -1,4 +1,4 @@
-package com.spherixlabs.trekscape.historical.presentation.components
+package com.spherixlabs.trekscape.historical.presentation.screens.list_history.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -67,7 +67,7 @@ fun ItemHistoricalView(
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text     = "100 km",
+                text     = historicalModel.missingMeters,
                 style    = MaterialTheme.typography.bodyLarge,
                 color    = Color.White,
                 modifier = Modifier.padding(start = 10.dp)

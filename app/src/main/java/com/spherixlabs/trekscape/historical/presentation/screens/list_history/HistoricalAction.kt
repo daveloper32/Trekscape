@@ -1,4 +1,4 @@
-package com.spherixlabs.trekscape.historical.presentation.screens
+package com.spherixlabs.trekscape.historical.presentation.screens.list_history
 
 import com.spherixlabs.trekscape.historical.domain.model.HistoricalModel
 

@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.spherixlabs.trekscape.R
 import com.spherixlabs.trekscape.core.presentation.components.TrekScapeFloatingButton
 import com.spherixlabs.trekscape.core.presentation.components.TrekScapeTextField
-import com.spherixlabs.trekscape.welcome.presentation.components.WritingTextAnimation
+import com.spherixlabs.trekscape.core.presentation.components.TrekScapeWritingTextAnimation
 import com.spherixlabs.trekscape.core.presentation.animations.ZoomInOrOutAnimation
 import com.spherixlabs.trekscape.welcome.presentation.screens.name_request.NameRequestAction
 import com.spherixlabs.trekscape.welcome.presentation.screens.name_request.NameRequestState
@@ -60,11 +60,11 @@ fun BodyNameRequestScreen(
                 .align(Alignment.End)
         )
         Spacer(modifier = Modifier.height(30.dp))
-        WritingTextAnimation(
+        TrekScapeWritingTextAnimation(
             text              = stringResource(id = R.string.let_get),
             animationDuration = 500
         )
-        WritingTextAnimation(
+        TrekScapeWritingTextAnimation(
             text              = stringResource(id = R.string.started),
             animationDuration = 500,
             delayBeforeStart  = 500

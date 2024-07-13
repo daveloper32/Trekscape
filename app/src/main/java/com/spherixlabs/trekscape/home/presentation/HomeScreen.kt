@@ -32,7 +32,7 @@ import com.spherixlabs.trekscape.core.presentation.components.handlers.AutoFinis
 import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekScapeTheme
 import com.spherixlabs.trekscape.core.utils.context.findActivity
 import com.spherixlabs.trekscape.core.utils.intent.IntentUtils
-import com.spherixlabs.trekscape.historical.presentation.screens.HistoricalScreenRoot
+import com.spherixlabs.trekscape.historical.presentation.screens.list_history.HistoricalScreenRoot
 import com.spherixlabs.trekscape.home.domain.enums.HomeType
 import com.spherixlabs.trekscape.home.presentation.components.BottomBarHome
 import com.spherixlabs.trekscape.home.presentation.components.TopBarHome

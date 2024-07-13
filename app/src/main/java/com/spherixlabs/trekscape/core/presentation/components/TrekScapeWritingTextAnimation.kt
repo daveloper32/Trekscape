@@ -1,4 +1,4 @@
-package com.spherixlabs.trekscape.welcome.presentation.components
+package com.spherixlabs.trekscape.core.presentation.components
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -20,7 +20,7 @@ import com.spherixlabs.trekscape.core.utils.constants.Constants
 import kotlinx.coroutines.delay
 
 @Composable
-fun WritingTextAnimation(
+fun TrekScapeWritingTextAnimation(
     text             : String,
     textStyle        : TextStyle = MaterialTheme.typography.displayLarge.copy(fontWeight = FontWeight.Bold),
     textColor        : Color     = MaterialTheme.colorScheme.onSurface,

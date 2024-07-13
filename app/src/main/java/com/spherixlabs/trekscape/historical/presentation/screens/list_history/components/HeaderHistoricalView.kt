@@ -1,4 +1,4 @@
-package com.spherixlabs.trekscape.historical.presentation.components
+package com.spherixlabs.trekscape.historical.presentation.screens.list_history.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme

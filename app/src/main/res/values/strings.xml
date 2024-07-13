@@ -47,4 +47,5 @@
     <string name="lab_profile">Profile</string>
     <string name="lab_swipe_up">Swipe Up</string>
     <string name="lab_hi">Hi!!</string>
+    <string name="lab_delete">Delete</string>
 </resources>

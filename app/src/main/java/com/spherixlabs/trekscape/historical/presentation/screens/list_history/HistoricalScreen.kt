@@ -1,4 +1,4 @@
-package com.spherixlabs.trekscape.historical.presentation.screens
+package com.spherixlabs.trekscape.historical.presentation.screens.list_history
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -12,8 +12,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.spherixlabs.trekscape.core.presentation.components.TrekScapeSheetDialog
 import com.spherixlabs.trekscape.core.presentation.components.handlers.AutoFinishBackPressHandler
 import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekScapeTheme
-import com.spherixlabs.trekscape.historical.presentation.components.HeaderHistoricalView
-import com.spherixlabs.trekscape.historical.presentation.components.ItemHistoricalView
+import com.spherixlabs.trekscape.historical.presentation.screens.list_history.components.HeaderHistoricalView
+import com.spherixlabs.trekscape.historical.presentation.screens.list_history.components.ItemHistoricalView
+import com.spherixlabs.trekscape.historical.presentation.screens.detail_historical.DetailHistoricalScreenRoot
 
 @Composable
 fun HistoricalScreenRoot(
@@ -42,10 +43,10 @@ fun HistoricalScreen(
         }
         TrekScapeSheetDialog(
             isOpen    = state.isShowingDetailHistorical != null,
+            showLabel = false,
+            expanded  = true,
             onDismiss = { onAction(HistoricalAction.OnDismissDetailHistorical)}) {
-            ItemHistoricalView(historicalModel = state.isShowingDetailHistorical!!) {
-                
-            }
+            DetailHistoricalScreenRoot(historicalModel = state.isShowingDetailHistorical!!)
         }
     }
 }
