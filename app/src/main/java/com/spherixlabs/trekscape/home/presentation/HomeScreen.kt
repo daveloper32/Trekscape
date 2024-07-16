@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -25,9 +26,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
+import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.spherixlabs.trekscape.core.domain.storage.model.permissions.GrantPermissionData
 import com.spherixlabs.trekscape.core.presentation.components.ObserveAsEvents
@@ -36,14 +39,17 @@ import com.spherixlabs.trekscape.core.presentation.components.handlers.AutoFinis
 import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekScapeTheme
 import com.spherixlabs.trekscape.core.utils.context.findActivity
 import com.spherixlabs.trekscape.core.utils.intent.IntentUtils
+import com.spherixlabs.trekscape.core.utils.maps.MapsUtils
 import com.spherixlabs.trekscape.home.domain.enums.HomeType
 import com.spherixlabs.trekscape.home.presentation.components.bottom_bar.HomeBottomBar
 import com.spherixlabs.trekscape.home.presentation.components.dialogs.RequestLocationPermissionDialog
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreenRoot(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
+    val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val generalLocationPermissions = rememberMultiplePermissionsState(
@@ -72,6 +78,9 @@ fun HomeScreenRoot(
     LifecycleEventEffect(event = Lifecycle.Event.ON_RESUME) {
         viewModel.onAction(HomeAction.OnScreenStarted)
     }
+    val cameraPositionState = rememberCameraPositionState {
+        position = MapsUtils.fromCoordinatesDataToCameraPosition(viewModel.state.currentMapCameraLocation)
+    }
     ObserveAsEvents(flow = viewModel.events) { event ->
         when (event) {
             HomeEvent.RequestLocationPermissions -> {
@@ -79,6 +88,13 @@ fun HomeScreenRoot(
             }
             HomeEvent.NavigateToAppPermissionSettings -> {
                 IntentUtils.goToAppDetailsSettings(context)
+            }
+            is HomeEvent.UpdateMapCamera -> {
+                coroutineScope.launch {
+                    cameraPositionState.animate(
+                        MapsUtils.fromCoordinatesDataToCameraUpdate(event.coordinates),
+                    )
+                }
             }
             is HomeEvent.Error -> {
                 keyboardController?.hide()
@@ -92,17 +108,19 @@ fun HomeScreenRoot(
     }
     HomeScreen(
         state = viewModel.state,
-        onAction = viewModel::onAction
+        onAction = viewModel::onAction,
+        cameraPositionState = cameraPositionState,
     )
 }
 
 @Composable
 fun HomeScreen(
-    state    : HomeState,
-    onAction : (HomeAction) -> Unit,
+    state               : HomeState,
+    onAction            : (HomeAction) -> Unit,
+    cameraPositionState : CameraPositionState = rememberCameraPositionState(),
 ) {
     AutoFinishBackPressHandler()
-    val cameraPositionState = rememberCameraPositionState()
+
     var navigationSelectedItem by rememberSaveable {
         mutableIntStateOf(1)
     }
@@ -140,10 +158,13 @@ fun HomeScreen(
                 GoogleMap(
                     cameraPositionState = cameraPositionState,
                     properties          = MapProperties(
-                        isMyLocationEnabled = state.isMyLocationEnabled,
-                        mapType             = MapType.NORMAL,
+                        isMyLocationEnabled = false,//state.isMyLocationEnabled,
+                        mapType             = MapType.HYBRID,
                         isTrafficEnabled    = false,
-                    )
+                    ),
+                    uiSettings = MapUiSettings(
+                        zoomControlsEnabled = false,
+                    ),
                 )
             }
             RequestLocationPermissionDialog(

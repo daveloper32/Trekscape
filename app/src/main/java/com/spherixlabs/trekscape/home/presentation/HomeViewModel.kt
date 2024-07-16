@@ -8,8 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.spherixlabs.trekscape.core.data.provider.ResourceProvider
 import com.spherixlabs.trekscape.core.domain.storage.PermissionsStateStorage
 import com.spherixlabs.trekscape.core.domain.storage.model.permissions.GrantPermissionData
+import com.spherixlabs.trekscape.core.utils.coordinates.model.CoordinatesData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -75,6 +77,7 @@ class HomeViewModel @Inject constructor(
             state = state.copy(
                 isMyLocationEnabled = resourceProvider.isAllLocationPermissionsGranted(),
             )
+            tryToGetAndHandleCurrentUserLocation()
             if (
                 !resourceProvider.isAllLocationPermissionsGranted() &&
                 !permissionsStorage.isFineLocationRationaleShown &&
@@ -83,6 +86,20 @@ class HomeViewModel @Inject constructor(
                 state = state.copy(
                     isLocationPermissionBeingRequested = true,
                 )
+            }
+        } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * This function gets the current user location and updates the state with the new location.
+     * */
+    private fun tryToGetAndHandleCurrentUserLocation() {
+        try {
+            viewModelScope.launch {
+                delay(1000)
+                val currentLocation : CoordinatesData = resourceProvider
+                    .getCurrentCoordinates()?: return@launch
+                eventChannel.send(HomeEvent.UpdateMapCamera(currentLocation))
             }
         } catch (e: Exception) { Unit }
     }
@@ -126,6 +143,7 @@ class HomeViewModel @Inject constructor(
                 state = state.copy(
                     isMyLocationEnabled = resourceProvider.isAllLocationPermissionsGranted(),
                 )
+                tryToGetAndHandleCurrentUserLocation()
             }
             permissionsState.forEach { permissionInfo ->
                 when (permissionInfo.permission) {

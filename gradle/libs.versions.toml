@@ -31,6 +31,7 @@ firebase-bom = "33.1.1"
 google-maps-compose = "4.4.1"
 flow-layout = "0.24.13-rc"
 google-accompanist-permissions = "0.34.0"
+play-services-location = "21.3.0"
 
 # Project versions
 projectApplicationId = "com.spherixlabs.trekscape"
@@ -77,6 +78,7 @@ firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx"
 google-maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "google-maps-compose" }
 flow-layout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "flow-layout" }
 google-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "google-accompanist-permissions" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-services-location" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
