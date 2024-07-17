@@ -108,6 +108,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     // Maps compose
     implementation(libs.google.maps.compose)
+    // Location Play Services
+    implementation(libs.play.services.location)
     // Icons
     implementation(libs.androidx.material.icons.extended)
     // Kotlin
@@ -136,6 +138,8 @@ dependencies {
     implementation(libs.timber)
     // Permissions
     implementation(libs.google.accompanist.permissions)
+    // Drawable painter
+    implementation(libs.google.accompanist.drawablepainter)
     //
     debugImplementation(libs.compose.ui.tooling)
 }

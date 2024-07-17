@@ -1,6 +1,8 @@
 package com.spherixlabs.trekscape.home.presentation
 
 import com.spherixlabs.trekscape.core.domain.storage.model.permissions.GrantPermissionData
+import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
+import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendation
 
 /**
  * [HomeAction] Describe all the actions that can happen in the view.
@@ -48,8 +50,37 @@ sealed interface HomeAction {
      * */
     data object OnDismissHistory : HomeAction
     /**
+     * [OnDonTAskAgainLocationPreferencesClicked] should be called when the Don't ask again location
+     * preferences function is clicked by the user.
+     *
+     * */
+    data object OnDonTAskAgainLocationPreferencesClicked : HomeAction
+    /**
+     * [OnDismissLocationPreferences] should be called when the location preferences should be dismissed.
+     *
+     * */
+    data object OnDismissLocationPreferences : HomeAction
+    /**
      * [OnDismissProfile] should be called when the profile should be dismissed.
      *
      * */
     data object OnDismissProfile : HomeAction
+    /**
+     * [OnLocationPreferencesSetupFilled] should be called when the location preferences are filled
+     * by the user.
+     *
+     * @param locationPreference [LocationPreference] the location preference chose by the user.
+     * */
+    data class OnLocationPreferencesSetupFilled(
+        val locationPreference : LocationPreference = LocationPreference.ALL_WORLD,
+    ) : HomeAction
+    /**
+     * [OnSomePlaceRecommendationClicked] should be called when a place recommendation is clicked on
+     * the map.
+     *
+     * @param placeRecommendation [PlaceRecommendation] the place clicked.
+     * */
+    data class OnSomePlaceRecommendationClicked(
+        val placeRecommendation : PlaceRecommendation
+    ): HomeAction
 }

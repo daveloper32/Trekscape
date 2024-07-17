@@ -32,6 +32,8 @@ google-maps-compose = "4.4.1"
 flow-layout = "0.24.13-rc"
 glide = "1.0.0-beta01"
 google-accompanist-permissions = "0.34.0"
+google-accompanist-drawablepainter = "0.35.0-alpha"
+play-services-location = "21.3.0"
 
 # Project versions
 projectApplicationId = "com.spherixlabs.trekscape"
@@ -79,6 +81,8 @@ google-maps-compose = { module = "com.google.maps.android:maps-compose", version
 flow-layout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "flow-layout" }
 glide = { module = "com.github.bumptech.glide:compose", version.ref = "glide" }
 google-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "google-accompanist-permissions" }
+google-accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "google-accompanist-drawablepainter" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-services-location" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

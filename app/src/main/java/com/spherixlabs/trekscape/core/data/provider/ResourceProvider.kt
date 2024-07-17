@@ -2,6 +2,8 @@ package com.spherixlabs.trekscape.core.data.provider
 
 import android.Manifest
 import android.content.Context
+import com.spherixlabs.trekscape.core.utils.coordinates.CoordinatesUtils
+import com.spherixlabs.trekscape.core.utils.coordinates.model.CoordinatesData
 import com.spherixlabs.trekscape.core.utils.permissions.PermissionUtils
 import javax.inject.Inject
 
@@ -36,4 +38,12 @@ class ResourceProvider @Inject constructor(
      * */
     fun isAllLocationPermissionsGranted() : Boolean =
         PermissionUtils.isAllLocationPermissionsGranted(context)
+
+    /**
+     * Gets the current coordinates of the user.
+     *
+     * @return [CoordinatesData]? The current coordinates of the user.
+     * */
+    suspend fun getCurrentCoordinates(): CoordinatesData? =
+        CoordinatesUtils.getCurrentCoordinates(context)
 }

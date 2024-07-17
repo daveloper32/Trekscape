@@ -9,13 +9,21 @@ import com.spherixlabs.trekscape.core.data.provider.ResourceProvider
 import com.spherixlabs.trekscape.core.domain.storage.PermissionsStateStorage
 import com.spherixlabs.trekscape.core.domain.storage.UserStorage
 import com.spherixlabs.trekscape.core.domain.storage.model.permissions.GrantPermissionData
+import com.spherixlabs.trekscape.core.domain.utils.results.Result
+import com.spherixlabs.trekscape.core.domain.utils.toUiText
+import com.spherixlabs.trekscape.core.utils.coordinates.model.CoordinatesData
+import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
+import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendation
+import com.spherixlabs.trekscape.recommendations.domain.use_cases.GetSomePlaceRecommendationsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -24,9 +32,10 @@ import javax.inject.Inject
  * */
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-                userStorage        : UserStorage,
-    private val resourceProvider   : ResourceProvider,
-    private val permissionsStorage : PermissionsStateStorage,
+    private val resourceProvider                   : ResourceProvider,
+    private val permissionsStorage                 : PermissionsStateStorage,
+    private val userStorage                        : UserStorage,
+    private val getSomePlaceRecommendationsUseCase : GetSomePlaceRecommendationsUseCase,
 ) : ViewModel() {
 
     /**
@@ -34,12 +43,6 @@ class HomeViewModel @Inject constructor(
      * */
     var state by mutableStateOf(HomeState())
         private set
-
-    init {
-        state = state.copy(
-            userName = userStorage.name
-        )
-    }
 
     /**
      * Private mutable [Channel] that exposes the current events [HomeEvent] launched by
@@ -51,6 +54,12 @@ class HomeViewModel @Inject constructor(
      * launched by the view model that should be consumed by the view.
      * */
     val events = eventChannel.receiveAsFlow()
+
+    init {
+        state = state.copy(
+            userName = userStorage.name
+        )
+    }
 
     /**
      * This function receives all the possible actions [HomeAction] from the view and
@@ -71,6 +80,10 @@ class HomeViewModel @Inject constructor(
             HomeAction.OnRecommendationsClicked -> handleOnRecommendationsClicked()
             HomeAction.OnDismissHistory -> handleHistoryDismiss()
             HomeAction.OnDismissProfile -> handleProfileDismiss()
+            HomeAction.OnDismissLocationPreferences -> handleDismissLocationPreferences()
+            HomeAction.OnDonTAskAgainLocationPreferencesClicked -> handleDonTAskAgainLocationPreferencesClicked()
+            is HomeAction.OnLocationPreferencesSetupFilled -> handleLocationPreferencesSetupFilled(action.locationPreference)
+            is HomeAction.OnSomePlaceRecommendationClicked -> handleSomePlaceRecommendationClicked(action.placeRecommendation)
         }
     }
 
@@ -83,6 +96,9 @@ class HomeViewModel @Inject constructor(
             state = state.copy(
                 isMyLocationEnabled = resourceProvider.isAllLocationPermissionsGranted(),
             )
+            if (state.placeRecommendations.isEmpty()) {
+                tryToGetAndHandleCurrentUserLocation()
+            }
             if (
                 !resourceProvider.isAllLocationPermissionsGranted() &&
                 !permissionsStorage.isFineLocationRationaleShown &&
@@ -91,6 +107,20 @@ class HomeViewModel @Inject constructor(
                 state = state.copy(
                     isLocationPermissionBeingRequested = true,
                 )
+            }
+        } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * This function gets the current user location and updates the state with the new location.
+     * */
+    private fun tryToGetAndHandleCurrentUserLocation() {
+        try {
+            viewModelScope.launch {
+                delay(1000)
+                val currentLocation : CoordinatesData = resourceProvider
+                    .getCurrentCoordinates()?: return@launch
+                eventChannel.send(HomeEvent.UpdateMapCamera(listOf(currentLocation)))
             }
         } catch (e: Exception) { Unit }
     }
@@ -134,6 +164,7 @@ class HomeViewModel @Inject constructor(
                 state = state.copy(
                     isMyLocationEnabled = resourceProvider.isAllLocationPermissionsGranted(),
                 )
+                tryToGetAndHandleCurrentUserLocation()
             }
             permissionsState.forEach { permissionInfo ->
                 when (permissionInfo.permission) {
@@ -176,7 +207,15 @@ class HomeViewModel @Inject constructor(
      * */
     private fun handleOnRecommendationsClicked() {
         try {
-            // TODO
+            if (userStorage.isLocationPreferencesSetAsDonTAskAgain) {
+                tryToGetSomeRecommendations()
+            } else {
+                state = state.copy(
+                    isLocationPreferencesBeingRequested = true,
+                    isDonTAskAgainLocationPreferencesSelected = userStorage.isLocationPreferencesSetAsDonTAskAgain,
+                    currentLocationPreference = userStorage.locationPreference,
+                )
+            }
         } catch (e: Exception) { Unit }
     }
 
@@ -210,6 +249,89 @@ class HomeViewModel @Inject constructor(
             state = state.copy(
                 isShowingProfile = false,
             )
+        } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * This function handles the location preferences dismiss action.
+     * */
+    private fun handleDismissLocationPreferences() {
+        try {
+            state = state.copy(
+                isLocationPreferencesBeingRequested = false,
+            )
+        } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * This function handles the don't ask again location preferences click action.
+     * */
+    private fun handleDonTAskAgainLocationPreferencesClicked() {
+        try {
+            state = state.copy(
+                isDonTAskAgainLocationPreferencesSelected = !userStorage.isLocationPreferencesSetAsDonTAskAgain,
+            )
+            userStorage.isLocationPreferencesSetAsDonTAskAgain = !userStorage.isLocationPreferencesSetAsDonTAskAgain
+        } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * This function handles the location preferences setup filled action.
+     *
+     * @param locationPreference [LocationPreference] that is selected by the user.
+     * */
+    private fun handleLocationPreferencesSetupFilled(
+        locationPreference : LocationPreference
+    ) {
+        try {
+            userStorage.locationPreference = locationPreference
+            state = state.copy(
+                isLocationPreferencesBeingRequested = false,
+                currentLocationPreference = locationPreference,
+            )
+            tryToGetSomeRecommendations()
+        } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * This function handles the some place recommendation click action.
+     *
+     * @param placeRecommendation [PlaceRecommendation] that is clicked.
+     * */
+    private fun handleSomePlaceRecommendationClicked(
+        placeRecommendation : PlaceRecommendation
+    ) {
+        try {
+            Timber.e("$placeRecommendation")
+        } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * This function tries to get some place recommendations and updates the state accordingly.
+     * */
+    private fun tryToGetSomeRecommendations(
+    ) {
+        try {
+            viewModelScope.launch {
+                state = state.copy(
+                    isLoadingRecommendations = true,
+                )
+                val result = getSomePlaceRecommendationsUseCase.invoke()
+                state = state.copy(
+                    isLoadingRecommendations = false,
+                )
+                when (result) {
+                    is Result.Success -> {
+                        state = state.copy(
+                            placeRecommendations = result.data
+                        )
+                        eventChannel.send(HomeEvent.UpdateMapCamera(result.data.map { it.location }))
+                    }
+                    is Result.Error -> {
+                        eventChannel.send(HomeEvent.Error(result.error.toUiText()))
+                    }
+                }
+            }
         } catch (e: Exception) { Unit }
     }
 }
