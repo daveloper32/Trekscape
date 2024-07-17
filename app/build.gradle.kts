@@ -136,6 +136,8 @@ dependencies {
     implementation(libs.timber)
     // Permissions
     implementation(libs.google.accompanist.permissions)
+    // Drawable painter
+    implementation(libs.google.accompanist.drawablepainter)
     //
     debugImplementation(libs.compose.ui.tooling)
 }

@@ -7,6 +7,8 @@ import com.spherixlabs.trekscape.core.data.settings.UserSettingsImpl
 import com.spherixlabs.trekscape.core.domain.storage.PermissionsStateStorage
 import com.spherixlabs.trekscape.core.domain.storage.UserStorage
 import com.spherixlabs.trekscape.core.utils.room.createARoomDatabase
+import com.spherixlabs.trekscape.recommendations.data.PlaceRecommendationsRepositoryImpl
+import com.spherixlabs.trekscape.recommendations.domain.repository.PlaceRecommendationsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -83,4 +85,10 @@ object DataModule {
     fun providePermissionStateStorage(
         app: Application
     ): PermissionsStateStorage = PermissionsStateSettingsImpl(app)
+
+    /**DI function that provides a singleton of a [PlaceRecommendationsRepository]*/
+    @Provides
+    @Singleton
+    fun providePlaceRecommendationsRepository(
+    ): PlaceRecommendationsRepository = PlaceRecommendationsRepositoryImpl()
 }

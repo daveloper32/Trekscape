@@ -31,10 +31,13 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.rememberMarkerState
 import com.spherixlabs.trekscape.core.domain.storage.model.permissions.GrantPermissionData
 import com.spherixlabs.trekscape.core.presentation.components.ObserveAsEvents
 import com.spherixlabs.trekscape.core.presentation.components.TrekScapeDialog
+import com.spherixlabs.trekscape.core.presentation.components.TrekScapeMagicLoadingDialog
 import com.spherixlabs.trekscape.core.presentation.components.handlers.AutoFinishBackPressHandler
 import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekScapeTheme
 import com.spherixlabs.trekscape.core.utils.context.findActivity
@@ -42,6 +45,7 @@ import com.spherixlabs.trekscape.core.utils.intent.IntentUtils
 import com.spherixlabs.trekscape.core.utils.maps.MapsUtils
 import com.spherixlabs.trekscape.home.domain.enums.HomeType
 import com.spherixlabs.trekscape.home.presentation.components.bottom_bar.HomeBottomBar
+import com.spherixlabs.trekscape.home.presentation.components.dialogs.LocationPreferencesDialog
 import com.spherixlabs.trekscape.home.presentation.components.dialogs.RequestLocationPermissionDialog
 import kotlinx.coroutines.launch
 
@@ -165,7 +169,20 @@ fun HomeScreen(
                     uiSettings = MapUiSettings(
                         zoomControlsEnabled = false,
                     ),
-                )
+                ) {
+                    state.placeRecommendations.forEach { place ->
+                        Marker(
+                            state = rememberMarkerState(
+                                position = MapsUtils.fromCoordinatesDataToLatLng(place.location),
+                            ),
+                            title = place.name,
+                            onClick = {
+                                onAction(HomeAction.OnSomePlaceRecommendationClicked(place))
+                                false
+                            }
+                        )
+                    }
+                }
             }
             RequestLocationPermissionDialog(
                 isOpen     = state.isLocationPermissionBeingRequested,
@@ -183,6 +200,17 @@ fun HomeScreen(
                     text = "History"
                 )
             }
+            LocationPreferencesDialog(
+                isOpen = state.isLocationPreferencesBeingRequested,
+                isDonTAskAgainChecked = state.isDonTAskAgainLocationPreferencesSelected,
+                onDismiss = { onAction(HomeAction.OnDismissLocationPreferences) },
+                onDonTAskAgainClick = { isChecked ->
+                    onAction(HomeAction.OnDonTAskAgainLocationPreferencesClicked)
+                },
+                onOkClick = { locationPreference ->
+                    onAction(HomeAction.OnLocationPreferencesSetupFilled(locationPreference))
+                },
+            )
             TrekScapeDialog(
                 isOpen = state.isShowingProfile,
                 onDismiss = { onAction(HomeAction.OnDismissProfile) }
@@ -193,6 +221,10 @@ fun HomeScreen(
                     text = "Profile"
                 )
             }
+            TrekScapeMagicLoadingDialog(
+                isOpen = state.isLoadingRecommendations,
+                onDismiss = { /*Nothing*/ }
+            )
         }
 
     }

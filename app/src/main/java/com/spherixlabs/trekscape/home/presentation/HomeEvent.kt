@@ -20,10 +20,10 @@ sealed interface HomeEvent {
     /**
      * [UpdateMapCamera] should be called when the map camera should be updated.
      *
-     * @param coordinates [CoordinatesData] The new coordinates of the map camera.
+     * @param coordinates [List]<[CoordinatesData]> The new coordinates of the map camera.
      * */
     data class UpdateMapCamera(
-        val coordinates : CoordinatesData
+        val coordinates : List<CoordinatesData>
     ): HomeEvent
     /**
      * [Error] should be called when an error occurs during the view process.

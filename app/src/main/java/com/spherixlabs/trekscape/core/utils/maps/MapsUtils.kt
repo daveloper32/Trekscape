@@ -4,6 +4,7 @@ import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.spherixlabs.trekscape.core.utils.coordinates.model.CoordinatesData
 
 /**
@@ -17,6 +18,8 @@ object MapsUtils {
     )
     /** Initial zoom level for the map */
     const val DEFAULT_ZOOM = 13f
+    /** Initial padding for the map */
+    const val DEFAULT_PADDING = 70
     /**
      * Converts a [CoordinatesData] to a [LatLng] object.
      *
@@ -47,7 +50,7 @@ object MapsUtils {
      * Converts a [CoordinatesData] to a [CameraUpdate] object.
      *
      * @param coordinates [CoordinatesData] The coordinates to convert.
-     * @*param zoom [Float] The zoom level for the camera position.
+     * @param zoom [Float] The zoom level for the camera position.
      * @return [CameraUpdate] The converted [CameraUpdate] object.
      * */
     fun fromCoordinatesDataToCameraUpdate(
@@ -57,4 +60,31 @@ object MapsUtils {
         fromCoordinatesDataToLatLng(coordinates),
         zoom
     )
+    /**
+     * Converts a [List]<[CoordinatesData]> to a [CameraUpdate] object.
+     *
+     * @param coordinates [List]<[CoordinatesData]> The coordinates to convert.
+     * @*param padding [Int] The padding for the camera position.
+     * @return [CameraUpdate] The converted [CameraUpdate] object.
+     * */
+    fun fromCoordinatesDataToCameraUpdate(
+        coordinates : List<CoordinatesData>,
+        padding     : Int = DEFAULT_PADDING,
+    ): CameraUpdate {
+        if (coordinates.size == 1) {
+            return fromCoordinatesDataToCameraUpdate(
+                coordinates.first(),
+            )
+        }
+        val latLngBoundsBuilder: LatLngBounds.Builder = LatLngBounds.builder()
+        coordinates.forEach {
+            latLngBoundsBuilder.include(
+                fromCoordinatesDataToLatLng(it)
+            )
+        }
+        return CameraUpdateFactory.newLatLngBounds(
+            latLngBoundsBuilder.build(),
+            padding
+        )
+    }
 }
