@@ -204,6 +204,7 @@ fun HomeScreen(
             LocationPreferencesDialog(
                 isOpen = state.isLocationPreferencesBeingRequested,
                 isDonTAskAgainChecked = state.isDonTAskAgainLocationPreferencesSelected,
+                locationPreference = state.currentLocationPreference,
                 onDismiss = { onAction(HomeAction.OnDismissLocationPreferences) },
                 onDonTAskAgainClick = { isChecked ->
                     onAction(HomeAction.OnDonTAskAgainLocationPreferencesClicked)

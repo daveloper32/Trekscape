@@ -10,4 +10,14 @@ object Constants {
     val LONG_INVALID = -1L
     /** Default [Int] invalid value */
     val INT_INVALID = -1
+    /** The name of the Gemini model to use */
+    val GEMINI_MODEL_NAME = "gemini-1.5-flash"
+    /** Json Keys for the Place Recommendation response */
+    object JsonPlaceRecommendation {
+        val NAME = "name"
+        val DESCRIPTION = "description"
+        val COORDINATES = "coordinates"
+        val LATITUDE = "latitude"
+        val LONGITUDE = "longitude"
+    }
 }

@@ -2,6 +2,7 @@ package com.spherixlabs.trekscape.core.utils.os
 
 import android.content.Context
 import android.location.LocationManager
+import java.util.Locale
 
 /**
  * [OsUtils] is a utility class that provides methods for easily handling os utilities.
@@ -21,4 +22,11 @@ object OsUtils {
         ) as LocationManager?
         return locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) ?: false
     }
+
+    /**
+     * This function returns the configured device language.
+     *
+     * @return [String] The configured device language.
+     * */
+    fun getDeviceLanguage(): String = Locale.getDefault().language
 }

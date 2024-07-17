@@ -34,6 +34,7 @@ glide = "1.0.0-beta01"
 google-accompanist-permissions = "0.34.0"
 google-accompanist-drawablepainter = "0.35.0-alpha"
 play-services-location = "21.3.0"
+google-client-generativeai = "0.9.0"
 
 # Project versions
 projectApplicationId = "com.spherixlabs.trekscape"
@@ -83,6 +84,7 @@ glide = { module = "com.github.bumptech.glide:compose", version.ref = "glide" }
 google-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "google-accompanist-permissions" }
 google-accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "google-accompanist-drawablepainter" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-services-location" }
+google-client-generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "google-client-generativeai" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

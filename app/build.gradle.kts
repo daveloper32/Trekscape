@@ -140,6 +140,8 @@ dependencies {
     implementation(libs.google.accompanist.permissions)
     // Drawable painter
     implementation(libs.google.accompanist.drawablepainter)
+    // Google Generative ai
+    implementation(libs.google.client.generativeai)
     //
     debugImplementation(libs.compose.ui.tooling)
 }
