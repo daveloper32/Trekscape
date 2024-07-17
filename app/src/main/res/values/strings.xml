@@ -64,4 +64,8 @@
     <string name="lab_same_city">Same city</string>
     <string name="lab_checked">Checked</string>
     <string name="lab_magic_wand">Magic wand</string>
+    <string name="lab_turn_on_gps">Turn on GPS</string>
+    <string name="lab_recommend_in_all_world">Recommend in all the world</string>
+    <string name="lab_gps_enabled_is_required">GPS must be on</string>
+    <string name="lab_gps_enabled_is_required_explanation">For location preferences on the same continent, country or city, it is required to have GPS active.\n What do you want to do?</string>
 </resources>

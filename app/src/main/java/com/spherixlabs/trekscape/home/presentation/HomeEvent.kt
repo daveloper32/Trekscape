@@ -26,6 +26,11 @@ sealed interface HomeEvent {
         val coordinates : List<CoordinatesData>
     ): HomeEvent
     /**
+     * [GoToLocationSettings] should be called when the user doesn't have the GPS instrument enabled
+     * and wants to enable it.
+     * */
+    data object GoToLocationSettings : HomeEvent
+    /**
      * [Error] should be called when an error occurs during the view process.
      *
      * @param error [UiText] The error that occurred during the view process.

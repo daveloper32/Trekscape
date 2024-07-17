@@ -56,6 +56,14 @@ sealed interface HomeAction {
      * */
     data object OnDonTAskAgainLocationPreferencesClicked : HomeAction
     /**
+     * [OnEnableGPSClicked] should be called when the enable GPS button is clicked.
+     * */
+    data object OnEnableGPSClicked : HomeAction
+    /**
+     * [OnRecommendInAllWorldClicked] should be called when the recommend in all world button is clicked.
+     * */
+    data object OnRecommendInAllWorldClicked : HomeAction
+    /**
      * [OnDismissLocationPreferences] should be called when the location preferences should be dismissed.
      *
      * */
@@ -83,4 +91,10 @@ sealed interface HomeAction {
     data class OnSomePlaceRecommendationClicked(
         val placeRecommendation : PlaceRecommendation
     ): HomeAction
+
+    /**
+     * [OnDismissPlaceRecommendationDetails] should be called when the place recommendation should
+     * be dismissed.
+     * */
+    data object OnDismissPlaceRecommendationDetails : HomeAction
 }

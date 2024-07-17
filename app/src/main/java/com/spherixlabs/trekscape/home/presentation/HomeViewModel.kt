@@ -23,7 +23,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -84,6 +83,9 @@ class HomeViewModel @Inject constructor(
             HomeAction.OnDonTAskAgainLocationPreferencesClicked -> handleDonTAskAgainLocationPreferencesClicked()
             is HomeAction.OnLocationPreferencesSetupFilled -> handleLocationPreferencesSetupFilled(action.locationPreference)
             is HomeAction.OnSomePlaceRecommendationClicked -> handleSomePlaceRecommendationClicked(action.placeRecommendation)
+            HomeAction.OnEnableGPSClicked -> handleEnableGPSClicked()
+            HomeAction.OnRecommendInAllWorldClicked -> handleRecommendInAllWorldClicked()
+            HomeAction.OnDismissPlaceRecommendationDetails -> handleDismissPlaceRecommendationDetails()
         }
     }
 
@@ -107,6 +109,15 @@ class HomeViewModel @Inject constructor(
                 state = state.copy(
                     isLocationPermissionBeingRequested = true,
                 )
+            }
+            if (
+                state.isEnableGPSBeingRequested &&
+                resourceProvider.isGPSEnabled()
+            ) {
+                state = state.copy(
+                    isEnableGPSBeingRequested = false,
+                )
+                tryToGetSomeRecommendations()
             }
         } catch (e: Exception) { Unit }
     }
@@ -134,7 +145,14 @@ class HomeViewModel @Inject constructor(
                 state = state.copy(
                     isLocationPermissionBeingRequested = false,
                 )
-                eventChannel.send(HomeEvent.RequestLocationPermissions)
+                if (
+                    !permissionsStorage.isCoarseLocationPermanentlyDeclined &&
+                    !permissionsStorage.isFineLocationPermanentlyDeclined
+                ) {
+                    eventChannel.send(HomeEvent.RequestLocationPermissions)
+                } else {
+                    eventChannel.send(HomeEvent.NavigateToAppPermissionSettings)
+                }
             }
         } catch (e: Exception) { Unit }
     }
@@ -302,7 +320,10 @@ class HomeViewModel @Inject constructor(
         placeRecommendation : PlaceRecommendation
     ) {
         try {
-            Timber.e("$placeRecommendation")
+            state = state.copy(
+                isShowingPlaceRecommendationDetails = true,
+                placeRecommendationDetails = placeRecommendation,
+            )
         } catch (e: Exception) { Unit }
     }
 
@@ -313,25 +334,82 @@ class HomeViewModel @Inject constructor(
     ) {
         try {
             viewModelScope.launch {
-                state = state.copy(
-                    isLoadingRecommendations = true,
-                )
-                val result = getSomePlaceRecommendationsUseCase.invoke()
-                state = state.copy(
-                    isLoadingRecommendations = false,
-                )
-                when (result) {
-                    is Result.Success -> {
-                        state = state.copy(
-                            placeRecommendations = result.data
-                        )
-                        eventChannel.send(HomeEvent.UpdateMapCamera(result.data.map { it.location }))
+                if (
+                    if (userStorage.locationPreference != LocationPreference.ALL_WORLD) {
+                        resourceProvider.isAllLocationPermissionsGranted() &&
+                                resourceProvider.isGPSEnabled()
+                    } else {
+                        true
                     }
-                    is Result.Error -> {
-                        eventChannel.send(HomeEvent.Error(result.error.toUiText()))
+                ) {
+                    state = state.copy(
+                        isLoadingRecommendations = true,
+                    )
+                    val result = getSomePlaceRecommendationsUseCase.invoke()
+                    state = state.copy(
+                        isLoadingRecommendations = false,
+                    )
+                    when (result) {
+                        is Result.Success -> {
+                            state = state.copy(
+                                placeRecommendations = result.data
+                            )
+                            eventChannel.send(HomeEvent.UpdateMapCamera(result.data.map { it.location }))
+                        }
+                        is Result.Error -> {
+                            eventChannel.send(HomeEvent.Error(result.error.toUiText()))
+                        }
+                    }
+                } else {
+                    if (resourceProvider.isAllLocationPermissionsGranted()) {
+                        if (resourceProvider.isGPSEnabled()) {
+                            state = state.copy(
+                                isEnableGPSBeingRequested = true,
+                            )
+                        }
+                    } else {
+                        state = state.copy(
+                            isLocationPermissionBeingRequested = true,
+                        )
                     }
                 }
             }
+        } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * This function handles the enable GPS click action.
+     * */
+    private fun handleEnableGPSClicked() {
+        try {
+            viewModelScope.launch {
+                eventChannel.send(HomeEvent.GoToLocationSettings)
+            }
+        } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * This function handles the recommend in all world click action.
+     * */
+    private fun handleRecommendInAllWorldClicked() {
+        try {
+            state = state.copy(
+                isEnableGPSBeingRequested = false,
+            )
+            userStorage.locationPreference = LocationPreference.ALL_WORLD
+            tryToGetSomeRecommendations()
+        } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * This function handles the dismiss place recommendation details action.
+     * */
+    private fun handleDismissPlaceRecommendationDetails() {
+        try {
+            state = state.copy(
+                isShowingPlaceRecommendationDetails = true,
+                placeRecommendationDetails = null,
+            )
         } catch (e: Exception) { Unit }
     }
 }

@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -65,6 +66,7 @@ fun TrekScapeActionButton(
                         if (isLoading) 0f else 1f
                     ),
                 fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center,
             )
         }
     }

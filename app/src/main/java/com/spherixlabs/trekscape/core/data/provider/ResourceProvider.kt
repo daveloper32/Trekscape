@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import com.spherixlabs.trekscape.core.utils.coordinates.CoordinatesUtils
 import com.spherixlabs.trekscape.core.utils.coordinates.model.CoordinatesData
+import com.spherixlabs.trekscape.core.utils.os.OsUtils
 import com.spherixlabs.trekscape.core.utils.permissions.PermissionUtils
 import javax.inject.Inject
 
@@ -46,4 +47,11 @@ class ResourceProvider @Inject constructor(
      * */
     suspend fun getCurrentCoordinates(): CoordinatesData? =
         CoordinatesUtils.getCurrentCoordinates(context)
+
+    /**
+     * This function checks if the GPS is enabled on the device.
+     *
+     * @return [Boolean] true if the GPS is enabled, false otherwise.
+     * */
+    fun isGPSEnabled(): Boolean = OsUtils.isGPSEnabled(context)
 }

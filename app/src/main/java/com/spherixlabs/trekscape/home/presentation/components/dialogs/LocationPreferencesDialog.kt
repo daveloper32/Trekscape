@@ -68,7 +68,7 @@ fun LocationPreferencesDialog(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -76,15 +76,19 @@ fun LocationPreferencesDialog(
                 verticalArrangement = Arrangement.SpaceBetween,
             ) {
                 val locationPreferences = LocationPreference.entries
+                item {
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
                 items(
                     count = locationPreferences.size,
                     key = { position ->
                         locationPreferences[position].name
                     }
                 ) { position ->
+                    val isSelected = locationPreferences[position] == currentLocationPreference.value
                     TrekScapeSelectableText(
                         text = locationPreferences[position].toUiText().asString(),
-                        isSelected = locationPreferences[position] == currentLocationPreference.value,
+                        isSelected = isSelected,
                         onClick = {
                             currentLocationPreference.value = locationPreferences[position]
                         },

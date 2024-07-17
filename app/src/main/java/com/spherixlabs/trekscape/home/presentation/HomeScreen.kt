@@ -15,6 +15,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,8 +31,10 @@ import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
+import com.spherixlabs.trekscape.R
 import com.spherixlabs.trekscape.core.domain.storage.model.permissions.GrantPermissionData
 import com.spherixlabs.trekscape.core.presentation.components.ObserveAsEvents
+import com.spherixlabs.trekscape.core.presentation.components.TrekScapeConfirmDialog
 import com.spherixlabs.trekscape.core.presentation.components.TrekScapeMagicLoadingDialog
 import com.spherixlabs.trekscape.core.presentation.components.TrekScapeSheetDialog
 import com.spherixlabs.trekscape.core.presentation.components.handlers.AutoFinishBackPressHandler
@@ -39,8 +42,10 @@ import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekScapeTheme
 import com.spherixlabs.trekscape.core.utils.context.findActivity
 import com.spherixlabs.trekscape.core.utils.intent.IntentUtils
 import com.spherixlabs.trekscape.core.utils.maps.MapsUtils
+import com.spherixlabs.trekscape.historical.presentation.screens.detail_historical.DetailHistoricalScreenRoot
 import com.spherixlabs.trekscape.historical.presentation.screens.list_history.HistoricalScreenRoot
 import com.spherixlabs.trekscape.home.domain.enums.HomeType
+import com.spherixlabs.trekscape.home.domain.utils.toHistoricalModel
 import com.spherixlabs.trekscape.home.presentation.components.BottomBarHome
 import com.spherixlabs.trekscape.home.presentation.components.TopBarHome
 import com.spherixlabs.trekscape.home.presentation.components.dialogs.LocationPreferencesDialog
@@ -97,6 +102,9 @@ fun HomeScreenRoot(
                         MapsUtils.fromCoordinatesDataToCameraUpdate(event.coordinates),
                     )
                 }
+            }
+            HomeEvent.GoToLocationSettings -> {
+                IntentUtils.goToLocationSourceSettings(context)
             }
             is HomeEvent.Error -> {
                 keyboardController?.hide()
@@ -204,6 +212,27 @@ fun HomeScreen(
                     onAction(HomeAction.OnLocationPreferencesSetupFilled(locationPreference))
                 },
             )
+            TrekScapeConfirmDialog(
+                isOpen = state.isEnableGPSBeingRequested,
+                onDismiss = { /*Nothing*/ },
+                onYes = { onAction(HomeAction.OnEnableGPSClicked) },
+                onNo = { onAction(HomeAction.OnRecommendInAllWorldClicked) },
+                title = stringResource(id = R.string.lab_gps_enabled_is_required),
+                content = stringResource(id = R.string.lab_gps_enabled_is_required_explanation),
+                yesText = stringResource(id = R.string.lab_turn_on_gps),
+                noText = stringResource(id = R.string.lab_recommend_in_all_world),
+            )
+            TrekScapeSheetDialog(
+                isOpen    = state.isShowingPlaceRecommendationDetails &&
+                        state.placeRecommendationDetails != null,
+                showLabel = false,
+                expanded  = true,
+                onDismiss = { onAction(HomeAction.OnDismissPlaceRecommendationDetails)}
+            ) {
+                DetailHistoricalScreenRoot(
+                    historicalModel = state.placeRecommendationDetails!!.toHistoricalModel()
+                )
+            }
             TrekScapeMagicLoadingDialog(
                 isOpen = state.isLoadingRecommendations,
                 onDismiss = { /*Nothing*/ }

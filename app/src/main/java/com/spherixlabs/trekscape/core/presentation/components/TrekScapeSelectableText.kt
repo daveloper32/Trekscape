@@ -24,9 +24,41 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.spherixlabs.trekscape.R
+import com.spherixlabs.trekscape.core.presentation.animations.JumpingInfiniteAnimation
 
 @Composable
 fun TrekScapeSelectableText(
+    text          : String,
+    isSelected    : Boolean,
+    selectedColor : Color = MaterialTheme.colorScheme.secondary,
+    onClick       : () -> Unit,
+    modifier      : Modifier = Modifier
+) {
+    if (isSelected) {
+        JumpingInfiniteAnimation(
+            targetValue = 18f,
+        ) {
+            TrekScapeSelectableTextInternalContent(
+                text = text,
+                isSelected = isSelected,
+                selectedColor = selectedColor,
+                onClick = onClick,
+                modifier = modifier,
+            )
+        }
+    } else {
+        TrekScapeSelectableTextInternalContent(
+            text = text,
+            isSelected = isSelected,
+            selectedColor = selectedColor,
+            onClick = onClick,
+            modifier = modifier,
+        )
+    }
+}
+
+@Composable
+fun TrekScapeSelectableTextInternalContent(
     text          : String,
     isSelected    : Boolean,
     selectedColor : Color = MaterialTheme.colorScheme.secondary,

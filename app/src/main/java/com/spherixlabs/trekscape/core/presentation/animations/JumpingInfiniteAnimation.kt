@@ -14,12 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 
 @Composable
-fun JumpingInfiniteAnimation(content : @Composable () ->Unit){
+fun JumpingInfiniteAnimation(
+    initialValue: Float = 0f,
+    targetValue: Float  = -30f,
+    content : @Composable () -> Unit,
+){
     val infiniteTransition = rememberInfiniteTransition(label = "")
     val offsetY by infiniteTransition.animateFloat(
         label         = "",
-        initialValue  = 0f,
-        targetValue   = -30f,
+        initialValue  = initialValue,
+        targetValue   = -targetValue,
         animationSpec = infiniteRepeatable(
                 animation  = tween( durationMillis = 500,easing =  LinearOutSlowInEasing),
                 repeatMode = RepeatMode.Reverse
