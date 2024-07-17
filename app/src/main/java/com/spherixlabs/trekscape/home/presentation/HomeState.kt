@@ -1,5 +1,6 @@
 package com.spherixlabs.trekscape.home.presentation
 
+import com.spherixlabs.trekscape.core.utils.constants.Constants.EMPTY_STR
 import com.spherixlabs.trekscape.core.utils.coordinates.model.CoordinatesData
 import com.spherixlabs.trekscape.core.utils.maps.MapsUtils
 import com.spherixlabs.trekscape.home.domain.enums.LocationPreference

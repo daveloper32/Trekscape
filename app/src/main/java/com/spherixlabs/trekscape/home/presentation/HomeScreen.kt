@@ -6,16 +6,12 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -32,20 +28,22 @@ import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.MapUiSettings
-import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
-import com.google.maps.android.compose.rememberMarkerState
 import com.google.maps.android.compose.rememberMarkerState
 import com.spherixlabs.trekscape.core.domain.storage.model.permissions.GrantPermissionData
 import com.spherixlabs.trekscape.core.presentation.components.ObserveAsEvents
-import com.spherixlabs.trekscape.core.presentation.components.TrekScapeDialog
+import com.spherixlabs.trekscape.core.presentation.components.TrekScapeMagicLoadingDialog
+import com.spherixlabs.trekscape.core.presentation.components.TrekScapeSheetDialog
 import com.spherixlabs.trekscape.core.presentation.components.handlers.AutoFinishBackPressHandler
 import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekScapeTheme
 import com.spherixlabs.trekscape.core.utils.context.findActivity
 import com.spherixlabs.trekscape.core.utils.intent.IntentUtils
+import com.spherixlabs.trekscape.core.utils.maps.MapsUtils
+import com.spherixlabs.trekscape.historical.presentation.screens.list_history.HistoricalScreenRoot
 import com.spherixlabs.trekscape.home.domain.enums.HomeType
-import com.spherixlabs.trekscape.home.presentation.components.bottom_bar.HomeBottomBar
+import com.spherixlabs.trekscape.home.presentation.components.BottomBarHome
+import com.spherixlabs.trekscape.home.presentation.components.TopBarHome
+import com.spherixlabs.trekscape.home.presentation.components.dialogs.LocationPreferencesDialog
 import com.spherixlabs.trekscape.home.presentation.components.dialogs.RequestLocationPermissionDialog
 import kotlinx.coroutines.launch
 
@@ -125,7 +123,6 @@ fun HomeScreen(
     cameraPositionState : CameraPositionState = rememberCameraPositionState(),
 ) {
     AutoFinishBackPressHandler()
-    val cameraPositionState = rememberCameraPositionState()
     Scaffold(
         modifier  = Modifier.fillMaxSize(),
         topBar    = { TopBarHome(state.userName) },
@@ -147,7 +144,6 @@ fun HomeScreen(
     ) { paddingValues ->
         Box(
             modifier = Modifier
-                .padding(paddingValues)
         ) {
             GoogleMap(
                 modifier = Modifier
