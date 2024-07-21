@@ -13,6 +13,7 @@ import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
 import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendation
 import com.spherixlabs.trekscape.recommendations.domain.repository.PlaceRecommendationsRepository
 import org.json.JSONArray
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -39,6 +40,7 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
             currentLocation    = currentLocation,
             languageCode       = languageCode
         )
+        Timber.d("Prompt: $prompt")
         val response = generativeModel.generateContent(prompt)
         return Result.Success(cleanAndMapResponse(response))
     }
@@ -66,6 +68,8 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
             currentLocation    = currentLocation,
         )
         return """
+            You are the best travel planner in the world. You know everything about travel and how
+            to recommend places to travel to people based on their own preferences and current location.
             Generate ${quantity} recommendations for travel places using the following parameters:
             - JSON schema for a place:
                 {
@@ -77,7 +81,7 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
                     }
                 }
             - Search based on the following preferences: ${ownPreferences.joinToString(", ")}
-            - Location preference: ${locationPreferences}
+            - Location preferences: ${locationPreferences}
             - Language to generate data: $languageCode
             - Format the response as a JSONArray of objects of the provided JSON schema
         """.trimIndent()
@@ -104,11 +108,19 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
             LocationPreference.SAME_COUNTRY -> "the same country"
             LocationPreference.SAME_CITY -> "the same city"
         }
+        val extraDetailsLocationPreferenceExplanation: String = when (
+            locationPreference
+        ) {
+            LocationPreference.ALL_WORLD -> ". You should recommend places in different countries, also do not recommend more than one place in the same country"
+            LocationPreference.SAME_CONTINENT -> ". You should recommend places in different countries, you can't recommend places in the same country where the provided coordinates are, also do not recommend more than one place in the same country"
+            LocationPreference.SAME_COUNTRY -> ". You should recommend places in different cities, you can't recommend places in the same city where the provided coordinates are, also do not recommend more than one place in the same city"
+            LocationPreference.SAME_CITY -> ""
+        }
         return if (
             locationPreference != LocationPreference.ALL_WORLD &&
             currentLocation != null
         ) {
-            "Filter the results searching on ${locationPreferenceExplanation} where this coordinates (${currentLocation.latitude}, ${currentLocation.longitude}) are"
+            "Filter the results searching on ${locationPreferenceExplanation} where this coordinates (${currentLocation.latitude}, ${currentLocation.longitude}) are$extraDetailsLocationPreferenceExplanation"
         } else {
             "Filter the results searching on all over the world"
         }

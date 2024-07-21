@@ -444,6 +444,8 @@ class HomeViewModel @Inject constructor(
                 isShowingProfile = false,
                 isLocationPreferencesBeingRequested = true,
                 isLocationPreferencesBeingEdited = true,
+                isDonTAskAgainLocationPreferencesSelected = userStorage.isLocationPreferencesSetAsDonTAskAgain,
+                currentLocationPreference = userStorage.locationPreference,
             )
         } catch (e: Exception) { Unit }
     }
