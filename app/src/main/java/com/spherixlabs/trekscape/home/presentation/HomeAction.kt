@@ -97,4 +97,16 @@ sealed interface HomeAction {
      * be dismissed.
      * */
     data object OnDismissPlaceRecommendationDetails : HomeAction
+    /**
+     * [OnEditGeneralPreferences] should be called when the user wants to edit the general preferences
+     * */
+    data object OnEditGeneralPreferences : HomeAction
+    /**
+     * [OnDismissGeneralPreferences] should be called when the general preferences should be dismissed.
+     * */
+    data object OnDismissGeneralPreferences : HomeAction
+    /**
+     * [OnEditLocationPreferences] should be called when the user wants to edit the location preferences
+     * */
+    data object OnEditLocationPreferences : HomeAction
 }

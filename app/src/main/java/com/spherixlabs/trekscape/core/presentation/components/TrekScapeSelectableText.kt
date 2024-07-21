@@ -28,13 +28,14 @@ import com.spherixlabs.trekscape.core.presentation.animations.JumpingInfiniteAni
 
 @Composable
 fun TrekScapeSelectableText(
-    text          : String,
-    isSelected    : Boolean,
-    selectedColor : Color = MaterialTheme.colorScheme.secondary,
-    onClick       : () -> Unit,
-    modifier      : Modifier = Modifier
+    text            : String,
+    isSelected      : Boolean,
+    selectedColor   : Color = MaterialTheme.colorScheme.secondary,
+    enableAnimation : Boolean = true,
+    onClick         : () -> Unit,
+    modifier        : Modifier = Modifier
 ) {
-    if (isSelected) {
+    if (isSelected && enableAnimation) {
         JumpingInfiniteAnimation(
             targetValue = 18f,
         ) {

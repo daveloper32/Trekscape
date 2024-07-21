@@ -50,6 +50,8 @@ import com.spherixlabs.trekscape.home.presentation.components.BottomBarHome
 import com.spherixlabs.trekscape.home.presentation.components.TopBarHome
 import com.spherixlabs.trekscape.home.presentation.components.dialogs.LocationPreferencesDialog
 import com.spherixlabs.trekscape.home.presentation.components.dialogs.RequestLocationPermissionDialog
+import com.spherixlabs.trekscape.profile.presentation.ProfileScreenRoot
+import com.spherixlabs.trekscape.welcome.presentation.screens.preferences_request.PreferencesRequestScreenRoot
 import kotlinx.coroutines.launch
 
 @Composable
@@ -133,7 +135,14 @@ fun HomeScreen(
     AutoFinishBackPressHandler()
     Scaffold(
         modifier  = Modifier.fillMaxSize(),
-        topBar    = { TopBarHome(state.userName) },
+        topBar    = {
+            TopBarHome(
+                name = state.userName,
+                onClick = {
+                    onAction(HomeAction.OnProfileClicked)
+                }
+            )
+        },
         bottomBar = {
             BottomBarHome {itemData->
                 when (itemData) {
@@ -193,12 +202,25 @@ fun HomeScreen(
             }
             TrekScapeSheetDialog(
                 isOpen = state.isShowingProfile,
+                expanded  = true,
                 onDismiss = { onAction(HomeAction.OnDismissProfile) }
             ) {
-                Text(
-                    modifier = Modifier
-                        .padding(60.dp),
-                    text = "Profile"
+                ProfileScreenRoot(
+                    onGoToGeneralPreferences = {
+                        onAction(HomeAction.OnEditGeneralPreferences)
+                    },
+                    onGoToLocationPreferences = {
+                        onAction(HomeAction.OnEditLocationPreferences)
+                    }
+                )
+            }
+            TrekScapeSheetDialog(
+                isOpen = state.isGeneralPreferencesBeingRequested,
+                expanded  = true,
+                onDismiss = { onAction(HomeAction.OnDismissGeneralPreferences) }
+            ) {
+                PreferencesRequestScreenRoot(
+                    onGoHomeClick = { onAction(HomeAction.OnDismissGeneralPreferences) }
                 )
             }
             LocationPreferencesDialog(

@@ -62,6 +62,90 @@ data class PreferenceModel(
     fun isRelaxation() : Boolean {
         return Relaxation.Companion.Types.entries.find { it.name == id } != null
     }
+
+    companion object {
+        /**
+         * Checks if the preference is associated with the [NatureAdventure] category.
+         *
+         * @param value [String] The name of the preference.
+         * @return [Boolean] True if the preference is [NatureAdventure], false otherwise.
+         * */
+        fun isNatureAdventure(
+            value : String
+        ) : Boolean {
+            return NatureAdventure.Companion.Types.entries.find { it.name == value } != null
+        }
+        /**
+         * Checks if the preference is associated with the [CultureHistory] category.
+         *
+         * @param value [String] The name of the preference.
+         * @return [Boolean] True if the preference is [CultureHistory], false otherwise.
+         * */
+        fun isCultureHistory(
+            value : String
+        ) : Boolean {
+            return CultureHistory.Companion.Types.entries.find { it.name == value } != null
+        }
+        /**
+         * Checks if the preference is associated with the [Relaxation] category.
+         *
+         * @param value [String] The name of the preference.
+         * @return [Boolean] True if the preference is [Relaxation], false otherwise.
+         * */
+        fun isRelaxation(
+            value : String
+        ) : Boolean {
+            return Relaxation.Companion.Types.entries.find { it.name == value } != null
+        }
+
+        /**
+         * Converts a string representation of a preference into a [PreferenceModel] object.
+         *
+         * @param value [String] The string representation of the preference.
+         * @return [PreferenceModel] The converted preference object, or null if the conversion fails.
+         * */
+        fun fromString(
+            value : String
+        ): PreferenceModel? = when {
+            isNatureAdventure(value) -> {
+                val preference = NatureAdventure.Companion.fromString(value)
+                if (preference != null) {
+                    PreferenceModel(
+                        id    = preference.name,
+                        title = preference.title,
+                        icon  = preference.icon,
+                    )
+                } else {
+                    null
+                }
+            }
+            isCultureHistory(value) -> {
+                val preference = CultureHistory.Companion.fromString(value)
+                if (preference != null) {
+                    PreferenceModel(
+                        id    = preference.name,
+                        title = preference.title,
+                        icon  = preference.icon,
+                    )
+                } else {
+                    null
+                }
+            }
+            isRelaxation(value) -> {
+                val preference = Relaxation.Companion.fromString(value)
+                if (preference != null) {
+                    PreferenceModel(
+                        id    = preference.name,
+                        title = preference.title,
+                        icon  = preference.icon,
+                    )
+                } else {
+                    null
+                }
+            }
+            else -> null
+        }
+    }
 }
 /**
  * Extracts a set of IDs from a list of PreferenceModel objects.
@@ -109,6 +193,10 @@ class NatureAdventure  {
                 icon  = item.icon
             ) }.toList()
         }
+
+        fun fromString(
+            value : String
+        ): NatureAdventure.Companion.Types? = Types.entries.find { it.name == value }
     }
 }
 
@@ -156,6 +244,10 @@ class CultureHistory   {
                 icon  = item.icon
             ) }.toList()
         }
+
+        fun fromString(
+            value : String
+        ): CultureHistory.Companion.Types? = Types.entries.find { it.name == value }
     }
 }
 
@@ -199,5 +291,9 @@ class Relaxation    {
                 icon  = item.icon
             ) }.toList()
         }
+
+        fun fromString(
+            value : String
+        ): Relaxation.Companion.Types? = Types.entries.find { it.name == value }
     }
 }

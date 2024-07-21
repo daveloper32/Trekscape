@@ -7,11 +7,13 @@ import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
 import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendation
 
 /**
- * Describe the state [HomeState] of the name request screen.
+ * Describe the state [HomeState] of the home screen.
  *
  * @param isLocationPermissionBeingRequested [Boolean] True if the location permission is being requested, false otherwise.
  * @param isMyLocationEnabled [Boolean] True if the my location is enabled, false otherwise.
+ * @param isGeneralPreferencesBeingRequested [Boolean] True if the general preferences are being requested, false otherwise.
  * @param isLocationPreferencesBeingRequested [Boolean] True if the recommendations based on location is being requested, false otherwise.
+ * @param isLocationPreferencesBeingEdited [Boolean] True if the recommendations based on location is being edited, false otherwise.
  * @param isDonTAskAgainLocationPreferencesSelected [Boolean] True if the user has selected to not ask again, false otherwise.
  * @param isEnableGPSBeingRequested [Boolean] True if the GPS is being requested, false otherwise.
  * @param currentLocationPreference [LocationPreference] The current location preference.
@@ -27,7 +29,9 @@ import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendatio
 data class HomeState(
     val isLocationPermissionBeingRequested        : Boolean = false,
     val isMyLocationEnabled                       : Boolean = false,
+    val isGeneralPreferencesBeingRequested        : Boolean = false,
     val isLocationPreferencesBeingRequested       : Boolean = false,
+    val isLocationPreferencesBeingEdited          : Boolean = false,
     val isDonTAskAgainLocationPreferencesSelected : Boolean = false,
     val isEnableGPSBeingRequested                 : Boolean = false,
     val currentLocationPreference                 : LocationPreference = LocationPreference.ALL_WORLD,

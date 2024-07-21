@@ -51,6 +51,8 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
      * @param currentLocation [CoordinatesData]? The current location of the user. It will only be
      * used if if the location preference is not set to [LocationPreference.ALL_WORLD].
      * @param languageCode [String] The language code for the recommendations.
+     *
+     * @return [String] The generated prompt for the generative model.
      * */
     private fun generatePrompt(
         quantity           : Int,
@@ -59,14 +61,10 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
         currentLocation    : CoordinatesData?,
         languageCode       : String
     ): String {
-        val locationPreferences: String = if (
-            locationPreference != LocationPreference.ALL_WORLD &&
-            currentLocation != null
-        ) {
-            "Search on the ${locationPreference.name} of the coordinates (${currentLocation.latitude}, ${currentLocation.longitude})"
-        } else {
-            "Search on ${LocationPreference.ALL_WORLD.name}"
-        }
+        val locationPreferences: String = getLocationPreferencePhrasePrompt(
+            locationPreference = locationPreference,
+            currentLocation    = currentLocation,
+        )
         return """
             Generate ${quantity} recommendations for travel places using the following parameters:
             - JSON schema for a place:
@@ -83,6 +81,37 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
             - Language to generate data: $languageCode
             - Format the response as a JSONArray of objects of the provided JSON schema
         """.trimIndent()
+    }
+
+    /**
+     * This function generates a phrase prompt based on the specified location parameters.
+     *
+     * @param locationPreference [LocationPreference] The location preference for the recommendations.
+     * @param currentLocation [CoordinatesData]? The current location of the user. It will only be
+     * used if if the location preference is not set to [LocationPreference.ALL_WORLD].
+     *
+     * @return [String] The generated phrase prompt.
+     * */
+    private fun getLocationPreferencePhrasePrompt(
+        locationPreference : LocationPreference,
+        currentLocation    : CoordinatesData?,
+    ): String {
+        val locationPreferenceExplanation: String = when (
+            locationPreference
+        ) {
+            LocationPreference.ALL_WORLD -> "all over the world"
+            LocationPreference.SAME_CONTINENT -> "the same continent"
+            LocationPreference.SAME_COUNTRY -> "the same country"
+            LocationPreference.SAME_CITY -> "the same city"
+        }
+        return if (
+            locationPreference != LocationPreference.ALL_WORLD &&
+            currentLocation != null
+        ) {
+            "Filter the results searching on ${locationPreferenceExplanation} where this coordinates (${currentLocation.latitude}, ${currentLocation.longitude}) are"
+        } else {
+            "Filter the results searching on all over the world"
+        }
     }
 
     /**

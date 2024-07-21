@@ -33,7 +33,7 @@ import com.spherixlabs.trekscape.home.domain.utils.toUiText
 fun LocationPreferencesDialog(
     isOpen                : Boolean,
     isDonTAskAgainChecked : Boolean = false,
-    locationPreference    : LocationPreference = LocationPreference.ALL_WORLD,
+    locationPreference    : LocationPreference,
     onDismiss             : () -> Unit,
     onDonTAskAgainClick   : (Boolean) -> Unit,
     onOkClick             : (LocationPreference) -> Unit,
@@ -134,6 +134,7 @@ private fun Smart1ConfirmDialogPreview() {
             LocationPreferencesDialog(
                 isOpen = true,
                 isDonTAskAgainChecked = true,
+                locationPreference = LocationPreference.ALL_WORLD,
                 onDismiss = {  },
                 onDonTAskAgainClick = { },
                 onOkClick = {  }

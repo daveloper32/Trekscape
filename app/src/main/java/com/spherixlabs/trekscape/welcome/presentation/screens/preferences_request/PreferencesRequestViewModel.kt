@@ -50,8 +50,15 @@ class PreferencesRequestViewModel @Inject constructor(
     val events = eventChannel.receiveAsFlow()
 
     init {
+        val cachePreferences = userStorage.preferences
+            .mapNotNull { PreferenceModel.fromString(it) }
         state = state.copy(
             categories = getCategories(),
+            preferencesSelected = cachePreferences,
+            showNext = isSomePreferenceSelectedOnCurrentCategory(
+                currentCategory    = state.currentCategory,
+                currentPreferences = cachePreferences,
+            ),
         )
     }
 

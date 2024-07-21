@@ -56,7 +56,8 @@ class HomeViewModel @Inject constructor(
 
     init {
         state = state.copy(
-            userName = userStorage.name
+            userName                  = userStorage.name,
+            currentLocationPreference = userStorage.locationPreference,
         )
     }
 
@@ -86,6 +87,9 @@ class HomeViewModel @Inject constructor(
             HomeAction.OnEnableGPSClicked -> handleEnableGPSClicked()
             HomeAction.OnRecommendInAllWorldClicked -> handleRecommendInAllWorldClicked()
             HomeAction.OnDismissPlaceRecommendationDetails -> handleDismissPlaceRecommendationDetails()
+            HomeAction.OnEditGeneralPreferences -> handleEditGeneralPreferences()
+            HomeAction.OnEditLocationPreferences -> handleEditLocationPreferences()
+            HomeAction.OnDismissGeneralPreferences -> handleDismissGeneralPreferences()
         }
     }
 
@@ -307,6 +311,12 @@ class HomeViewModel @Inject constructor(
                 isLocationPreferencesBeingRequested = false,
                 currentLocationPreference = locationPreference,
             )
+            if (state.isLocationPreferencesBeingEdited) {
+                state = state.copy(
+                    isLocationPreferencesBeingEdited = false,
+                )
+                return
+            }
             tryToGetSomeRecommendations()
         } catch (e: Exception) { Unit }
     }
@@ -409,6 +419,42 @@ class HomeViewModel @Inject constructor(
             state = state.copy(
                 isShowingPlaceRecommendationDetails = true,
                 placeRecommendationDetails = null,
+            )
+        } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * This function handles the edit general preferences action
+     * */
+    private fun handleEditGeneralPreferences() {
+        try {
+            state = state.copy(
+                isShowingProfile = false,
+                isGeneralPreferencesBeingRequested = true,
+            )
+        } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * This function handles the edit location preferences action
+     * */
+    private fun handleEditLocationPreferences() {
+        try {
+            state = state.copy(
+                isShowingProfile = false,
+                isLocationPreferencesBeingRequested = true,
+                isLocationPreferencesBeingEdited = true,
+            )
+        } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * This function handles the dismiss general preferences action
+     * */
+    private fun handleDismissGeneralPreferences() {
+        try {
+            state = state.copy(
+                isGeneralPreferencesBeingRequested = false,
             )
         } catch (e: Exception) { Unit }
     }

@@ -2,6 +2,8 @@ package com.spherixlabs.trekscape.historical.presentation.screens.detail_histori
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,7 +25,11 @@ fun DetailHistoricalScreenRoot(
 @Composable
 fun DetailHistoricalScreen(historicalModel: HistoricalModel ) {
     AutoFinishBackPressHandler()
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
         HeaderDetailHistoricalView(urlImage = historicalModel.urlImage, missingMeters = historicalModel.missingMeters)
         BodyDetailHistoricalView(name = historicalModel.name, description = historicalModel.description)
     }

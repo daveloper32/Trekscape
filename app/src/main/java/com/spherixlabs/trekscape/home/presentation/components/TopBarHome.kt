@@ -2,6 +2,7 @@ package com.spherixlabs.trekscape.home.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -21,7 +22,10 @@ import androidx.compose.ui.unit.dp
 import com.spherixlabs.trekscape.R
 
 @Composable
-fun TopBarHome(name : String){
+fun TopBarHome(
+    name    : String,
+    onClick : () -> Unit = {},
+){
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier          = Modifier
@@ -30,6 +34,7 @@ fun TopBarHome(name : String){
             .clip(CircleShape)
             .background(MaterialTheme.colorScheme.background)
             .padding(horizontal = 15.dp, vertical = 5.dp)
+            .clickable { onClick() }
     ) {
         Image(
             painter            = painterResource(id = R.drawable.ic_logo),
