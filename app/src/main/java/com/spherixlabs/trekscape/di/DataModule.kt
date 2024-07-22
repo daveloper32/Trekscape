@@ -8,6 +8,7 @@ import com.spherixlabs.trekscape.core.domain.storage.PermissionsStateStorage
 import com.spherixlabs.trekscape.core.domain.storage.UserStorage
 import com.spherixlabs.trekscape.core.utils.room.createARoomDatabase
 import com.spherixlabs.trekscape.recommendations.data.PlaceRecommendationsRepositoryImpl
+import com.spherixlabs.trekscape.recommendations.data.utils.PlacesUtils
 import com.spherixlabs.trekscape.recommendations.domain.repository.PlaceRecommendationsRepository
 import dagger.Module
 import dagger.Provides
@@ -90,5 +91,8 @@ object DataModule {
     @Provides
     @Singleton
     fun providePlaceRecommendationsRepository(
-    ): PlaceRecommendationsRepository = PlaceRecommendationsRepositoryImpl()
+        placesUtils : PlacesUtils
+    ): PlaceRecommendationsRepository = PlaceRecommendationsRepositoryImpl(
+        placesUtils = placesUtils,
+    )
 }

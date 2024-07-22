@@ -1,5 +1,6 @@
 package com.spherixlabs.trekscape.recommendations.data
 
+import android.net.Uri
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.GenerateContentResponse
 import com.spherixlabs.trekscape.BuildConfig
@@ -10,6 +11,7 @@ import com.spherixlabs.trekscape.core.utils.constants.Constants.EMPTY_STR
 import com.spherixlabs.trekscape.core.utils.constants.Constants.GEMINI_MODEL_NAME
 import com.spherixlabs.trekscape.core.utils.coordinates.model.CoordinatesData
 import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
+import com.spherixlabs.trekscape.recommendations.data.utils.PlacesUtils
 import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendation
 import com.spherixlabs.trekscape.recommendations.domain.repository.PlaceRecommendationsRepository
 import org.json.JSONArray
@@ -20,7 +22,7 @@ import javax.inject.Inject
  * [PlaceRecommendationsRepositoryImpl] is a implementation of [PlaceRecommendationsRepository].
  * */
 class PlaceRecommendationsRepositoryImpl @Inject constructor(
-
+    private val placesUtils : PlacesUtils,
 ): PlaceRecommendationsRepository {
     override suspend fun getSomeRecommendations(
         quantity           : Int,
@@ -132,7 +134,7 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
      * @param response [GenerateContentResponse] The response from the generative model.
      * @return [List]<[PlaceRecommendation]> The cleaned and mapped response.
      * */
-    private fun cleanAndMapResponse(
+    private suspend fun cleanAndMapResponse(
         response : GenerateContentResponse
     ): List<PlaceRecommendation> {
         return try {
@@ -163,9 +165,56 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
                     )
                 }
             }
-            mappedData
+            tryToFetchImagesToRecommendations(mappedData)
         } catch (e: Exception) {
            emptyList()
         }
+    }
+
+    /**
+     * This function tries to fetch images to recommendations.
+     *
+     * @param data [List]<[PlaceRecommendation]> The list of recommendations.
+     * @return [List]<[PlaceRecommendation]> The list of recommendations with images.
+     * */
+    private suspend fun tryToFetchImagesToRecommendations(
+        data : List<PlaceRecommendation>
+    ) : List<PlaceRecommendation> {
+        return try {
+            val dataWithImages: MutableList<PlaceRecommendation> = mutableListOf()
+            data.forEach { placeRecommendation ->
+                dataWithImages.add(
+                    tryToFetchImageToRecommendation(placeRecommendation)
+                )
+            }
+            dataWithImages
+        } catch (e: Exception) { data }
+    }
+
+    /**
+     * This function tries to fetch an image to a recommendation.
+     *
+     * @param data [PlaceRecommendation] The recommendation.
+     * @return [PlaceRecommendation] The recommendation with an image.
+     * */
+    private suspend fun tryToFetchImageToRecommendation(
+        data : PlaceRecommendation
+    ): PlaceRecommendation {
+        return try {
+            val placeIdOfFirstPrediction: String = placesUtils
+                .getAutocompletePredictions(
+                    apiKey   = BuildConfig.PLACES_API_KEY,
+                    query    = data.name,
+                    location = data.location,
+                )?.firstOrNull()?.placeId ?: return data
+            val photo: Uri = placesUtils
+                .getFirstAvailablePhotoFromPlace(
+                    apiKey  = BuildConfig.PLACES_API_KEY,
+                    placeId = placeIdOfFirstPrediction,
+                ) ?: return data
+            data.copy(
+                imageUrl = photo.toString(),
+            )
+        } catch (e: Exception) { data }
     }
 }

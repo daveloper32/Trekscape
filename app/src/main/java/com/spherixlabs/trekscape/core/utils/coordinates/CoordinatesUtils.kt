@@ -170,4 +170,87 @@ object CoordinatesUtils {
             false
         }
     }
+
+    /**
+     * [SquaredPolygon] is a data class that represents a squared polygon of coordinates.
+     *
+     * @property northEastCoordinate [CoordinatesData] The north-east coordinate of the polygon.
+     * @property southEastCoordinate [CoordinatesData] The south-east coordinate of the polygon.
+     * @property northWestCoordinate [CoordinatesData] The north-west coordinate of the polygon.
+     * @property southWestCoordinate [CoordinatesData] The south-west coordinate of the polygon.
+     * */
+    data class SquaredPolygon(
+        val northEastCoordinate : CoordinatesData,
+        val southEastCoordinate : CoordinatesData,
+        val northWestCoordinate : CoordinatesData,
+        val southWestCoordinate : CoordinatesData,
+    ) {
+        /**
+         * This function orders the coordinates in a clockwise order.
+         *
+         * @return [List]<[CoordinatesData]> The ordered coordinates.
+         * */
+        fun order(): List<CoordinatesData> = listOf(
+            northEastCoordinate,
+            northWestCoordinate,
+            southWestCoordinate,
+            southEastCoordinate,
+        )
+    }
+
+    /**
+     * This function generates a squared polygon above some coordinates with a given padding.
+     *
+     * @param coordinates [List]<[CoordinatesData]> The coordinates to generate the polygon on.
+     * Couldn't be empty.
+     * @param padding [Double] The padding to be applied to the polygon.
+     * @return [SquaredPolygon]? The generated squared polygon.
+     * */
+    fun generateSquaredPolygonOnSomeCoordinates(
+        coordinates : List<CoordinatesData>,
+        padding     : Double = 0.017,
+    ): SquaredPolygon? {
+        if (coordinates.isEmpty()) {
+            return null
+        }
+
+        var minLatitude  : Double = coordinates.first().latitude
+        var maxLatitude  : Double = coordinates.first().latitude
+        var minLongitude : Double = coordinates.first().longitude
+        var maxLongitude : Double = coordinates.first().longitude
+
+        for (coordinate in coordinates) {
+            minLatitude  = minOf(minLatitude, coordinate.latitude)
+            maxLatitude  = maxOf(maxLatitude, coordinate.latitude)
+            minLongitude = minOf(minLongitude, coordinate.longitude)
+            maxLongitude = maxOf(maxLongitude, coordinate.longitude)
+        }
+
+        val latitudePadding  : Double = padding / 2
+        val longitudePadding : Double = padding / 2
+
+        val northEastCoordinate: CoordinatesData = CoordinatesData(
+            latitude  = maxLatitude + latitudePadding,
+            longitude = maxLongitude + longitudePadding,
+        )
+        val southEastCoordinate: CoordinatesData = CoordinatesData(
+            latitude  = minLatitude - latitudePadding,
+            longitude = minLongitude + longitudePadding,
+        )
+        val northWestCoordinate: CoordinatesData = CoordinatesData(
+            latitude  = maxLatitude + latitudePadding,
+            longitude = maxLongitude - longitudePadding,
+        )
+        val southWestCoordinate: CoordinatesData = CoordinatesData(
+            latitude  = minLatitude - latitudePadding,
+            longitude = minLongitude - longitudePadding,
+        )
+
+        return SquaredPolygon(
+            northEastCoordinate = northEastCoordinate,
+            southEastCoordinate = southEastCoordinate,
+            northWestCoordinate = northWestCoordinate,
+            southWestCoordinate = southWestCoordinate,
+        )
+    }
 }

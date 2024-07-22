@@ -33,6 +33,22 @@ object MapsUtils {
         coordinates.longitude
     )
     /**
+     * Converts a [CoordinatesData] to a [LatLng] object.
+     *
+     * @param coordinates [CoordinatesData]? The coordinates to convert.
+     * @return [LatLng] The converted [LatLng]? object.
+     * */
+    fun fromNullCoordinatesDataToLatLng(
+        coordinates : CoordinatesData?,
+    ): LatLng? = if (coordinates != null) {
+        LatLng(
+            coordinates.latitude,
+            coordinates.longitude
+        )
+    } else {
+        null
+    }
+    /**
      * Converts a [CoordinatesData] to a [CameraPosition] object.
      *
      * @param coordinates [CoordinatesData] The coordinates to convert.

@@ -142,6 +142,8 @@ dependencies {
     implementation(libs.google.accompanist.drawablepainter)
     // Google Generative ai
     implementation(libs.google.client.generativeai)
+    // Google Places
+    implementation(libs.google.places)
     //
     debugImplementation(libs.compose.ui.tooling)
 }
