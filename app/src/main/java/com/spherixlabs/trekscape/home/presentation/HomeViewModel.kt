@@ -354,6 +354,7 @@ class HomeViewModel @Inject constructor(
                 ) {
                     state = state.copy(
                         isLoadingRecommendations = true,
+                        placeRecommendations = emptyList()
                     )
                     val result = getSomePlaceRecommendationsUseCase.invoke()
                     state = state.copy(
