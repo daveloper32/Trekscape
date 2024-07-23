@@ -5,7 +5,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
-import com.spherixlabs.trekscape.core.utils.coordinates.model.CoordinatesData
+import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
 
 /**
  * [MapsUtils] is a utility class that provides methods for easily handling maps utilities.

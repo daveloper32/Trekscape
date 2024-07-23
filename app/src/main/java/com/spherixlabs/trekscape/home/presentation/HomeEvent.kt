@@ -1,7 +1,7 @@
 package com.spherixlabs.trekscape.home.presentation
 
 import com.spherixlabs.trekscape.core.presentation.ui.utils.UiText
-import com.spherixlabs.trekscape.core.utils.coordinates.model.CoordinatesData
+import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
 
 /**
  * [HomeEvent] Describe all the events that should be triggered and consumed by the view.

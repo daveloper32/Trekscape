@@ -10,6 +10,10 @@ object Constants {
     val LONG_INVALID = -1L
     /** Default [Int] invalid value */
     val INT_INVALID = -1
+    /** Default [Int] zero value */
+    val INT_ZERO = 0
+    /** Default [Int] amount value */
+    val DEFAULT_AMOUNT = 100
     /** The name of the Gemini model to use */
     val GEMINI_MODEL_NAME = "gemini-1.5-flash"
     /** Json Keys for the Place Recommendation response */

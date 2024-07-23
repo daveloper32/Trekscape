@@ -7,6 +7,9 @@ import com.spherixlabs.trekscape.core.data.settings.UserSettingsImpl
 import com.spherixlabs.trekscape.core.domain.storage.PermissionsStateStorage
 import com.spherixlabs.trekscape.core.domain.storage.UserStorage
 import com.spherixlabs.trekscape.core.utils.room.createARoomDatabase
+import com.spherixlabs.trekscape.place.data.PlaceRepositoryImpl
+import com.spherixlabs.trekscape.place.data.db.dao.PlaceDao
+import com.spherixlabs.trekscape.place.domain.repository.PlaceRepository
 import com.spherixlabs.trekscape.recommendations.data.PlaceRecommendationsRepositoryImpl
 import com.spherixlabs.trekscape.recommendations.data.utils.PlacesUtils
 import com.spherixlabs.trekscape.recommendations.domain.repository.PlaceRecommendationsRepository
@@ -73,6 +76,13 @@ object DataModule {
         name    = TrekScapeDatabase.DATABASE_NAME,
     )
 
+    /**DI function that provides a singleton of a [PlaceDao]*/
+    @Provides
+    @Singleton
+    fun providePlaceDao(
+        db: TrekScapeDatabase
+    ): PlaceDao = db.placeDao
+
     /**DI function that provides a singleton of a [UserStorage]*/
     @Provides
     @Singleton
@@ -94,5 +104,14 @@ object DataModule {
         placesUtils : PlacesUtils
     ): PlaceRecommendationsRepository = PlaceRecommendationsRepositoryImpl(
         placesUtils = placesUtils,
+    )
+
+    /**DI function that provides a singleton of a [PlaceRepository]*/
+    @Provides
+    @Singleton
+    fun providePlaceRepository(
+        dao : PlaceDao,
+    ): PlaceRepository = PlaceRepositoryImpl(
+        dao = dao,
     )
 }

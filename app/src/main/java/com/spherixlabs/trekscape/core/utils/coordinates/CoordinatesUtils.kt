@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
-import com.spherixlabs.trekscape.core.utils.coordinates.model.CoordinatesData
+import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
 import com.spherixlabs.trekscape.core.utils.permissions.PermissionUtils
 import kotlinx.coroutines.tasks.await
 

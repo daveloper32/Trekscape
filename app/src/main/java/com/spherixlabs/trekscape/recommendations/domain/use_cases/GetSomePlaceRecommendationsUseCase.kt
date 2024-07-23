@@ -7,8 +7,11 @@ import com.spherixlabs.trekscape.core.domain.utils.results.DataError
 import com.spherixlabs.trekscape.core.domain.utils.results.Result
 import com.spherixlabs.trekscape.core.utils.os.OsUtils
 import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
+import com.spherixlabs.trekscape.place.domain.use_cases.GetPlacesFromLocalUseCase
+import com.spherixlabs.trekscape.place.domain.use_cases.SavePlacesInLocalUseCase
 import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendation
 import com.spherixlabs.trekscape.recommendations.domain.repository.PlaceRecommendationsRepository
+import com.spherixlabs.trekscape.recommendations.domain.utils.toPlaceData
 import javax.inject.Inject
 
 /**
@@ -16,10 +19,12 @@ import javax.inject.Inject
  * place recommendations.
  * */
 class GetSomePlaceRecommendationsUseCase @Inject constructor(
-    private val networkProvider  : NetworkProvider,
-    private val resourceProvider : ResourceProvider,
-    private val userStorage      : UserStorage,
-    private val repository       : PlaceRecommendationsRepository,
+    private val networkProvider           : NetworkProvider,
+    private val resourceProvider          : ResourceProvider,
+    private val userStorage               : UserStorage,
+    private val repository                : PlaceRecommendationsRepository,
+    private val savePlacesInLocalUseCase  : SavePlacesInLocalUseCase,
+    private val getPlacesFromLocalUseCase : GetPlacesFromLocalUseCase,
 ) {
     /**
      * This function gets some number of place recommendations based on previous preferences setup.
@@ -43,6 +48,7 @@ class GetSomePlaceRecommendationsUseCase @Inject constructor(
                 null
             },
             languageCode = OsUtils.getDeviceLanguage(),
+            placesToSkip = getOldPlaceRecommendations(),
         )
         if (result is Result.Success) {
             saveRecommendations(result.data)
@@ -55,12 +61,33 @@ class GetSomePlaceRecommendationsUseCase @Inject constructor(
      *
      * @param data [List]<[PlaceRecommendation]> The list of recommendations to save.
      * */
-    private fun saveRecommendations(
+    private suspend fun saveRecommendations(
         data: List<PlaceRecommendation>
     ) {
         try {
-            // TODO
+            savePlacesInLocalUseCase.invoke(
+                data.map {
+                    it.toPlaceData()
+                }
+            )
         } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * This function gets the old place recommendations from the local storage.
+     * */
+    private suspend fun getOldPlaceRecommendations(
+    ): List<String> {
+        return try {
+            val result = getPlacesFromLocalUseCase.invoke()
+            if (result is Result.Success) {
+                result.data.map { it.name }
+            } else {
+                emptyList<String>()
+            }
+        } catch (e: Exception) {
+            emptyList<String>()
+        }
     }
 
     companion object {

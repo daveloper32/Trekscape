@@ -9,7 +9,7 @@ import com.spherixlabs.trekscape.core.domain.utils.results.Result
 import com.spherixlabs.trekscape.core.utils.constants.Constants
 import com.spherixlabs.trekscape.core.utils.constants.Constants.EMPTY_STR
 import com.spherixlabs.trekscape.core.utils.constants.Constants.GEMINI_MODEL_NAME
-import com.spherixlabs.trekscape.core.utils.coordinates.model.CoordinatesData
+import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
 import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
 import com.spherixlabs.trekscape.recommendations.data.utils.PlacesUtils
 import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendation
@@ -29,7 +29,8 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
         ownPreferences     : List<String>,
         locationPreference : LocationPreference,
         currentLocation    : CoordinatesData?,
-        languageCode       : String
+        languageCode       : String,
+        placesToSkip       : List<String>,
     ): Result<List<PlaceRecommendation>, DataError.Network> {
         val generativeModel = GenerativeModel(
             modelName = GEMINI_MODEL_NAME,
@@ -40,7 +41,8 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
             ownPreferences     = ownPreferences,
             locationPreference = locationPreference,
             currentLocation    = currentLocation,
-            languageCode       = languageCode
+            languageCode       = languageCode,
+            placesToSkip       = placesToSkip,
         )
         Timber.d("Prompt: $prompt")
         val response = generativeModel.generateContent(prompt)
@@ -63,12 +65,22 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
         ownPreferences     : List<String>,
         locationPreference : LocationPreference,
         currentLocation    : CoordinatesData?,
-        languageCode       : String
+        languageCode       : String,
+        placesToSkip       : List<String>,
     ): String {
         val locationPreferences: String = getLocationPreferencePhrasePrompt(
             locationPreference = locationPreference,
             currentLocation    = currentLocation,
         )
+        val placesToSkipPhrase: String = if (placesToSkip.isNotEmpty()) {
+            "- Exclude the following places: ${placesToSkip.joinToString(
+                separator = ", ", 
+                prefix = "(", 
+                postfix = ")",
+            )}"
+        } else {
+            EMPTY_STR
+        }
         return """
             You are the best travel planner in the world. You know everything about travel and how
             to recommend places to travel to people based on their own preferences and current location.
@@ -86,6 +98,7 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
             - Location preferences: ${locationPreferences}
             - Language to generate data: $languageCode
             - Format the response as a JSONArray of objects of the provided JSON schema
+            $placesToSkipPhrase
         """.trimIndent()
     }
 

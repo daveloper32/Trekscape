@@ -13,4 +13,8 @@ sealed interface DataError: Error {
         SERIALIZATION,
         UNKNOWN,
     }
+    enum class DB: DataError {
+        NOT_FOUND,
+        UNKNOWN,
+    }
 }

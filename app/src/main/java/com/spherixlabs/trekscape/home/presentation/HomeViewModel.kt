@@ -11,7 +11,7 @@ import com.spherixlabs.trekscape.core.domain.storage.UserStorage
 import com.spherixlabs.trekscape.core.domain.storage.model.permissions.GrantPermissionData
 import com.spherixlabs.trekscape.core.domain.utils.results.Result
 import com.spherixlabs.trekscape.core.domain.utils.toUiText
-import com.spherixlabs.trekscape.core.utils.coordinates.model.CoordinatesData
+import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
 import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
 import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendation
 import com.spherixlabs.trekscape.recommendations.domain.use_cases.GetSomePlaceRecommendationsUseCase

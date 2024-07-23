@@ -18,7 +18,7 @@ import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRe
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.spherixlabs.trekscape.core.utils.coordinates.CoordinatesUtils
-import com.spherixlabs.trekscape.core.utils.coordinates.model.CoordinatesData
+import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
 import com.spherixlabs.trekscape.core.utils.maps.MapsUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -1,6 +1,6 @@
 package com.spherixlabs.trekscape.recommendations.domain.model
 
-import com.spherixlabs.trekscape.core.utils.coordinates.model.CoordinatesData
+import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
 
 /**
  * [PlaceRecommendation] is a data class that represents a place recommendation.
