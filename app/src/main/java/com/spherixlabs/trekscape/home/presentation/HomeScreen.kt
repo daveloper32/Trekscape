@@ -6,18 +6,18 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
@@ -46,6 +46,7 @@ import com.spherixlabs.trekscape.historical.presentation.screens.detail_historic
 import com.spherixlabs.trekscape.historical.presentation.screens.list_history.HistoricalScreenRoot
 import com.spherixlabs.trekscape.home.domain.enums.HomeType
 import com.spherixlabs.trekscape.home.domain.utils.toHistoricalModel
+import com.spherixlabs.trekscape.home.presentation.components.AttemptsAvailableView
 import com.spherixlabs.trekscape.home.presentation.components.BottomBarHome
 import com.spherixlabs.trekscape.home.presentation.components.TopBarHome
 import com.spherixlabs.trekscape.home.presentation.components.dialogs.LocationPreferencesDialog
@@ -144,16 +145,25 @@ fun HomeScreen(
             )
         },
         bottomBar = {
-            BottomBarHome {itemData->
-                when (itemData) {
-                    HomeType.HISTORY -> {
-                        onAction(HomeAction.OnHistoryClicked)
-                    }
-                    HomeType.RECOMMENDATIONS -> {
-                        onAction(HomeAction.OnRecommendationsClicked)
-                    }
-                    HomeType.PROFILE -> {
-                        onAction(HomeAction.OnProfileClicked)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.safeDrawingPadding()
+            ) {
+                AttemptsAvailableView(attempts = state.attemptsAvailable)
+                BottomBarHome(
+                    enable        = state.attemptsAvailable != 0,
+                    timeRemaining = state.timeRemaining
+                ) {itemData->
+                    when (itemData) {
+                        HomeType.HISTORY -> {
+                            onAction(HomeAction.OnHistoryClicked)
+                        }
+                        HomeType.RECOMMENDATIONS -> {
+                            onAction(HomeAction.OnRecommendationsClicked)
+                        }
+                        HomeType.PROFILE -> {
+                            onAction(HomeAction.OnProfileClicked)
+                        }
                     }
                 }
             }

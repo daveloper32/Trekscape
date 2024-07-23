@@ -23,6 +23,8 @@ import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendatio
  * @param isLoadingRecommendations [Boolean] True if the recommendations are being loaded, false otherwise.
  * @param placeRecommendations [List]<[PlaceRecommendation]> The list of place recommendations.
  * @param userName [String] this is the username.
+ * @param attemptsAvailable [Int] the missing attempts.
+ * @param timeRemaining [String] the remaining time to be able to have 5 attempts again.
  * @param isShowingPlaceRecommendationDetails [Boolean] True if the place recommendation details are being shown, false otherwise.
  * @param placeRecommendationDetails [PlaceRecommendation] The place recommendation details.
  * */
@@ -41,6 +43,8 @@ data class HomeState(
     val isLoadingRecommendations                  : Boolean = false,
     val placeRecommendations                      : List<PlaceRecommendation> = emptyList(),
     val userName                                  : String  = EMPTY_STR,
+    val attemptsAvailable                         : Int  = 0,
+    val timeRemaining                             : String  = "",
     val isShowingPlaceRecommendationDetails       : Boolean = false,
     val placeRecommendationDetails                : PlaceRecommendation? = null,
 )

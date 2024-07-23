@@ -23,7 +23,7 @@ fun JumpingInfiniteAnimation(
     val offsetY by infiniteTransition.animateFloat(
         label         = "",
         initialValue  = initialValue,
-        targetValue   = -targetValue,
+        targetValue   = targetValue,
         animationSpec = infiniteRepeatable(
                 animation  = tween( durationMillis = 500,easing =  LinearOutSlowInEasing),
                 repeatMode = RepeatMode.Reverse

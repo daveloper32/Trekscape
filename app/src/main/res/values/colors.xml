@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="zero_attempts" >#FF0000</color>
+    <color name="one_attempt"   >#FFA500</color>
+    <color name="two_attempts"  >#C7C701</color>
+    <color name="three_attempts">#80BC24</color>
+    <color name="four_attempts" >#00A200</color>
+    <color name="five_attempts" >#008000</color>
 </resources>

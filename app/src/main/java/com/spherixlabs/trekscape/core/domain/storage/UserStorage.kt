@@ -11,6 +11,15 @@ interface UserStorage {
      * */
     var name : String
     /**
+     * Get/Set attempts counter
+     * */
+    var attempts : Int
+
+    /**
+     * Get/Set The date of the last attemptsAvailable
+     * */
+    var lastAttempt: Long
+    /**
      * Get/Set user's preferences
      * */
     var preferences : Set<String>

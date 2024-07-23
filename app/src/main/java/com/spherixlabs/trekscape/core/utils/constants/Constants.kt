@@ -4,6 +4,8 @@ package com.spherixlabs.trekscape.core.utils.constants
  * Common constants [Constants] used in the project.
  * */
 object Constants {
+    /**Attempts available to the user */
+    val ATTEMPTS_AVAILABLE = 5
     /** Empty [String] string value */
     val EMPTY_STR = ""
     /** Default [Long] invalid value */

@@ -12,6 +12,7 @@ import com.spherixlabs.trekscape.core.domain.storage.model.permissions.GrantPerm
 import com.spherixlabs.trekscape.core.domain.utils.results.Result
 import com.spherixlabs.trekscape.core.domain.utils.toUiText
 import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
+import com.spherixlabs.trekscape.core.utils.constants.Constants
 import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
 import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendation
 import com.spherixlabs.trekscape.recommendations.domain.use_cases.GetSomePlaceRecommendationsUseCase
@@ -23,6 +24,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -57,10 +59,48 @@ class HomeViewModel @Inject constructor(
     init {
         state = state.copy(
             userName                  = userStorage.name,
+            attemptsAvailable         = Constants.ATTEMPTS_AVAILABLE - userStorage.attempts,
             currentLocationPreference = userStorage.locationPreference,
         )
+        if(userStorage.lastAttempt != Constants.LONG_INVALID) startCountdown()
     }
+    /**
+     * starts the counter to know when the user has 5 attempts again
+     * */
+    private fun startCountdown() {
+        val targetTime = userStorage.lastAttempt + TimeUnit.HOURS.toMillis(24)
+        viewModelScope.launch {
+            while (true) {
+                val (timeText, diff) = getTimeRemaining(targetTime)
+                state =state.copy(timeRemaining =timeText )
 
+                if (diff <= 0) {
+                    userStorage.lastAttempt = Constants.LONG_INVALID
+                    state =state.copy(timeRemaining = "" )
+                    break
+                }
+                delay(1000)
+            }
+        }
+    }
+    /**
+     * returns a string with the formatted hour or minute
+     * */
+    private fun getTimeRemaining(timeInMillis: Long): Pair<String, Long> {
+        val currentTime = System.currentTimeMillis()
+        val diff        = timeInMillis - currentTime
+        val hours       = TimeUnit.MILLISECONDS.toHours(diff)
+        val minutes     = TimeUnit.MILLISECONDS.toMinutes(diff) % 60
+        val seconds     = TimeUnit.MILLISECONDS.toSeconds(diff) % 60
+
+        val timeRemaining = when {
+            hours > 0   -> "${hours}h ${minutes}min"
+            minutes > 0 -> "${minutes}min ${seconds}s"
+            else        -> "${seconds}s"
+        }
+
+        return Pair(timeRemaining, diff)
+    }
     /**
      * This function receives all the possible actions [HomeAction] from the view and
      * updates the state to reflect the new action.
@@ -362,9 +402,15 @@ class HomeViewModel @Inject constructor(
                     )
                     when (result) {
                         is Result.Success -> {
+                            userStorage.attempts += 1
                             state = state.copy(
-                                placeRecommendations = result.data
+                                placeRecommendations = result.data,
+                                attemptsAvailable    =  Constants.ATTEMPTS_AVAILABLE - userStorage.attempts
                             )
+                            if(state.attemptsAvailable == 0){
+                                userStorage.lastAttempt = System.currentTimeMillis()
+                                startCountdown()
+                            }
                             eventChannel.send(HomeEvent.UpdateMapCamera(result.data.map { it.location }))
                         }
                         is Result.Error -> {

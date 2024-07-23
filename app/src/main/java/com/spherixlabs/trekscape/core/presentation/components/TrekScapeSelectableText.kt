@@ -37,7 +37,7 @@ fun TrekScapeSelectableText(
 ) {
     if (isSelected && enableAnimation) {
         JumpingInfiniteAnimation(
-            targetValue = 18f,
+            targetValue = -18f,
         ) {
             TrekScapeSelectableTextInternalContent(
                 text = text,
