@@ -4,8 +4,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.spherixlabs.trekscape.core.domain.storage.UserStorage
 import com.spherixlabs.trekscape.historical.domain.model.HistoricalModel
+import com.spherixlabs.trekscape.place.domain.model.PlaceData
+import com.spherixlabs.trekscape.place.domain.use_cases.GetAndSearchPlacesFromLocalUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +21,8 @@ import javax.inject.Inject
  * */
 @HiltViewModel
 class HistoricalViewModel @Inject constructor(
-    private val userStorage : UserStorage,
+    private val getAndSearchPlacesFromLocalUseCase : GetAndSearchPlacesFromLocalUseCase,
+    private val userStorage                        : UserStorage,
 ) : ViewModel() {
 
     /**
@@ -26,11 +31,10 @@ class HistoricalViewModel @Inject constructor(
     var state by mutableStateOf(HistoricalState())
         private set
 
-    init {
-        state = state.copy(
-            historicalList = getHistorical(),
-        )
-    }
+    val historical = getAndSearchPlacesFromLocalUseCase
+        .invoke()
+        .cachedIn(viewModelScope)
+
     /**
      * This function receives all the possible actions [HistoricalAction] from the view and
      * updates the state to reflect the new action.
@@ -42,16 +46,18 @@ class HistoricalViewModel @Inject constructor(
     ) {
         when (action) {
             HistoricalAction.OnDismissDetailHistorical -> handleHistoricalItemClicked(null)
-            is HistoricalAction.OnHistoricalClicked -> handleHistoricalItemClicked(action.historicalModel)
+            is HistoricalAction.OnHistoricalClicked -> handleHistoricalItemClicked(action.place)
         }
     }
     /**
      * This function handles the history click action.
      * */
-    private fun handleHistoricalItemClicked(historicalModel: HistoricalModel?) {
+    private fun handleHistoricalItemClicked(
+        place : PlaceData?
+    ) {
         try {
             state = state.copy(
-                isShowingDetailHistorical = historicalModel,
+                isShowingDetailHistorical = place,
             )
         } catch (e: Exception) { Unit }
     }

@@ -9,29 +9,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.spherixlabs.trekscape.core.presentation.components.handlers.AutoFinishBackPressHandler
 import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekScapeTheme
-import com.spherixlabs.trekscape.historical.domain.model.HistoricalModel
 import com.spherixlabs.trekscape.historical.presentation.screens.detail_historical.components.BodyDetailHistoricalView
 import com.spherixlabs.trekscape.historical.presentation.screens.detail_historical.components.HeaderDetailHistoricalView
+import com.spherixlabs.trekscape.place.domain.model.PlaceData
 
 @Composable
 fun DetailHistoricalScreenRoot(
-    historicalModel: HistoricalModel
+    place : PlaceData
 ) {
     DetailHistoricalScreen(
-        historicalModel
+        place = place,
     )
 }
 
 @Composable
-fun DetailHistoricalScreen(historicalModel: HistoricalModel ) {
+fun DetailHistoricalScreen(
+    place : PlaceData
+) {
     AutoFinishBackPressHandler()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        HeaderDetailHistoricalView(urlImage = historicalModel.urlImage, missingMeters = historicalModel.missingMeters)
-        BodyDetailHistoricalView(name = historicalModel.name, description = historicalModel.description)
+        HeaderDetailHistoricalView(urlImage = place.imageUrl, missingMeters = "100" /*TODO add missing meters*/)
+        BodyDetailHistoricalView(name = place.name, description = place.description)
     }
 }
 
@@ -40,10 +42,10 @@ fun DetailHistoricalScreen(historicalModel: HistoricalModel ) {
 private fun HistoricalScreenPreview() {
     TrekScapeTheme {
         DetailHistoricalScreen(
-            HistoricalModel(
+            PlaceData(
                 name     = "beautiful places",
-                urlImage = "https://media.cnn.com/api/v1/images/stellar/prod/190417162012-10-earth-beautiful-places.jpg?q=w_3101,h_1744,x_0,y_0,c_fill",
-                missingMeters = "100 km",
+                imageUrl = "https://media.cnn.com/api/v1/images/stellar/prod/190417162012-10-earth-beautiful-places.jpg?q=w_3101,h_1744,x_0,y_0,c_fill",
+                //missingMeters = "100 km",
                 description = "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona"
             )
         )

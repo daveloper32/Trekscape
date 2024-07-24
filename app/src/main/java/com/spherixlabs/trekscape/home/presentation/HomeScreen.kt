@@ -45,13 +45,13 @@ import com.spherixlabs.trekscape.core.utils.maps.MapsUtils
 import com.spherixlabs.trekscape.historical.presentation.screens.detail_historical.DetailHistoricalScreenRoot
 import com.spherixlabs.trekscape.historical.presentation.screens.list_history.HistoricalScreenRoot
 import com.spherixlabs.trekscape.home.domain.enums.HomeType
-import com.spherixlabs.trekscape.home.domain.utils.toHistoricalModel
 import com.spherixlabs.trekscape.home.presentation.components.AttemptsAvailableView
 import com.spherixlabs.trekscape.home.presentation.components.BottomBarHome
 import com.spherixlabs.trekscape.home.presentation.components.TopBarHome
 import com.spherixlabs.trekscape.home.presentation.components.dialogs.LocationPreferencesDialog
 import com.spherixlabs.trekscape.home.presentation.components.dialogs.RequestLocationPermissionDialog
 import com.spherixlabs.trekscape.profile.presentation.ProfileScreenRoot
+import com.spherixlabs.trekscape.recommendations.domain.utils.toPlaceData
 import com.spherixlabs.trekscape.welcome.presentation.screens.preferences_request.PreferencesRequestScreenRoot
 import kotlinx.coroutines.launch
 
@@ -263,7 +263,7 @@ fun HomeScreen(
                 onDismiss = { onAction(HomeAction.OnDismissPlaceRecommendationDetails)}
             ) {
                 DetailHistoricalScreenRoot(
-                    historicalModel = state.placeRecommendationDetails!!.toHistoricalModel()
+                    place = state.placeRecommendationDetails!!.toPlaceData()
                 )
             }
             TrekScapeMagicLoadingDialog(

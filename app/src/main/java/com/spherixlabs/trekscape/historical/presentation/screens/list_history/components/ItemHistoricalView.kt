@@ -26,25 +26,25 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.spherixlabs.trekscape.historical.domain.model.HistoricalModel
+import com.spherixlabs.trekscape.place.domain.model.PlaceData
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ItemHistoricalView(
-    historicalModel: HistoricalModel,
-    corners        : Dp = 20.dp,
-    onClick        : (HistoricalModel) -> Unit
+    place   : PlaceData,
+    corners : Dp = 20.dp,
+    onClick : (PlaceData) -> Unit
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 20.dp)
             .height(200.dp)
-            .clickable { onClick(historicalModel) }
+            .clickable { onClick(place) }
     ) {
         GlideImage(
-            model              = historicalModel.urlImage,
-            contentDescription = historicalModel.urlImage,
+            model              = place.imageUrl,
+            contentDescription = place.name,
             contentScale       = ContentScale.Crop,
             modifier           = Modifier
                 .fillMaxSize()
@@ -60,14 +60,14 @@ fun ItemHistoricalView(
         ) {
             Icon(Icons.Rounded.LocationOn, contentDescription = "", tint = Color.White)
             Text(
-                text     = historicalModel.name,
+                text     = place.name,
                 style    = MaterialTheme.typography.bodyLarge,
                 color    = Color.White,
                 modifier = Modifier.padding(start = 10.dp)
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text     = historicalModel.missingMeters,
+                text     = "100", //TODO: add missing meters
                 style    = MaterialTheme.typography.bodyLarge,
                 color    = Color.White,
                 modifier = Modifier.padding(start = 10.dp)

@@ -36,6 +36,7 @@ google-accompanist-drawablepainter = "0.35.0-alpha"
 play-services-location = "21.3.0"
 google-client-generativeai = "0.9.0"
 google-places = "3.5.0"
+androidx-paging = "3.3.0"
 
 # Project versions
 projectApplicationId = "com.spherixlabs.trekscape"
@@ -72,6 +73,7 @@ ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging", versio
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger-hilt" }
 dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger-hilt" }
@@ -87,6 +89,8 @@ google-accompanist-drawablepainter = { module = "com.google.accompanist:accompan
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-services-location" }
 google-client-generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "google-client-generativeai" }
 google-places = { module = "com.google.android.libraries.places:places", version.ref = "google-places" }
+androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "androidx-paging" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

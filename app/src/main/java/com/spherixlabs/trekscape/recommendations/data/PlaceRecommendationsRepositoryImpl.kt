@@ -73,8 +73,8 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
             currentLocation    = currentLocation,
         )
         val placesToSkipPhrase: String = if (placesToSkip.isNotEmpty()) {
-            "- Exclude the following places: ${placesToSkip.joinToString(
-                separator = ", ", 
+            "- Exclude the following places (you cannot recommend the next places): ${placesToSkip.joinToString(
+                separator = "), (", 
                 prefix = "(", 
                 postfix = ")",
             )}"

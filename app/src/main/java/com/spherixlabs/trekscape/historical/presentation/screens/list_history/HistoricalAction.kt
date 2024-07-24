@@ -1,6 +1,6 @@
 package com.spherixlabs.trekscape.historical.presentation.screens.list_history
 
-import com.spherixlabs.trekscape.historical.domain.model.HistoricalModel
+import com.spherixlabs.trekscape.place.domain.model.PlaceData
 
 
 /**
@@ -10,8 +10,11 @@ sealed interface HistoricalAction {
     /**
      * [OnHistoricalClicked] should be called when the profile button is clicked.
      *
+     * @param place [PlaceData] The place that was clicked.
      * */
-    data class OnHistoricalClicked(val historicalModel: HistoricalModel) : HistoricalAction
+    data class OnHistoricalClicked(
+        val place : PlaceData,
+    ) : HistoricalAction
 
     /**
      * [OnDismissDetailHistorical] should be called when the profile should be dismissed.
