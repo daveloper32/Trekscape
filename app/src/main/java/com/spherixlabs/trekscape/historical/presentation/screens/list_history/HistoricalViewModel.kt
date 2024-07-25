@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.spherixlabs.trekscape.core.data.provider.ResourceProvider
 import com.spherixlabs.trekscape.core.domain.storage.UserStorage
 import com.spherixlabs.trekscape.historical.domain.model.HistoricalModel
 import com.spherixlabs.trekscape.place.domain.model.PlaceData
@@ -13,6 +14,7 @@ import com.spherixlabs.trekscape.place.domain.use_cases.GetAndSearchPlacesFromLo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -23,6 +25,7 @@ import javax.inject.Inject
 class HistoricalViewModel @Inject constructor(
     private val getAndSearchPlacesFromLocalUseCase : GetAndSearchPlacesFromLocalUseCase,
     private val userStorage                        : UserStorage,
+    private val resourceProvider : ResourceProvider
 ) : ViewModel() {
 
     /**
@@ -31,6 +34,22 @@ class HistoricalViewModel @Inject constructor(
     var state by mutableStateOf(HistoricalState())
         private set
 
+    init { getLocalPlaces() }
+    /**
+     * Retrieves local places to be displayed on the screen.
+     *
+     * This function  fetch local places. The retrieved list of places is then stored in the
+     * state for display.
+     */
+    private fun getLocalPlaces(){
+        viewModelScope.launch {
+            state = state.copy(
+                historicalList = getAndSearchPlacesFromLocalUseCase
+                    .invoke(coordinatesData = resourceProvider.getCurrentCoordinates())
+                    .cachedIn(viewModelScope)
+            )
+        }
+    }
     val historical = getAndSearchPlacesFromLocalUseCase
         .invoke()
         .cachedIn(viewModelScope)

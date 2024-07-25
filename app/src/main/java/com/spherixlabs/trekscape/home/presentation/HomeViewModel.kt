@@ -59,7 +59,7 @@ class HomeViewModel @Inject constructor(
     init {
         state = state.copy(
             userName                  = userStorage.name,
-            attemptsAvailable         = Constants.ATTEMPTS_AVAILABLE - userStorage.attempts,
+            attemptsAvailable         = getCurrentAttempt(),
             currentLocationPreference = userStorage.locationPreference,
         )
         if(userStorage.lastAttempt != Constants.LONG_INVALID) startCountdown()
@@ -76,13 +76,18 @@ class HomeViewModel @Inject constructor(
 
                 if (diff <= 0) {
                     userStorage.lastAttempt = Constants.LONG_INVALID
-                    state =state.copy(timeRemaining = "" )
+                    userStorage.attempts = 0
+                    state =state.copy(timeRemaining = "", attemptsAvailable = getCurrentAttempt())
                     break
                 }
                 delay(1000)
             }
         }
     }
+    /**
+     * returns an int that represents the available attempts
+     * */
+    private fun getCurrentAttempt() : Int = Constants.ATTEMPTS_AVAILABLE - userStorage.attempts
     /**
      * returns a string with the formatted hour or minute
      * */
@@ -405,7 +410,7 @@ class HomeViewModel @Inject constructor(
                             userStorage.attempts += 1
                             state = state.copy(
                                 placeRecommendations = result.data,
-                                attemptsAvailable    =  Constants.ATTEMPTS_AVAILABLE - userStorage.attempts
+                                attemptsAvailable    = getCurrentAttempt()
                             )
                             if(state.attemptsAvailable == 0){
                                 userStorage.lastAttempt = System.currentTimeMillis()

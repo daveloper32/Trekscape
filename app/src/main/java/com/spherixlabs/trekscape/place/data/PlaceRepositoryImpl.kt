@@ -4,8 +4,11 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
 import com.spherixlabs.trekscape.core.domain.utils.results.DataError
 import com.spherixlabs.trekscape.core.domain.utils.results.Result
+import com.spherixlabs.trekscape.core.utils.constants.Constants.EMPTY_STR
+import com.spherixlabs.trekscape.core.utils.coordinates.CoordinatesUtils
 import com.spherixlabs.trekscape.place.data.db.dao.PlaceDao
 import com.spherixlabs.trekscape.place.data.db.model.PlaceEntity
 import com.spherixlabs.trekscape.place.data.db.utils.toPlaceData
@@ -62,9 +65,12 @@ class PlaceRepositoryImpl @Inject constructor(
     }
 
     override fun getAndSearchPaginated(
+        coordinatesData   : CoordinatesData?,
         searchQuery       : String,
         showOnlyFavorites : Boolean,
     ): Flow<PagingData<PlaceData>> {
+        val currentLat  = coordinatesData?.latitude
+        val currentLong = coordinatesData?.longitude
         return try {
             Pager(
                 PagingConfig(
@@ -79,7 +85,15 @@ class PlaceRepositoryImpl @Inject constructor(
             }.flow
                 .map { value: PagingData<PlaceEntity> ->
                     value.map { placeEntity: PlaceEntity ->
-                        placeEntity.toPlaceData()
+                        placeEntity.toPlaceData().apply {
+                            missingMeters = if(coordinatesData == null) EMPTY_STR
+                                            else CoordinatesUtils.formatDistance(CoordinatesUtils.calculateDistance(
+                                                lat1 = currentLat!!,
+                                                lon1 = currentLong!!,
+                                                lat2 = coordinates.latitude,
+                                                lon2 = coordinates.longitude
+                                            ))
+                        }
                     }
                 }
         } catch (e: Exception) {

@@ -1,6 +1,7 @@
 package com.spherixlabs.trekscape.place.domain.use_cases
 
 import androidx.paging.PagingData
+import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
 import com.spherixlabs.trekscape.core.utils.constants.Constants.EMPTY_STR
 import com.spherixlabs.trekscape.place.domain.model.PlaceData
 import com.spherixlabs.trekscape.place.domain.repository.PlaceRepository
@@ -24,8 +25,10 @@ class GetAndSearchPlacesFromLocalUseCase @Inject constructor(
     operator fun invoke(
         query             : String = EMPTY_STR,
         showOnlyFavorites : Boolean = false,
+        coordinatesData   : CoordinatesData? = null
     ): Flow<PagingData<PlaceData>> {
         return repository.getAndSearchPaginated(
+            coordinatesData   = coordinatesData,
             searchQuery       = query,
             showOnlyFavorites = showOnlyFavorites,
         )

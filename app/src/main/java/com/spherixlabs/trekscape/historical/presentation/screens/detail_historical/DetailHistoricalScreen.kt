@@ -32,7 +32,7 @@ fun DetailHistoricalScreen(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        HeaderDetailHistoricalView(urlImage = place.imageUrl, missingMeters = "100" /*TODO add missing meters*/)
+        HeaderDetailHistoricalView(urlImage = place.imageUrl, missingMeters = place.missingMeters.ifEmpty { "-" } /*TODO add missing meters*/)
         BodyDetailHistoricalView(name = place.name, description = place.description)
     }
 }

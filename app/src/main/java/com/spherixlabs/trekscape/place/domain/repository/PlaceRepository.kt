@@ -1,6 +1,7 @@
 package com.spherixlabs.trekscape.place.domain.repository
 
 import androidx.paging.PagingData
+import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
 import com.spherixlabs.trekscape.core.domain.utils.results.DataError
 import com.spherixlabs.trekscape.core.domain.utils.results.Result
 import com.spherixlabs.trekscape.core.utils.constants.Constants.DEFAULT_AMOUNT
@@ -35,6 +36,7 @@ interface PlaceRepository {
      * @return [Flow]<[PagingData]<[PlaceData]>>
      * */
     fun getAndSearchPaginated(
+        coordinatesData   : CoordinatesData?,
         searchQuery       : String = EMPTY_STR,
         showOnlyFavorites : Boolean = false,
     ): Flow<PagingData<PlaceData>>

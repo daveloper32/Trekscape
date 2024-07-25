@@ -2,6 +2,7 @@ package com.spherixlabs.trekscape.core.utils.coordinates
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.location.Location
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
@@ -46,7 +47,48 @@ object CoordinatesUtils {
             null
         }
     }
-
+    /**
+     * Calculates the distance between two geographic coordinates.
+     *
+     * This function takes the latitude and longitude of two points
+     * and returns the distance between them in meters.
+     *
+     * @param lat1 The latitude of the first point in decimal degrees.
+     * @param lon1 The longitude of the first point in decimal degrees.
+     * @param lat2 The latitude of the second point in decimal degrees.
+     * @param lon2 The longitude of the second point in decimal degrees.
+     * @return The distance between the two points in meters.
+     */
+    fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Float {
+        val startLocation = Location("").apply {
+            latitude  = lat1
+            longitude = lon1
+        }
+        val endLocation = Location("").apply {
+            latitude  = lat2
+            longitude = lon2
+        }
+        return startLocation.distanceTo(endLocation)
+    }
+    /**
+     * Formats a given distance in meters
+     *
+     * This function converts the distance from meters to kilometers if the distance is
+     * greater than or equal to 1000 meters. The formatted string will display the distance
+     * with two decimal places in kilometers (e.g., "1.23 km") or as an integer in meters
+     * (e.g., "123 m").
+     *
+     * @param distanceInMeters The distance in meters to be formatted.
+     * @return A string representing the formatted distance in either kilometers or meters.
+     */
+    @SuppressLint("DefaultLocale")
+    fun formatDistance(distanceInMeters: Float): String {
+        return if (distanceInMeters >= 1000) {
+            String.format("%.2f km", distanceInMeters / 1000)
+        } else {
+            String.format("%.0f m", distanceInMeters)
+        }
+    }
     /**
      * Validates the if the latitude value is valid.
      *

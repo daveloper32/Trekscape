@@ -21,4 +21,5 @@ data class PlaceData(
     val imageUrl    : String = EMPTY_STR,
     val coordinates : CoordinatesData = CoordinatesData(0.0, 0.0),
     val isFavorite  : Boolean = false,
+    var missingMeters: String = EMPTY_STR,
 )

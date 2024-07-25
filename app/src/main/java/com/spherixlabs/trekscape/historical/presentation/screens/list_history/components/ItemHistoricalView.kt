@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -63,11 +64,12 @@ fun ItemHistoricalView(
                 text     = place.name,
                 style    = MaterialTheme.typography.bodyLarge,
                 color    = Color.White,
-                modifier = Modifier.padding(start = 10.dp)
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(start = 10.dp).weight(1f)
             )
-            Spacer(modifier = Modifier.weight(1f))
             Text(
-                text     = "100", //TODO: add missing meters
+                text     = place.missingMeters,
                 style    = MaterialTheme.typography.bodyLarge,
                 color    = Color.White,
                 modifier = Modifier.padding(start = 10.dp)

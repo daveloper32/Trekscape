@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.emptyFlow
 fun HistoricalScreenRoot(
     viewModel : HistoricalViewModel = hiltViewModel(),
 ) {
-    val historicalLazyPagingItems = viewModel.historical.collectAsLazyPagingItems()
+    val historicalLazyPagingItems = viewModel.state.historicalList.collectAsLazyPagingItems()
     HistoricalScreen(
         state                     = viewModel.state,
         historicalLazyPagingItems = historicalLazyPagingItems,
