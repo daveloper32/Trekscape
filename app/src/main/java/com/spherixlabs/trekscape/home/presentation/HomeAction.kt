@@ -2,6 +2,7 @@ package com.spherixlabs.trekscape.home.presentation
 
 import com.spherixlabs.trekscape.core.domain.storage.model.permissions.GrantPermissionData
 import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
+import com.spherixlabs.trekscape.place.domain.model.PlaceData
 import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendation
 
 /**
@@ -44,6 +45,11 @@ sealed interface HomeAction {
      *
      * */
     data object OnProfileClicked : HomeAction
+    /**
+     * [OnProfileClicked] should be called when the floating show on map button is clicked.
+     *
+     * */
+    data class OnShowRecommendationClicked(val placeData: PlaceData) : HomeAction
     /**
      * [OnDismissHistory] should be called when the history should be dismissed.
      *

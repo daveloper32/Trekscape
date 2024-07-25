@@ -7,6 +7,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.spherixlabs.trekscape.core.presentation.components.ObserveAsEvents
 import com.spherixlabs.trekscape.core.presentation.components.handlers.AutoFinishBackPressHandler
 import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekScapeTheme
 import com.spherixlabs.trekscape.historical.presentation.screens.detail_historical.components.BodyDetailHistoricalView
@@ -15,16 +17,25 @@ import com.spherixlabs.trekscape.place.domain.model.PlaceData
 
 @Composable
 fun DetailHistoricalScreenRoot(
-    place : PlaceData
+    place : PlaceData,
+    detailViewModel : DetailViewModel = hiltViewModel(),
+    onShowRecommendationOnMap : (PlaceData) -> Unit
 ) {
+    ObserveAsEvents(flow = detailViewModel.events) { event ->
+        when (event) {
+            DetailEvent.OnShowRecommendationOnMap -> onShowRecommendationOnMap(place)
+        }
+    }
     DetailHistoricalScreen(
         place = place,
+        onAction = detailViewModel ::onAction,
     )
 }
 
 @Composable
 fun DetailHistoricalScreen(
-    place : PlaceData
+    place : PlaceData,
+    onAction : (DetailAction) -> Unit
 ) {
     AutoFinishBackPressHandler()
     Column(
@@ -32,7 +43,9 @@ fun DetailHistoricalScreen(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        HeaderDetailHistoricalView(urlImage = place.imageUrl, missingMeters = place.missingMeters.ifEmpty { "-" } /*TODO add missing meters*/)
+        HeaderDetailHistoricalView(urlImage = place.imageUrl, missingMeters = place.missingMeters.ifEmpty { "-" }){
+            onAction(DetailAction.OnShowRecommendationOnMap)
+        }
         BodyDetailHistoricalView(name = place.name, description = place.description)
     }
 }
@@ -48,6 +61,6 @@ private fun HistoricalScreenPreview() {
                 //missingMeters = "100 km",
                 description = "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona"
             )
-        )
+        ){}
     }
 }

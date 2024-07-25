@@ -12,8 +12,11 @@ import com.spherixlabs.trekscape.historical.domain.model.HistoricalModel
 import com.spherixlabs.trekscape.place.domain.model.PlaceData
 import com.spherixlabs.trekscape.place.domain.use_cases.GetAndSearchPlacesFromLocalUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,7 +30,16 @@ class HistoricalViewModel @Inject constructor(
     private val userStorage                        : UserStorage,
     private val resourceProvider : ResourceProvider
 ) : ViewModel() {
-
+    /**
+     * Private mutable [Channel] that exposes the current events [HistoricalEvent] launched by
+     * the view model that should be consumed by the view.
+     * */
+    private val eventChannel = Channel<HistoricalEvent>()
+    /**
+     * Public mutable [Channel] as a [Flow] that exposes the current events [HistoricalEvent]
+     * launched by the view model that should be consumed by the view.
+     * */
+    val events = eventChannel.receiveAsFlow()
     /**
      * Private [MutableStateFlow] and Public [StateFlow] that exposes the current state [HistoricalState] of the view model.
      * */
@@ -66,6 +78,11 @@ class HistoricalViewModel @Inject constructor(
         when (action) {
             HistoricalAction.OnDismissDetailHistorical -> handleHistoricalItemClicked(null)
             is HistoricalAction.OnHistoricalClicked -> handleHistoricalItemClicked(action.place)
+            is HistoricalAction.OnShowRecommendationOnMap -> {
+                viewModelScope.launch {
+                    eventChannel.send(HistoricalEvent.OnShowRecommendationOnMap(action.placeData))
+                }
+            }
         }
     }
     /**

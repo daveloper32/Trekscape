@@ -27,7 +27,7 @@ import com.spherixlabs.trekscape.core.presentation.components.TrekScapeFloatingB
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun HeaderDetailHistoricalView(urlImage : String, missingMeters : String) {
+fun HeaderDetailHistoricalView(urlImage : String, missingMeters : String, onTapButtonFloating : () -> Unit) {
     Box{
         GlideImage(
             model              = urlImage,
@@ -47,7 +47,7 @@ fun HeaderDetailHistoricalView(urlImage : String, missingMeters : String) {
             Spacer(modifier = Modifier.weight(1f))
             JumpingInfiniteAnimation {
                 RotateInfiniteAnimation {
-                    TrekScapeFloatingButton(onClick = { }) {
+                    TrekScapeFloatingButton(onClick = onTapButtonFloating) {
                         Icon(
                             Icons.Rounded.Map,
                             tint = Color.White,

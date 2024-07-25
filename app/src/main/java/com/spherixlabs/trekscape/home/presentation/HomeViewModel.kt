@@ -14,6 +14,7 @@ import com.spherixlabs.trekscape.core.domain.utils.toUiText
 import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
 import com.spherixlabs.trekscape.core.utils.constants.Constants
 import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
+import com.spherixlabs.trekscape.place.domain.model.PlaceData
 import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendation
 import com.spherixlabs.trekscape.recommendations.domain.use_cases.GetSomePlaceRecommendationsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -135,6 +136,26 @@ class HomeViewModel @Inject constructor(
             HomeAction.OnEditGeneralPreferences -> handleEditGeneralPreferences()
             HomeAction.OnEditLocationPreferences -> handleEditLocationPreferences()
             HomeAction.OnDismissGeneralPreferences -> handleDismissGeneralPreferences()
+            is HomeAction.OnShowRecommendationClicked -> handleShowRecommendationClicked(action.placeData)
+        }
+    }
+    /**
+     * Displays a specific place on the map.
+     *
+     * @param placeData The data of the place to be shown on the map.
+     * */
+    private fun handleShowRecommendationClicked(placeData: PlaceData) {
+        viewModelScope.launch {
+            state = state.copy( placeRecommendations = emptyList() )
+            delay(200)
+            state = state.copy( placeRecommendations = listOf(
+                PlaceRecommendation(
+                    name        = placeData.name,
+                    description = placeData.description,
+                    imageUrl    = placeData.imageUrl,
+                    location    = placeData.coordinates,
+            )) )
+            eventChannel.send(HomeEvent.UpdateMapCamera(listOf(placeData.coordinates)))
         }
     }
 

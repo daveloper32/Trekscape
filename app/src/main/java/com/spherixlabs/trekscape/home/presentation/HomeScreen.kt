@@ -208,7 +208,10 @@ fun HomeScreen(
                 isOpen = state.isShowingHistory,
                 onDismiss = { onAction(HomeAction.OnDismissHistory) }
             ) {
-                HistoricalScreenRoot()
+                HistoricalScreenRoot{
+                    onAction(HomeAction.OnDismissHistory)
+                    onAction(HomeAction.OnShowRecommendationClicked(it))
+                }
             }
             TrekScapeSheetDialog(
                 isOpen = state.isShowingProfile,
@@ -264,7 +267,10 @@ fun HomeScreen(
             ) {
                 DetailHistoricalScreenRoot(
                     place = state.placeRecommendationDetails!!.toPlaceData()
-                )
+                ){
+                    onAction(HomeAction.OnDismissPlaceRecommendationDetails)
+                    onAction(HomeAction.OnShowRecommendationClicked(it))
+                }
             }
             TrekScapeMagicLoadingDialog(
                 isOpen = state.isLoadingRecommendations,

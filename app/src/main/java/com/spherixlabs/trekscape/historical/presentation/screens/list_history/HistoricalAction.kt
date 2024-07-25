@@ -15,7 +15,11 @@ sealed interface HistoricalAction {
     data class OnHistoricalClicked(
         val place : PlaceData,
     ) : HistoricalAction
-
+    /**
+     * [OnShowRecommendationOnMap] should be called when the floating show on map button is clicked.
+     *
+     * */
+    data class OnShowRecommendationOnMap(val placeData: PlaceData) : HistoricalAction
     /**
      * [OnDismissDetailHistorical] should be called when the profile should be dismissed.
      *

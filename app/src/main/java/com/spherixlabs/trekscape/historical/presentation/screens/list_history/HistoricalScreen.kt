@@ -13,6 +13,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
+import com.spherixlabs.trekscape.core.presentation.components.ObserveAsEvents
 import com.spherixlabs.trekscape.core.presentation.components.TrekScapeSheetDialog
 import com.spherixlabs.trekscape.core.presentation.components.handlers.AutoFinishBackPressHandler
 import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekScapeTheme
@@ -25,7 +26,13 @@ import kotlinx.coroutines.flow.emptyFlow
 @Composable
 fun HistoricalScreenRoot(
     viewModel : HistoricalViewModel = hiltViewModel(),
+    onShowRecommendationOnMap : (PlaceData) -> Unit
 ) {
+    ObserveAsEvents(flow = viewModel.events) { event ->
+        when (event) {
+            is HistoricalEvent.OnShowRecommendationOnMap -> onShowRecommendationOnMap(event.placeData)
+        }
+    }
     val historicalLazyPagingItems = viewModel.state.historicalList.collectAsLazyPagingItems()
     HistoricalScreen(
         state                     = viewModel.state,
@@ -64,7 +71,11 @@ fun HistoricalScreen(
             expanded  = true,
             onDismiss = { onAction(HistoricalAction.OnDismissDetailHistorical)}) {
             DetailHistoricalScreenRoot(
-                place = state.isShowingDetailHistorical!!
+                place = state.isShowingDetailHistorical!!,
+                onShowRecommendationOnMap = {
+                    onAction(HistoricalAction.OnShowRecommendationOnMap(it))
+                    onAction(HistoricalAction.OnDismissDetailHistorical)
+                }
             )
         }
     }
