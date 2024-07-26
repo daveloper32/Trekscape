@@ -29,6 +29,7 @@ import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerComposable
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
 import com.spherixlabs.trekscape.R
@@ -47,6 +48,7 @@ import com.spherixlabs.trekscape.historical.presentation.screens.list_history.Hi
 import com.spherixlabs.trekscape.home.domain.enums.HomeType
 import com.spherixlabs.trekscape.home.presentation.components.AttemptsAvailableView
 import com.spherixlabs.trekscape.home.presentation.components.BottomBarHome
+import com.spherixlabs.trekscape.home.presentation.components.MarkerWithImage
 import com.spherixlabs.trekscape.home.presentation.components.TopBarHome
 import com.spherixlabs.trekscape.home.presentation.components.dialogs.LocationPreferencesDialog
 import com.spherixlabs.trekscape.home.presentation.components.dialogs.RequestLocationPermissionDialog
@@ -186,15 +188,14 @@ fun HomeScreen(
                 ),
             ) {
                 state.placeRecommendations.forEach { place ->
-                    Marker(
-                        state = rememberMarkerState(
-                            position = MapsUtils.fromCoordinatesDataToLatLng(place.location),
-                        ),
-                        title = place.name,
+                    val markerState = rememberMarkerState( position = MapsUtils.fromCoordinatesDataToLatLng(place.location),)
+                    MarkerComposable(
+                        state   = markerState,
                         onClick = {
                             onAction(HomeAction.OnSomePlaceRecommendationClicked(place))
                             false
-                        }
+                        },
+                        content = {MarkerWithImage()}
                     )
                 }
             }
