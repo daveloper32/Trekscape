@@ -1,5 +1,6 @@
 package com.spherixlabs.trekscape.recommendations.domain.model
 
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
 
 /**
@@ -9,10 +10,12 @@ import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
  * @property description [String] The description of the place.
  * @property imageUrl [String] The URL of the image associated with the place.
  * @property location [CoordinatesData] The location of the place on the map.
+ * @property icon [BitmapDescriptor] The icon associated with the place.
  * */
 data class PlaceRecommendation(
     val name        : String,
     val description : String,
     val imageUrl    : String,
     val location    : CoordinatesData,
+    val icon        : BitmapDescriptor? = null,
 )

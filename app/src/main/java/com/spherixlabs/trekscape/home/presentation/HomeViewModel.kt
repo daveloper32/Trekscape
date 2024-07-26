@@ -6,12 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.spherixlabs.trekscape.core.data.provider.ResourceProvider
+import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
 import com.spherixlabs.trekscape.core.domain.storage.PermissionsStateStorage
 import com.spherixlabs.trekscape.core.domain.storage.UserStorage
 import com.spherixlabs.trekscape.core.domain.storage.model.permissions.GrantPermissionData
 import com.spherixlabs.trekscape.core.domain.utils.results.Result
 import com.spherixlabs.trekscape.core.domain.utils.toUiText
-import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
 import com.spherixlabs.trekscape.core.utils.constants.Constants
 import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
 import com.spherixlabs.trekscape.place.domain.model.PlaceData
@@ -154,6 +154,9 @@ class HomeViewModel @Inject constructor(
                     description = placeData.description,
                     imageUrl    = placeData.imageUrl,
                     location    = placeData.coordinates,
+                    icon        = resourceProvider.fromImageUrlToBitmapDescriptor(
+                        imageUrl = placeData.imageUrl,
+                    ),
             )) )
             eventChannel.send(HomeEvent.UpdateMapCamera(listOf(placeData.coordinates)))
         }
@@ -423,15 +426,19 @@ class HomeViewModel @Inject constructor(
                         placeRecommendations = emptyList()
                     )
                     val result = getSomePlaceRecommendationsUseCase.invoke()
-                    state = state.copy(
-                        isLoadingRecommendations = false,
-                    )
                     when (result) {
                         is Result.Success -> {
                             userStorage.attempts += 1
                             state = state.copy(
-                                placeRecommendations = result.data,
-                                attemptsAvailable    = getCurrentAttempt()
+                                placeRecommendations = result.data.map { place ->
+                                    place.copy(
+                                        icon        = resourceProvider.fromImageUrlToBitmapDescriptor(
+                                            imageUrl = place.imageUrl,
+                                        )
+                                    )
+                                },
+                                attemptsAvailable    = getCurrentAttempt(),
+                                isLoadingRecommendations = false,
                             )
                             if(state.attemptsAvailable == 0){
                                 userStorage.lastAttempt = System.currentTimeMillis()
@@ -440,6 +447,9 @@ class HomeViewModel @Inject constructor(
                             eventChannel.send(HomeEvent.UpdateMapCamera(result.data.map { it.location }))
                         }
                         is Result.Error -> {
+                            state = state.copy(
+                                isLoadingRecommendations = false,
+                            )
                             eventChannel.send(HomeEvent.Error(result.error.toUiText()))
                         }
                     }
