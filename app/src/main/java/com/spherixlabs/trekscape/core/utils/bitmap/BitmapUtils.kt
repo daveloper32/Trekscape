@@ -11,8 +11,6 @@ import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.RectF
 import androidx.compose.ui.graphics.toArgb
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.spherixlabs.trekscape.core.data.network.utils.NetworkProvider
 import com.spherixlabs.trekscape.core.presentation.ui.theme.PrimaryColor
 import com.spherixlabs.trekscape.core.utils.strings.StringUtils
@@ -25,16 +23,16 @@ import java.net.URL
  * */
 object BitmapUtils {
     /**
-     * This function converts an image url to a [BitmapDescriptor] object.
+     * This function converts an image url to a [Bitmap] object.
      *
      * @param imageUrl [String] The url of the image.
      * @param context [Context] The context of the application.
-     * @return [BitmapDescriptor] The converted [BitmapDescriptor] object.
+     * @return [Bitmap] The converted [Bitmap] object.
      * */
-    suspend fun fromImageUrlToBitmapDescriptor(
+    suspend fun fromImageUrlToBitmap(
         imageUrl : String,
         context  : Context,
-    ): BitmapDescriptor? {
+    ): Bitmap? {
         return try {
             if (!StringUtils.isValidUrl(imageUrl)) {
                 return null
@@ -61,7 +59,7 @@ object BitmapUtils {
                 120,
                 true
             )
-            BitmapDescriptorFactory.fromBitmap(bitmapScaled)
+            bitmapScaled
         } catch (e: Exception) {
             e.printStackTrace()
             null

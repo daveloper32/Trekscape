@@ -147,14 +147,13 @@ class HomeViewModel @Inject constructor(
     private fun handleShowRecommendationClicked(placeData: PlaceData) {
         viewModelScope.launch {
             state = state.copy( placeRecommendations = emptyList() )
-            delay(200)
             state = state.copy( placeRecommendations = listOf(
                 PlaceRecommendation(
                     name        = placeData.name,
                     description = placeData.description,
                     imageUrl    = placeData.imageUrl,
                     location    = placeData.coordinates,
-                    icon        = resourceProvider.fromImageUrlToBitmapDescriptor(
+                    icon        = resourceProvider.fromImageUrlToBitmap(
                         imageUrl = placeData.imageUrl,
                     ),
             )) )
@@ -432,7 +431,7 @@ class HomeViewModel @Inject constructor(
                             state = state.copy(
                                 placeRecommendations = result.data.map { place ->
                                     place.copy(
-                                        icon        = resourceProvider.fromImageUrlToBitmapDescriptor(
+                                        icon        = resourceProvider.fromImageUrlToBitmap(
                                             imageUrl = place.imageUrl,
                                         )
                                     )

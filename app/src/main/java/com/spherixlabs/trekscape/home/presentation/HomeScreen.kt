@@ -190,30 +190,16 @@ fun HomeScreen(
                 ),
             ) {
                 state.placeRecommendations.forEach { place ->
-                    if (place.icon == null) {
-                        Marker(
-                            state = rememberMarkerState(
-                                position = MapsUtils.fromCoordinatesDataToLatLng(place.location),
-                            ),
-                            title = place.name,
-                            onClick = {
-                                onAction(HomeAction.OnSomePlaceRecommendationClicked(place))
-                                false
-                            }
-                        )
-                    } else {
-                        Marker(
-                            state = rememberMarkerState(
-                                position = MapsUtils.fromCoordinatesDataToLatLng(place.location),
-                            ),
-                            title = place.name,
-                            icon  = place.icon,
-                            onClick = {
-                                onAction(HomeAction.OnSomePlaceRecommendationClicked(place))
-                                false
-                            }
-                        )
-                    }
+                    val markerState = rememberMarkerState( position = MapsUtils.fromCoordinatesDataToLatLng(place.location),)
+                    MarkerComposable(
+                        state   = markerState,
+                        title   = place.name,
+                        onClick = {
+                            onAction(HomeAction.OnSomePlaceRecommendationClicked(place))
+                            false
+                        },
+                        content = {MarkerWithImage(place.icon)}
+                    )
                 }
             }
             RequestLocationPermissionDialog(
