@@ -2,8 +2,10 @@ package com.spherixlabs.trekscape.core.data.provider
 
 import android.Manifest
 import android.content.Context
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.spherixlabs.trekscape.core.utils.coordinates.CoordinatesUtils
 import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
+import com.spherixlabs.trekscape.core.utils.bitmap.BitmapUtils
 import com.spherixlabs.trekscape.core.utils.os.OsUtils
 import com.spherixlabs.trekscape.core.utils.permissions.PermissionUtils
 import javax.inject.Inject
@@ -54,4 +56,18 @@ class ResourceProvider @Inject constructor(
      * @return [Boolean] true if the GPS is enabled, false otherwise.
      * */
     fun isGPSEnabled(): Boolean = OsUtils.isGPSEnabled(context)
+
+    /**
+     * This function converts an image url to a [BitmapDescriptor] object.
+     *
+     * @param imageUrl [String] The url of the image.
+     * @return [BitmapDescriptor] The converted [BitmapDescriptor] object.
+     * */
+    suspend fun fromImageUrlToBitmapDescriptor(
+        imageUrl : String,
+    ): BitmapDescriptor? = BitmapUtils
+        .fromImageUrlToBitmapDescriptor(
+            imageUrl = imageUrl,
+            context  = context,
+        )
 }

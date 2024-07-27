@@ -2,7 +2,6 @@ package com.spherixlabs.trekscape.core.data.network.utils
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -15,7 +14,7 @@ import javax.inject.Inject
 import javax.net.SocketFactory
 
 class NetworkProvider @Inject constructor(
-    private val context : Application
+    private val context : Context
 ) {
 
     /**

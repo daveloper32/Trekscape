@@ -135,6 +135,8 @@ fun HomeScreen(
     onAction            : (HomeAction) -> Unit,
     cameraPositionState : CameraPositionState = rememberCameraPositionState(),
 ) {
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
     AutoFinishBackPressHandler()
     Scaffold(
         modifier  = Modifier.fillMaxSize(),
@@ -188,15 +190,30 @@ fun HomeScreen(
                 ),
             ) {
                 state.placeRecommendations.forEach { place ->
-                    val markerState = rememberMarkerState( position = MapsUtils.fromCoordinatesDataToLatLng(place.location),)
-                    MarkerComposable(
-                        state   = markerState,
-                        onClick = {
-                            onAction(HomeAction.OnSomePlaceRecommendationClicked(place))
-                            false
-                        },
-                        content = {MarkerWithImage()}
-                    )
+                    if (place.icon == null) {
+                        Marker(
+                            state = rememberMarkerState(
+                                position = MapsUtils.fromCoordinatesDataToLatLng(place.location),
+                            ),
+                            title = place.name,
+                            onClick = {
+                                onAction(HomeAction.OnSomePlaceRecommendationClicked(place))
+                                false
+                            }
+                        )
+                    } else {
+                        Marker(
+                            state = rememberMarkerState(
+                                position = MapsUtils.fromCoordinatesDataToLatLng(place.location),
+                            ),
+                            title = place.name,
+                            icon  = place.icon,
+                            onClick = {
+                                onAction(HomeAction.OnSomePlaceRecommendationClicked(place))
+                                false
+                            }
+                        )
+                    }
                 }
             }
             RequestLocationPermissionDialog(
