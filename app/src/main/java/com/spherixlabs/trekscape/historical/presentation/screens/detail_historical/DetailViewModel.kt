@@ -1,10 +1,15 @@
 package com.spherixlabs.trekscape.historical.presentation.screens.detail_historical
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,6 +31,11 @@ class DetailViewModel @Inject constructor() : ViewModel() {
      * */
     val events = eventChannel.receiveAsFlow()
     /**
+     * Private [MutableStateFlow] and Public [StateFlow] that exposes the current state [DetailState] of the view model.
+     * */
+    var state by mutableStateOf(DetailState())
+        private set
+    /**
      * This function receives all the possible actions [DetailAction] from the view and
      * updates the state to reflect the new action.
      *
@@ -35,9 +45,14 @@ class DetailViewModel @Inject constructor() : ViewModel() {
         action : DetailAction
     ) {
         when (action) {
-            DetailAction.OnShowRecommendationOnMap -> {
+            is DetailAction.OnDataReceived -> {
+                state = state.copy(
+                    place = action.place
+                )
+            }
+            DetailAction.OnShowPlaceOnMapClicked -> {
                 viewModelScope.launch {
-                    eventChannel.send(DetailEvent.OnShowRecommendationOnMap)
+                    eventChannel.send(DetailEvent.OnShowSomePlaceOnMap(state.place))
                 }
             }
         }

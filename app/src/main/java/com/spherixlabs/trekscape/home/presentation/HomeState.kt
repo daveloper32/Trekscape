@@ -1,10 +1,10 @@
 package com.spherixlabs.trekscape.home.presentation
 
-import com.spherixlabs.trekscape.core.utils.constants.Constants.EMPTY_STR
 import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
+import com.spherixlabs.trekscape.core.utils.constants.Constants.EMPTY_STR
 import com.spherixlabs.trekscape.core.utils.maps.MapsUtils
 import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
-import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendation
+import com.spherixlabs.trekscape.place.domain.model.PlaceData
 
 /**
  * Describe the state [HomeState] of the home screen.
@@ -21,12 +21,12 @@ import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendatio
  * @param isShowingProfile [Boolean] True if the profile is being shown, false otherwise.
  * @param currentMapCameraLocation [CoordinatesData] The current map camera location.
  * @param isLoadingRecommendations [Boolean] True if the recommendations are being loaded, false otherwise.
- * @param placeRecommendations [List]<[PlaceRecommendation]> The list of place recommendations.
+ * @param placeRecommendations [List]<[PlaceData]> The list of place recommendations.
  * @param userName [String] this is the username.
  * @param attemptsAvailable [Int] the missing attempts.
  * @param timeRemaining [String] the remaining time to be able to have 5 attempts again.
  * @param isShowingPlaceRecommendationDetails [Boolean] True if the place recommendation details are being shown, false otherwise.
- * @param placeRecommendationDetails [PlaceRecommendation] The place recommendation details.
+ * @param placeDetails [PlaceData] The place recommendation details.
  * */
 data class HomeState(
     val isLocationPermissionBeingRequested        : Boolean = false,
@@ -41,10 +41,10 @@ data class HomeState(
     val isShowingProfile                          : Boolean = false,
     val currentMapCameraLocation                  : CoordinatesData = MapsUtils.DEFAULT_COORDINATES,
     val isLoadingRecommendations                  : Boolean = false,
-    val placeRecommendations                      : List<PlaceRecommendation> = emptyList(),
+    val placeRecommendations                      : List<PlaceData> = emptyList(),
     val userName                                  : String  = EMPTY_STR,
     val attemptsAvailable                         : Int  = 0,
     val timeRemaining                             : String  = "",
     val isShowingPlaceRecommendationDetails       : Boolean = false,
-    val placeRecommendationDetails                : PlaceRecommendation? = null,
+    val placeDetails                              : PlaceData? = null,
 )

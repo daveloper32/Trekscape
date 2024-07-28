@@ -25,12 +25,12 @@ import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun HistoricalScreenRoot(
-    viewModel : HistoricalViewModel = hiltViewModel(),
-    onShowRecommendationOnMap : (PlaceData) -> Unit
+    onShowPlaceOnMap : (PlaceData) -> Unit,
+    viewModel        : HistoricalViewModel = hiltViewModel(),
 ) {
     ObserveAsEvents(flow = viewModel.events) { event ->
         when (event) {
-            is HistoricalEvent.OnShowRecommendationOnMap -> onShowRecommendationOnMap(event.placeData)
+            is HistoricalEvent.OnShowSomePlaceOnMap -> onShowPlaceOnMap(event.place)
         }
     }
     val historicalLazyPagingItems = viewModel.state.historicalList.collectAsLazyPagingItems()
@@ -72,9 +72,8 @@ fun HistoricalScreen(
             onDismiss = { onAction(HistoricalAction.OnDismissDetailHistorical)}) {
             DetailHistoricalScreenRoot(
                 place = state.isShowingDetailHistorical!!,
-                onShowRecommendationOnMap = {
-                    onAction(HistoricalAction.OnShowRecommendationOnMap(it))
-                    onAction(HistoricalAction.OnDismissDetailHistorical)
+                onShowPlaceOnMap = { place ->
+                    onAction(HistoricalAction.OnShowSomePlaceOnMapClicked(place))
                 }
             )
         }

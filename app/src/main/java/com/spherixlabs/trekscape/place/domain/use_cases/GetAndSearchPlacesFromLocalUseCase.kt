@@ -28,7 +28,7 @@ class GetAndSearchPlacesFromLocalUseCase @Inject constructor(
         coordinatesData   : CoordinatesData? = null
     ): Flow<PagingData<PlaceData>> {
         return repository.getAndSearchPaginated(
-            coordinatesData   = coordinatesData,
+            currentLocation   = coordinatesData,
             searchQuery       = query,
             showOnlyFavorites = showOnlyFavorites,
         )

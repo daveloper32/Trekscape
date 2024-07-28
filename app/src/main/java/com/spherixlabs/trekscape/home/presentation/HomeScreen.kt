@@ -28,7 +28,6 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.MapUiSettings
-import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerComposable
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
@@ -53,7 +52,6 @@ import com.spherixlabs.trekscape.home.presentation.components.TopBarHome
 import com.spherixlabs.trekscape.home.presentation.components.dialogs.LocationPreferencesDialog
 import com.spherixlabs.trekscape.home.presentation.components.dialogs.RequestLocationPermissionDialog
 import com.spherixlabs.trekscape.profile.presentation.ProfileScreenRoot
-import com.spherixlabs.trekscape.recommendations.domain.utils.toPlaceData
 import com.spherixlabs.trekscape.welcome.presentation.screens.preferences_request.PreferencesRequestScreenRoot
 import kotlinx.coroutines.launch
 
@@ -190,7 +188,9 @@ fun HomeScreen(
                 ),
             ) {
                 state.placeRecommendations.forEach { place ->
-                    val markerState = rememberMarkerState( position = MapsUtils.fromCoordinatesDataToLatLng(place.location),)
+                    val markerState = rememberMarkerState(
+                            position = MapsUtils.fromCoordinatesDataToLatLng(place.coordinates),
+                        )
                     MarkerComposable(
                         state   = markerState,
                         title   = place.name,
@@ -198,7 +198,7 @@ fun HomeScreen(
                             onAction(HomeAction.OnSomePlaceRecommendationClicked(place))
                             false
                         },
-                        content = {MarkerWithImage(place.icon)}
+                        content = { MarkerWithImage(place.icon) }
                     )
                 }
             }
@@ -212,10 +212,11 @@ fun HomeScreen(
                 isOpen = state.isShowingHistory,
                 onDismiss = { onAction(HomeAction.OnDismissHistory) }
             ) {
-                HistoricalScreenRoot{
-                    onAction(HomeAction.OnDismissHistory)
-                    onAction(HomeAction.OnShowRecommendationClicked(it))
-                }
+                HistoricalScreenRoot (
+                    onShowPlaceOnMap = { place ->
+                        onAction(HomeAction.OnShowSomePlaceOnMapClicked(place))
+                    }
+                )
             }
             TrekScapeSheetDialog(
                 isOpen = state.isShowingProfile,
@@ -264,17 +265,17 @@ fun HomeScreen(
             )
             TrekScapeSheetDialog(
                 isOpen    = state.isShowingPlaceRecommendationDetails &&
-                        state.placeRecommendationDetails != null,
+                        state.placeDetails != null,
                 showLabel = false,
                 expanded  = true,
                 onDismiss = { onAction(HomeAction.OnDismissPlaceRecommendationDetails)}
             ) {
                 DetailHistoricalScreenRoot(
-                    place = state.placeRecommendationDetails!!.toPlaceData()
-                ){
-                    onAction(HomeAction.OnDismissPlaceRecommendationDetails)
-                    onAction(HomeAction.OnShowRecommendationClicked(it))
-                }
+                    place = state.placeDetails!!,
+                    onShowPlaceOnMap = { place ->
+                        onAction(HomeAction.OnShowSomePlaceOnMapClicked(place))
+                    }
+                )
             }
             TrekScapeMagicLoadingDialog(
                 isOpen = state.isLoadingRecommendations,

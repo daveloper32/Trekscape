@@ -15,8 +15,8 @@ import com.spherixlabs.trekscape.core.domain.utils.toUiText
 import com.spherixlabs.trekscape.core.utils.constants.Constants
 import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
 import com.spherixlabs.trekscape.place.domain.model.PlaceData
-import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendation
 import com.spherixlabs.trekscape.recommendations.domain.use_cases.GetSomePlaceRecommendationsUseCase
+import com.spherixlabs.trekscape.recommendations.domain.utils.toPlaceData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -65,6 +65,41 @@ class HomeViewModel @Inject constructor(
         )
         if(userStorage.lastAttempt != Constants.LONG_INVALID) startCountdown()
     }
+
+
+    /**
+     * This function receives all the possible actions [HomeAction] from the view and
+     * updates the state to reflect the new action.
+     *
+     * @param action [HomeAction].
+     * */
+    fun onAction(
+        action : HomeAction
+    ) {
+        when (action) {
+            HomeAction.OnScreenStarted -> checkPermissionsGrantedState()
+            HomeAction.OnGrantLocationPermissions -> handleGrantLocationPermissions()
+            HomeAction.OnNotGrantLocationPermissions -> handleNotGrantLocationPermissions()
+            is HomeAction.OnLocationPermissionsResult -> handleLocationPermissionsResult(action.permissionsState)
+            HomeAction.OnHistoryClicked -> handleHistoryClicked()
+            HomeAction.OnProfileClicked -> handleProfileClicked()
+            HomeAction.OnRecommendationsClicked -> handleOnRecommendationsClicked()
+            HomeAction.OnDismissHistory -> handleHistoryDismiss()
+            HomeAction.OnDismissProfile -> handleProfileDismiss()
+            HomeAction.OnDismissLocationPreferences -> handleDismissLocationPreferences()
+            HomeAction.OnDonTAskAgainLocationPreferencesClicked -> handleDonTAskAgainLocationPreferencesClicked()
+            is HomeAction.OnLocationPreferencesSetupFilled -> handleLocationPreferencesSetupFilled(action.locationPreference)
+            is HomeAction.OnSomePlaceRecommendationClicked -> handleSomePlaceRecommendationClicked(action.place)
+            is HomeAction.OnShowSomePlaceOnMapClicked -> handleShowPlaceOnMapClicked(action.place)
+            HomeAction.OnEnableGPSClicked -> handleEnableGPSClicked()
+            HomeAction.OnRecommendInAllWorldClicked -> handleRecommendInAllWorldClicked()
+            HomeAction.OnDismissPlaceRecommendationDetails -> handleDismissPlaceRecommendationDetails()
+            HomeAction.OnEditGeneralPreferences -> handleEditGeneralPreferences()
+            HomeAction.OnEditLocationPreferences -> handleEditLocationPreferences()
+            HomeAction.OnDismissGeneralPreferences -> handleDismissGeneralPreferences()
+        }
+    }
+
     /**
      * starts the counter to know when the user has 5 attempts again
      * */
@@ -106,59 +141,6 @@ class HomeViewModel @Inject constructor(
         }
 
         return Pair(timeRemaining, diff)
-    }
-    /**
-     * This function receives all the possible actions [HomeAction] from the view and
-     * updates the state to reflect the new action.
-     *
-     * @param action [HomeAction].
-     * */
-    fun onAction(
-        action : HomeAction
-    ) {
-        when (action) {
-            HomeAction.OnScreenStarted -> checkPermissionsGrantedState()
-            HomeAction.OnGrantLocationPermissions -> handleGrantLocationPermissions()
-            HomeAction.OnNotGrantLocationPermissions -> handleNotGrantLocationPermissions()
-            is HomeAction.OnLocationPermissionsResult -> handleLocationPermissionsResult(action.permissionsState)
-            HomeAction.OnHistoryClicked -> handleHistoryClicked()
-            HomeAction.OnProfileClicked -> handleProfileClicked()
-            HomeAction.OnRecommendationsClicked -> handleOnRecommendationsClicked()
-            HomeAction.OnDismissHistory -> handleHistoryDismiss()
-            HomeAction.OnDismissProfile -> handleProfileDismiss()
-            HomeAction.OnDismissLocationPreferences -> handleDismissLocationPreferences()
-            HomeAction.OnDonTAskAgainLocationPreferencesClicked -> handleDonTAskAgainLocationPreferencesClicked()
-            is HomeAction.OnLocationPreferencesSetupFilled -> handleLocationPreferencesSetupFilled(action.locationPreference)
-            is HomeAction.OnSomePlaceRecommendationClicked -> handleSomePlaceRecommendationClicked(action.placeRecommendation)
-            HomeAction.OnEnableGPSClicked -> handleEnableGPSClicked()
-            HomeAction.OnRecommendInAllWorldClicked -> handleRecommendInAllWorldClicked()
-            HomeAction.OnDismissPlaceRecommendationDetails -> handleDismissPlaceRecommendationDetails()
-            HomeAction.OnEditGeneralPreferences -> handleEditGeneralPreferences()
-            HomeAction.OnEditLocationPreferences -> handleEditLocationPreferences()
-            HomeAction.OnDismissGeneralPreferences -> handleDismissGeneralPreferences()
-            is HomeAction.OnShowRecommendationClicked -> handleShowRecommendationClicked(action.placeData)
-        }
-    }
-    /**
-     * Displays a specific place on the map.
-     *
-     * @param placeData The data of the place to be shown on the map.
-     * */
-    private fun handleShowRecommendationClicked(placeData: PlaceData) {
-        viewModelScope.launch {
-            state = state.copy( placeRecommendations = emptyList() )
-            state = state.copy( placeRecommendations = listOf(
-                PlaceRecommendation(
-                    name        = placeData.name,
-                    description = placeData.description,
-                    imageUrl    = placeData.imageUrl,
-                    location    = placeData.coordinates,
-                    icon        = resourceProvider.fromImageUrlToBitmap(
-                        imageUrl = placeData.imageUrl,
-                    ),
-            )) )
-            eventChannel.send(HomeEvent.UpdateMapCamera(listOf(placeData.coordinates)))
-        }
     }
 
     /**
@@ -392,16 +374,52 @@ class HomeViewModel @Inject constructor(
     /**
      * This function handles the some place recommendation click action.
      *
-     * @param placeRecommendation [PlaceRecommendation] that is clicked.
+     * @param place [PlaceData] that is clicked.
      * */
     private fun handleSomePlaceRecommendationClicked(
-        placeRecommendation : PlaceRecommendation
+        place : PlaceData,
     ) {
         try {
             state = state.copy(
                 isShowingPlaceRecommendationDetails = true,
-                placeRecommendationDetails = placeRecommendation,
+                placeDetails = place,
             )
+        } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * Displays a specific place on the map.
+     *
+     * @param place [PlaceData] The data of the place to be shown on the map.
+     * */
+    private fun handleShowPlaceOnMapClicked(
+        place : PlaceData
+    ) {
+        try {
+            handleHistoryDismiss()
+            handleDismissPlaceRecommendationDetails()
+            viewModelScope.launch {
+                state = state.copy( placeRecommendations = emptyList() )
+                state = state.copy(
+                    placeRecommendations = listOf(
+                        place.copy(
+                            icon = if (place.icon != null) {
+                                delay(100)
+                                place.icon
+                            } else {
+                                resourceProvider.fromImageUrlToBitmap(
+                                    imageUrl = place.imageUrl,
+                                )
+                            }
+                        )
+                    )
+                )
+                eventChannel.send(
+                    HomeEvent.UpdateMapCamera(
+                        listOf(place.coordinates)
+                    )
+                )
+            }
         } catch (e: Exception) { Unit }
     }
 
@@ -430,7 +448,7 @@ class HomeViewModel @Inject constructor(
                             userStorage.attempts += 1
                             state = state.copy(
                                 placeRecommendations = result.data.map { place ->
-                                    place.copy(
+                                    place.toPlaceData().copy(
                                         icon        = resourceProvider.fromImageUrlToBitmap(
                                             imageUrl = place.imageUrl,
                                         )
@@ -500,7 +518,7 @@ class HomeViewModel @Inject constructor(
         try {
             state = state.copy(
                 isShowingPlaceRecommendationDetails = true,
-                placeRecommendationDetails = null,
+                placeDetails = null,
             )
         } catch (e: Exception) { Unit }
     }

@@ -4,12 +4,13 @@ import android.net.Uri
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.GenerateContentResponse
 import com.spherixlabs.trekscape.BuildConfig
+import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
 import com.spherixlabs.trekscape.core.domain.utils.results.DataError
 import com.spherixlabs.trekscape.core.domain.utils.results.Result
 import com.spherixlabs.trekscape.core.utils.constants.Constants
 import com.spherixlabs.trekscape.core.utils.constants.Constants.EMPTY_STR
 import com.spherixlabs.trekscape.core.utils.constants.Constants.GEMINI_MODEL_NAME
-import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
+import com.spherixlabs.trekscape.core.utils.coordinates.CoordinatesUtils
 import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
 import com.spherixlabs.trekscape.recommendations.data.utils.PlacesUtils
 import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendation
@@ -45,8 +46,21 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
             placesToSkip       = placesToSkip,
         )
         Timber.d("Prompt: $prompt")
-        val response = generativeModel.generateContent(prompt)
-        return Result.Success(cleanAndMapResponse(response))
+        val response: GenerateContentResponse = generativeModel.generateContent(prompt)
+        val mappedResponse: List<PlaceRecommendation> = cleanAndMapResponse(response).map { place ->
+            place.copy(
+                missingMeters = if (currentLocation == null) EMPTY_STR
+                else CoordinatesUtils.formatDistance(
+                    CoordinatesUtils.calculateDistance(
+                        lat1 = currentLocation.latitude,
+                        lon1 = currentLocation.longitude,
+                        lat2 = place.location.latitude,
+                        lon2 = place.location.longitude,
+                    )
+                )
+            )
+        }
+        return Result.Success(mappedResponse)
     }
 
     /**

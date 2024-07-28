@@ -2,7 +2,6 @@ package com.spherixlabs.trekscape.historical.presentation.screens.list_history
 
 import com.spherixlabs.trekscape.place.domain.model.PlaceData
 
-
 /**
  * [HistoricalAction] Describe all the actions that can happen in the view.
  * */
@@ -16,10 +15,13 @@ sealed interface HistoricalAction {
         val place : PlaceData,
     ) : HistoricalAction
     /**
-     * [OnShowRecommendationOnMap] should be called when the floating show on map button is clicked.
+     * [OnShowSomePlaceOnMapClicked] should be called when a place should be shown on map.
      *
+     * @param place [PlaceData] the place to show.
      * */
-    data class OnShowRecommendationOnMap(val placeData: PlaceData) : HistoricalAction
+    data class OnShowSomePlaceOnMapClicked(
+        val place : PlaceData
+    ): HistoricalAction
     /**
      * [OnDismissDetailHistorical] should be called when the profile should be dismissed.
      *

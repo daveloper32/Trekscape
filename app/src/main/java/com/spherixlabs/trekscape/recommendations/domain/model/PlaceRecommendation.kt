@@ -1,7 +1,7 @@
 package com.spherixlabs.trekscape.recommendations.domain.model
 
-import android.graphics.Bitmap
 import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
+import com.spherixlabs.trekscape.core.utils.constants.Constants.EMPTY_STR
 
 /**
  * [PlaceRecommendation] is a data class that represents a place recommendation.
@@ -10,12 +10,12 @@ import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
  * @property description [String] The description of the place.
  * @property imageUrl [String] The URL of the image associated with the place.
  * @property location [CoordinatesData] The location of the place on the map.
- * @property icon [Bitmap] The icon associated with the place.
+ * @property missingMeters [String] The missing meters from the user to the place.
  * */
 data class PlaceRecommendation(
-    val name        : String,
-    val description : String,
-    val imageUrl    : String,
-    val location    : CoordinatesData,
-    val icon        : Bitmap? = null,
+    val name          : String,
+    val description   : String,
+    val imageUrl      : String,
+    val location      : CoordinatesData,
+    var missingMeters : String = EMPTY_STR,
 )

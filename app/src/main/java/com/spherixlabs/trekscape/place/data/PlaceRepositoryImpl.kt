@@ -65,12 +65,10 @@ class PlaceRepositoryImpl @Inject constructor(
     }
 
     override fun getAndSearchPaginated(
-        coordinatesData   : CoordinatesData?,
         searchQuery       : String,
         showOnlyFavorites : Boolean,
+        currentLocation   : CoordinatesData?,
     ): Flow<PagingData<PlaceData>> {
-        val currentLat  = coordinatesData?.latitude
-        val currentLong = coordinatesData?.longitude
         return try {
             Pager(
                 PagingConfig(
@@ -86,13 +84,15 @@ class PlaceRepositoryImpl @Inject constructor(
                 .map { value: PagingData<PlaceEntity> ->
                     value.map { placeEntity: PlaceEntity ->
                         placeEntity.toPlaceData().apply {
-                            missingMeters = if(coordinatesData == null) EMPTY_STR
-                                            else CoordinatesUtils.formatDistance(CoordinatesUtils.calculateDistance(
-                                                lat1 = currentLat!!,
-                                                lon1 = currentLong!!,
-                                                lat2 = coordinates.latitude,
-                                                lon2 = coordinates.longitude
-                                            ))
+                            missingMeters = if (currentLocation == null) EMPTY_STR
+                                            else CoordinatesUtils.formatDistance(
+                                                CoordinatesUtils.calculateDistance(
+                                                        lat1 = currentLocation.latitude,
+                                                        lon1 = currentLocation.longitude,
+                                                        lat2 = coordinates.latitude,
+                                                        lon2 = coordinates.longitude,
+                                                    )
+                                                )
                         }
                     }
                 }

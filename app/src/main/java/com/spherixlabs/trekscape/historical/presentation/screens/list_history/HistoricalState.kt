@@ -5,7 +5,6 @@ import com.spherixlabs.trekscape.place.domain.model.PlaceData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
-
 /**
  * Describe the state [HistoricalState] of the historical screen.
  *

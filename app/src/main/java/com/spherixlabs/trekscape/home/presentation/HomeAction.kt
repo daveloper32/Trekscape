@@ -3,7 +3,6 @@ package com.spherixlabs.trekscape.home.presentation
 import com.spherixlabs.trekscape.core.domain.storage.model.permissions.GrantPermissionData
 import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
 import com.spherixlabs.trekscape.place.domain.model.PlaceData
-import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendation
 
 /**
  * [HomeAction] Describe all the actions that can happen in the view.
@@ -46,11 +45,6 @@ sealed interface HomeAction {
      * */
     data object OnProfileClicked : HomeAction
     /**
-     * [OnProfileClicked] should be called when the floating show on map button is clicked.
-     *
-     * */
-    data class OnShowRecommendationClicked(val placeData: PlaceData) : HomeAction
-    /**
      * [OnDismissHistory] should be called when the history should be dismissed.
      *
      * */
@@ -92,12 +86,19 @@ sealed interface HomeAction {
      * [OnSomePlaceRecommendationClicked] should be called when a place recommendation is clicked on
      * the map.
      *
-     * @param placeRecommendation [PlaceRecommendation] the place clicked.
+     * @param place [PlaceData] the place clicked.
      * */
     data class OnSomePlaceRecommendationClicked(
-        val placeRecommendation : PlaceRecommendation
+        val place : PlaceData
     ): HomeAction
-
+    /**
+     * [OnShowSomePlaceOnMapClicked] should be called when a place should be shown on map.
+     *
+     * @param place [PlaceData] the place to show.
+     * */
+    data class OnShowSomePlaceOnMapClicked(
+        val place : PlaceData
+    ): HomeAction
     /**
      * [OnDismissPlaceRecommendationDetails] should be called when the place recommendation should
      * be dismissed.

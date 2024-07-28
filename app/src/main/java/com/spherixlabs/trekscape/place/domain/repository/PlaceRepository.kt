@@ -33,11 +33,12 @@ interface PlaceRepository {
      *
      * @param searchQuery [String] some query to filter and search results
      * @param showOnlyFavorites [Boolean] a flag to show only favorites results or all results
+     * @param currentLocation [CoordinatesData] the current location of the user
      * @return [Flow]<[PagingData]<[PlaceData]>>
      * */
     fun getAndSearchPaginated(
-        coordinatesData   : CoordinatesData?,
         searchQuery       : String = EMPTY_STR,
         showOnlyFavorites : Boolean = false,
+        currentLocation   : CoordinatesData? = null,
     ): Flow<PagingData<PlaceData>>
 }

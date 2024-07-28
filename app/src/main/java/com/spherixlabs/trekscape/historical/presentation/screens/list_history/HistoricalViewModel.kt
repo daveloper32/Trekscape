@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.spherixlabs.trekscape.core.data.provider.ResourceProvider
 import com.spherixlabs.trekscape.core.domain.storage.UserStorage
-import com.spherixlabs.trekscape.historical.domain.model.HistoricalModel
 import com.spherixlabs.trekscape.place.domain.model.PlaceData
 import com.spherixlabs.trekscape.place.domain.use_cases.GetAndSearchPlacesFromLocalUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -78,13 +77,24 @@ class HistoricalViewModel @Inject constructor(
         when (action) {
             HistoricalAction.OnDismissDetailHistorical -> handleHistoricalItemClicked(null)
             is HistoricalAction.OnHistoricalClicked -> handleHistoricalItemClicked(action.place)
-            is HistoricalAction.OnShowRecommendationOnMap -> {
-                viewModelScope.launch {
-                    eventChannel.send(HistoricalEvent.OnShowRecommendationOnMap(action.placeData))
-                }
-            }
+            is HistoricalAction.OnShowSomePlaceOnMapClicked -> handleShowSomePlaceOnMap(action.place)
         }
     }
+
+    /**
+     * This function handles the show some place on map action.
+     * */
+    private fun handleShowSomePlaceOnMap(
+        place : PlaceData
+    ) {
+        try {
+            handleHistoricalItemClicked(null)
+            viewModelScope.launch {
+                eventChannel.send(HistoricalEvent.OnShowSomePlaceOnMap(place))
+            }
+        } catch (e: Exception) { Unit }
+    }
+
     /**
      * This function handles the history click action.
      * */
@@ -97,31 +107,4 @@ class HistoricalViewModel @Inject constructor(
             )
         } catch (e: Exception) { Unit }
     }
-    /**
-     * Returns a list of historical that the user searched.
-     *
-     * @return List of [HistoricalModel] representing user historical.
-     */
-    private fun getHistorical() : List<HistoricalModel> = listOf(
-        HistoricalModel(
-            name          = "beautiful places",
-            urlImage      = "https://media.cnn.com/api/v1/images/stellar/prod/190417162012-10-earth-beautiful-places.jpg?q=w_3101,h_1744,x_0,y_0,c_fill",
-            missingMeters = "100 km",
-            description   = "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona"),
-        HistoricalModel(
-            name          = "Eiffel Tower",
-            urlImage      = "https://www.travelandleisure.com/thmb/9xr8CFGR14sLvR4IhLwKV64fEV0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/TAL-Eiffel-Tower-BESTFRANCE0323-dada0673f8764c099b68d01695ef8057.jpg",
-            missingMeters = "100 km",
-            description   = "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona"),
-        HistoricalModel(
-            name          = "Taj Mahal",
-            urlImage      = "https://worldwildschooling.com/wp-content/uploads/2023/11/Taj-Mahal-India_130860698.jpeg",
-            missingMeters = "100 km",
-            description   = "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona"),
-        HistoricalModel(
-            name          = "Jumm",
-            urlImage      = "https://media.cnn.com/api/v1/images/stellar/prod/190417163847-26-earth-beautiful-places.jpg?q=w_4000,h_2250,x_0,y_0,c_fill",
-            missingMeters = "100 km",
-            description   = "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona"),
-    )
 }

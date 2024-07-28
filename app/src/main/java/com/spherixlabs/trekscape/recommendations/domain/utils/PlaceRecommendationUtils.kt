@@ -7,8 +7,9 @@ import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendatio
  * Convert [PlaceRecommendation] to [PlaceData]
  * */
 fun PlaceRecommendation.toPlaceData(): PlaceData = PlaceData(
-    name        = this.name,
-    description = this.description,
-    imageUrl    = this.imageUrl,
-    coordinates = this.location,
+    name          = this.name,
+    description   = this.description,
+    imageUrl      = this.imageUrl,
+    coordinates   = this.location,
+    missingMeters = this.missingMeters,
 )
