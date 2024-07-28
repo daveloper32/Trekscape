@@ -4,12 +4,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.spherixlabs.trekscape.core.data.db.model.CoordinatesDataEntity
 import com.spherixlabs.trekscape.core.utils.constants.Constants.EMPTY_STR
-import com.spherixlabs.trekscape.core.utils.constants.Constants.INT_ZERO
+import com.spherixlabs.trekscape.core.utils.uuid.UUIDGeneratorUtils
 
 /**
  * [PlaceEntity] is the data class that represents a place entity in the database.
  *
- * @property id [Int] The unique identifier of the place.
+ * @property id [String] The unique identifier of the place.
  * @property name [String] The name of the place.
  * @property description [String] The description of the place.
  * @property imageUrl [String] The URL of the image associated with the place.
@@ -18,8 +18,8 @@ import com.spherixlabs.trekscape.core.utils.constants.Constants.INT_ZERO
  * */
 @Entity
 data class PlaceEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id          : Int    = INT_ZERO,
+    @PrimaryKey()
+    val id          : String = UUIDGeneratorUtils.generateUUIDWithUTCTimestampAndRandomString(),
     val name        : String = EMPTY_STR,
     val description : String = EMPTY_STR,
     val imageUrl    : String = EMPTY_STR,

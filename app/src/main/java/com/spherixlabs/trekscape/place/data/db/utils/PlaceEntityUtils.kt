@@ -13,7 +13,7 @@ fun PlaceEntity.toPlaceData() = PlaceData(
     name        = this.name,
     description = this.description,
     imageUrl    = this.imageUrl,
-    coordinates = this.coordinates.toCoordinatesData(),
+    location = this.coordinates.toCoordinatesData(),
     isFavorite  = this.isFavorite,
 )
 
@@ -25,6 +25,6 @@ fun PlaceData.toPlaceEntity() = PlaceEntity(
     name        = this.name,
     description = this.description,
     imageUrl    = this.imageUrl,
-    coordinates = this.coordinates.toCoordinatesDataEntity(),
+    coordinates = this.location.toCoordinatesDataEntity(),
     isFavorite  = this.isFavorite,
 )

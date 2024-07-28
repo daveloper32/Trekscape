@@ -5,11 +5,12 @@ import com.spherixlabs.trekscape.core.data.provider.ResourceProvider
 import com.spherixlabs.trekscape.core.domain.storage.UserStorage
 import com.spherixlabs.trekscape.core.domain.utils.results.DataError
 import com.spherixlabs.trekscape.core.domain.utils.results.Result
+import com.spherixlabs.trekscape.core.domain.utils.results.map
 import com.spherixlabs.trekscape.core.utils.os.OsUtils
 import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
+import com.spherixlabs.trekscape.place.domain.model.PlaceData
 import com.spherixlabs.trekscape.place.domain.use_cases.GetPlacesFromLocalUseCase
 import com.spherixlabs.trekscape.place.domain.use_cases.SavePlacesInLocalUseCase
-import com.spherixlabs.trekscape.recommendations.domain.model.PlaceRecommendation
 import com.spherixlabs.trekscape.recommendations.domain.repository.PlaceRecommendationsRepository
 import com.spherixlabs.trekscape.recommendations.domain.utils.toPlaceData
 import javax.inject.Inject
@@ -30,11 +31,11 @@ class GetSomePlaceRecommendationsUseCase @Inject constructor(
      * This function gets some number of place recommendations based on previous preferences setup.
      *
      * @param quantity [Int] The number of recommendations to retrieve.
-     * @return [Result]<[List]<[PlaceRecommendation]>, [DataError.Network]>
+     * @return [Result]<[List]<[PlaceData]>, [DataError.Network]>
      * */
     suspend operator fun invoke(
         quantity : Int = DEFAULT_QUANTITY,
-    ): Result<List<PlaceRecommendation>, DataError.Network> {
+    ): Result<List<PlaceData>, DataError.Network> {
         if (!networkProvider.isConnected()) {
             return Result.Error(DataError.Network.NOT_INTERNET)
         }
@@ -50,25 +51,25 @@ class GetSomePlaceRecommendationsUseCase @Inject constructor(
             languageCode = OsUtils.getDeviceLanguage(),
             placesToSkip = getOldPlaceRecommendations(),
         )
+        var placeRecommendations: List<PlaceData> = listOf()
         if (result is Result.Success) {
-            saveRecommendations(result.data)
+            placeRecommendations = result.data.map { it.toPlaceData() }
+            saveRecommendations(placeRecommendations)
         }
-        return result
+        return result.map { placeRecommendations }
     }
 
     /**
      * This function saves the recommendations to the local storage.
      *
-     * @param data [List]<[PlaceRecommendation]> The list of recommendations to save.
+     * @param data [List]<[PlaceData]> The list of recommendations to save.
      * */
     private suspend fun saveRecommendations(
-        data: List<PlaceRecommendation>
+        data: List<PlaceData>
     ) {
         try {
             savePlacesInLocalUseCase.invoke(
-                data.map {
-                    it.toPlaceData()
-                }
+                data
             )
         } catch (e: Exception) { Unit }
     }

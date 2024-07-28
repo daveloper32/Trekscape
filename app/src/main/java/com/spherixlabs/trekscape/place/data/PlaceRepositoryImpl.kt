@@ -89,8 +89,8 @@ class PlaceRepositoryImpl @Inject constructor(
                                                 CoordinatesUtils.calculateDistance(
                                                         lat1 = currentLocation.latitude,
                                                         lon1 = currentLocation.longitude,
-                                                        lat2 = coordinates.latitude,
-                                                        lon2 = coordinates.longitude,
+                                                        lat2 = location.latitude,
+                                                        lon2 = location.longitude,
                                                     )
                                                 )
                         }

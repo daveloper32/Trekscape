@@ -189,7 +189,7 @@ fun HomeScreen(
             ) {
                 state.placeRecommendations.forEach { place ->
                     val markerState = rememberMarkerState(
-                            position = MapsUtils.fromCoordinatesDataToLatLng(place.coordinates),
+                            position = MapsUtils.fromCoordinatesDataToLatLng(place.location),
                         )
                     MarkerComposable(
                         state   = markerState,

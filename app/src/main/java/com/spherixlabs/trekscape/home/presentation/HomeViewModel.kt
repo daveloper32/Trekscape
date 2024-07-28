@@ -16,7 +16,6 @@ import com.spherixlabs.trekscape.core.utils.constants.Constants
 import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
 import com.spherixlabs.trekscape.place.domain.model.PlaceData
 import com.spherixlabs.trekscape.recommendations.domain.use_cases.GetSomePlaceRecommendationsUseCase
-import com.spherixlabs.trekscape.recommendations.domain.utils.toPlaceData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -416,7 +415,7 @@ class HomeViewModel @Inject constructor(
                 )
                 eventChannel.send(
                     HomeEvent.UpdateMapCamera(
-                        listOf(place.coordinates)
+                        listOf(place.location)
                     )
                 )
             }
@@ -448,7 +447,7 @@ class HomeViewModel @Inject constructor(
                             userStorage.attempts += 1
                             state = state.copy(
                                 placeRecommendations = result.data.map { place ->
-                                    place.toPlaceData().copy(
+                                    place.copy(
                                         icon        = resourceProvider.fromImageUrlToBitmap(
                                             imageUrl = place.imageUrl,
                                         )
