@@ -24,13 +24,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekScapeTheme
+import com.spherixlabs.trekscape.core.utils.constants.Constants.EMPTY_STR
 import com.spherixlabs.trekscape.home.domain.enums.HomeType
 
 @Composable
 fun BottomBarHome(
     enable         : Boolean = true,
-    timeRemaining  : String = "",
-    onItemClicked  : ( HomeType) -> Unit, ){
+    timeRemaining  : String = EMPTY_STR,
+    onItemClicked  : ( HomeType) -> Unit,
+) {
     Row(
         modifier = Modifier
             .padding(20.dp)
@@ -40,30 +42,42 @@ fun BottomBarHome(
             .fillMaxWidth()
 
     ) {
-        Icon(
-            Icons.Rounded.Home,
-            contentDescription = "",
+        Box(
             modifier = Modifier
+                .padding(
+                    end = 12.dp,
+                )
+                .clickable(enabled = enable) { onItemClicked(HomeType.HISTORY) }
+                .padding(
+                    start = 12.dp,
+                )
                 .align(Alignment.CenterVertically)
-                .size(35.dp)
-                .weight(1f)
-                .clickable { onItemClicked(HomeType.HISTORY) }
-        )
+                .padding(20.dp)
+                .weight(1f),
+        ) {
+            Icon(
+                Icons.Rounded.Home,
+                contentDescription = "",
+                modifier = Modifier
+                    .size(35.dp)
+                    .align(Alignment.Center),
+            )
+        }
         Box(
             modifier = Modifier
                 .clip(CircleShape)
-                .background(if (enable) MaterialTheme.colorScheme.secondary else Color.LightGray)
-                .padding(20.dp)
                 .clickable(enabled = enable) { onItemClicked(HomeType.RECOMMENDATIONS) }
+                .background(if (enable) MaterialTheme.colorScheme.secondary else Color.LightGray)
+                .padding(20.dp),
         ) {
-            if(enable){
+            if (enable) {
                 Icon(
                     Icons.AutoMirrored.Rounded.NotListedLocation,
                     contentDescription = "",
                     tint     = Color.White,
-                    modifier = Modifier.size(35.dp)
+                    modifier = Modifier.size(35.dp),
                 )
-            }else{
+            } else {
                 Text(
                     text  = timeRemaining,
                     style = MaterialTheme.typography.titleSmall,
@@ -72,15 +86,27 @@ fun BottomBarHome(
                 )
             }
         }
-        Icon(
-            Icons.Rounded.Person,
-            contentDescription = "",
+        Box(
             modifier = Modifier
+                .padding(
+                    start = 12.dp,
+                )
+                .clickable(enabled = enable) { onItemClicked(HomeType.PROFILE) }
+                .padding(
+                    end = 12.dp,
+                )
                 .align(Alignment.CenterVertically)
-                .size(35.dp)
-                .weight(1f)
-                .clickable { onItemClicked(HomeType.PROFILE) }
-        )
+                .padding(20.dp)
+                .weight(1f),
+        ) {
+            Icon(
+                Icons.Rounded.Person,
+                contentDescription = "",
+                modifier = Modifier
+                    .size(35.dp)
+                    .align(Alignment.Center),
+            )
+        }
     }
 }
 @Preview
