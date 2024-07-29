@@ -15,6 +15,10 @@ sealed interface DetailAction {
         val place        : PlaceData,
     ) : DetailAction
     /**
+     * [OnSetOrUnsetPlaceAsFavorite] should be called when the place should be set or unset as favorite.
+     * */
+    data object OnSetOrUnsetPlaceAsFavorite: DetailAction
+    /**
      * [OnShowPlaceOnMapClicked] should be called when the place should be shown on map.
      * */
     data object OnShowPlaceOnMapClicked: DetailAction

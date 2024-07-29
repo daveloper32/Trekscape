@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.spherixlabs.trekscape.place.domain.use_cases.SetPlaceAsFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +20,9 @@ import javax.inject.Inject
  * control of the historical of the application.
  * */
 @HiltViewModel
-class DetailViewModel @Inject constructor() : ViewModel() {
+class DetailViewModel @Inject constructor(
+    private val setPlaceAsFavoriteUseCase : SetPlaceAsFavoriteUseCase,
+) : ViewModel() {
     /**
      * Private mutable [Channel] that exposes the current events [DetailEvent] launched by
      * the view model that should be consumed by the view.
@@ -50,11 +53,31 @@ class DetailViewModel @Inject constructor() : ViewModel() {
                     place = action.place
                 )
             }
+            DetailAction.OnSetOrUnsetPlaceAsFavorite -> handleSetOrUnsetPlaceAsFavorite()
             DetailAction.OnShowPlaceOnMapClicked -> {
                 viewModelScope.launch {
                     eventChannel.send(DetailEvent.OnShowSomePlaceOnMap(state.place))
                 }
             }
         }
+    }
+
+    /**
+     * This function handles the set or unset place as favorite action.
+     * */
+    private fun handleSetOrUnsetPlaceAsFavorite() {
+        try {
+            viewModelScope.launch {
+                setPlaceAsFavoriteUseCase.invoke(
+                    id         = state.place.id,
+                    isFavorite = !state.place.isFavorite,
+                )
+                state = state.copy(
+                    place = state.place.copy(
+                        isFavorite = !state.place.isFavorite,
+                    ),
+                )
+            }
+        } catch (e: Exception) { Unit }
     }
 }

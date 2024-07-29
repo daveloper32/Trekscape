@@ -41,4 +41,15 @@ interface PlaceRepository {
         showOnlyFavorites : Boolean = false,
         currentLocation   : CoordinatesData? = null,
     ): Flow<PagingData<PlaceData>>
+    /**
+     * This function updates the [PlaceData.isFavorite] value of a [PlaceData] based on its [PlaceData.id].
+     *
+     * @param id [String] the [PlaceData.id].
+     * @param isFavorite [Boolean] the new value of [PlaceData.isFavorite].
+     * @return [Result]<[Boolean], [DataError.DB]>
+     * */
+    suspend fun updateIsFavoriteById(
+        id         : String,
+        isFavorite : Boolean,
+    ): Result<Boolean, DataError.DB>
 }

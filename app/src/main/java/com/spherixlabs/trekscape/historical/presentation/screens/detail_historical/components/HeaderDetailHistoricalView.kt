@@ -27,7 +27,13 @@ import com.spherixlabs.trekscape.core.presentation.components.TrekScapeFloatingB
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun HeaderDetailHistoricalView(urlImage : String, missingMeters : String, onTapButtonFloating : () -> Unit) {
+fun HeaderDetailHistoricalView(
+    urlImage           : String,
+    missingMeters      : String,
+    isFavorite         : Boolean,
+    onShowInMapClicked : () -> Unit,
+    onFavoriteClicked  : () -> Unit,
+) {
     Box{
         GlideImage(
             model              = urlImage,
@@ -42,17 +48,19 @@ fun HeaderDetailHistoricalView(urlImage : String, missingMeters : String, onTapB
             modifier          = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(horizontal = 20.dp),
-            verticalAlignment = Alignment.CenterVertically) {
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             MissingMetersView(missingMeters = missingMeters)
             Spacer(modifier = Modifier.weight(1f))
             JumpingInfiniteAnimation {
                 RotateInfiniteAnimation {
-                    TrekScapeFloatingButton(onClick = onTapButtonFloating) {
+                    TrekScapeFloatingButton(onClick = onShowInMapClicked) {
                         Icon(
                             Icons.Rounded.Map,
                             tint = Color.White,
                             contentDescription = "Icons.Rounded.Route",
-                            modifier = Modifier.size(26.dp))
+                            modifier = Modifier.size(26.dp)
+                        )
                     }
                 }
             }
@@ -67,5 +75,17 @@ fun HeaderDetailHistoricalView(urlImage : String, missingMeters : String, onTapB
                 )
             )
         )
+        Row(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(horizontal = 20.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Spacer(modifier = Modifier.weight(1f))
+            FavoriteButtonView(
+                isFavorite = isFavorite,
+                onClick = onFavoriteClicked,
+            )
+        }
     }
 }

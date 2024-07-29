@@ -58,7 +58,10 @@ fun HistoricalScreen(
             ) { index: Int ->
                 historicalLazyPagingItems[index]?.let { place: PlaceData ->
                     ItemHistoricalView(
-                        place = place
+                        place = place,
+                        onFavoriteClicked = {
+                            onAction(HistoricalAction.OnSetOrUnsetPlaceAsFavorite(place))
+                        }
                     ) {
                         onAction(HistoricalAction.OnHistoricalClicked(place))
                     }

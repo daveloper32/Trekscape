@@ -27,14 +27,16 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.spherixlabs.trekscape.historical.presentation.screens.detail_historical.components.FavoriteButtonView
 import com.spherixlabs.trekscape.place.domain.model.PlaceData
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ItemHistoricalView(
-    place   : PlaceData,
-    corners : Dp = 20.dp,
-    onClick : (PlaceData) -> Unit
+    place              : PlaceData,
+    corners            : Dp = 20.dp,
+    onFavoriteClicked  : () -> Unit,
+    onClick            : (PlaceData) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -52,6 +54,18 @@ fun ItemHistoricalView(
                 .clip(RoundedCornerShape(corners))
 
         )
+        Row(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(15.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Spacer(modifier = Modifier.weight(1f))
+            FavoriteButtonView(
+                isFavorite = place.isFavorite,
+                onClick = onFavoriteClicked,
+            )
+        }
         Row(modifier = Modifier
             .align(alignment = Alignment.BottomCenter)
             .clip(RoundedCornerShape(corners))

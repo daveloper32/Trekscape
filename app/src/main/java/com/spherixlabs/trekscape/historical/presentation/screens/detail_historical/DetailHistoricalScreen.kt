@@ -49,10 +49,15 @@ fun DetailHistoricalScreen(
     ) {
         HeaderDetailHistoricalView(
             urlImage = state.place.imageUrl,
-            missingMeters = state.place.missingMeters.ifEmpty { "-" }
-        ) {
-            onAction(DetailAction.OnShowPlaceOnMapClicked)
-        }
+            missingMeters = state.place.missingMeters.ifEmpty { "-" },
+            isFavorite = state.place.isFavorite,
+            onShowInMapClicked = {
+                onAction(DetailAction.OnShowPlaceOnMapClicked)
+            },
+            onFavoriteClicked = {
+                onAction(DetailAction.OnSetOrUnsetPlaceAsFavorite)
+            }
+        )
         BodyDetailHistoricalView(
             name = state.place.name,
             description = state.place.description

@@ -7,6 +7,14 @@ import com.spherixlabs.trekscape.place.domain.model.PlaceData
  * */
 sealed interface HistoricalAction {
     /**
+     * [OnSetOrUnsetPlaceAsFavorite] should be called when the place should be set or unset as favorite.
+     *
+     * @param place [PlaceData] The place to set or unset as favorite.
+     * */
+    data class OnSetOrUnsetPlaceAsFavorite(
+        val place : PlaceData,
+    ): HistoricalAction
+    /**
      * [OnHistoricalClicked] should be called when the profile button is clicked.
      *
      * @param place [PlaceData] The place that was clicked.

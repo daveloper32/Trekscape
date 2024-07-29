@@ -10,6 +10,7 @@ import com.spherixlabs.trekscape.core.data.provider.ResourceProvider
 import com.spherixlabs.trekscape.core.domain.storage.UserStorage
 import com.spherixlabs.trekscape.place.domain.model.PlaceData
 import com.spherixlabs.trekscape.place.domain.use_cases.GetAndSearchPlacesFromLocalUseCase
+import com.spherixlabs.trekscape.place.domain.use_cases.SetPlaceAsFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +28,8 @@ import javax.inject.Inject
 class HistoricalViewModel @Inject constructor(
     private val getAndSearchPlacesFromLocalUseCase : GetAndSearchPlacesFromLocalUseCase,
     private val userStorage                        : UserStorage,
-    private val resourceProvider : ResourceProvider
+    private val setPlaceAsFavoriteUseCase          : SetPlaceAsFavoriteUseCase,
+    private val resourceProvider                   : ResourceProvider,
 ) : ViewModel() {
     /**
      * Private mutable [Channel] that exposes the current events [HistoricalEvent] launched by
@@ -75,10 +77,29 @@ class HistoricalViewModel @Inject constructor(
         action : HistoricalAction
     ) {
         when (action) {
-            HistoricalAction.OnDismissDetailHistorical -> handleHistoricalItemClicked(null)
+            is HistoricalAction.OnSetOrUnsetPlaceAsFavorite -> handleSetOrUnsetPlaceAsFavorite(action.place)
             is HistoricalAction.OnHistoricalClicked -> handleHistoricalItemClicked(action.place)
             is HistoricalAction.OnShowSomePlaceOnMapClicked -> handleShowSomePlaceOnMap(action.place)
+            HistoricalAction.OnDismissDetailHistorical -> handleHistoricalItemClicked(null)
         }
+    }
+
+    /**
+     * This function handles the set or unset place as favorite action.
+     *
+     * @param place [PlaceData] the place to set or unset as favorite.
+     * */
+    private fun handleSetOrUnsetPlaceAsFavorite(
+        place : PlaceData,
+    ) {
+        try {
+            viewModelScope.launch {
+                setPlaceAsFavoriteUseCase.invoke(
+                    id         = place.id,
+                    isFavorite = !place.isFavorite,
+                )
+            }
+        } catch (e: Exception) { Unit }
     }
 
     /**

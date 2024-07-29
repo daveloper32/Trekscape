@@ -471,7 +471,7 @@ class HomeViewModel @Inject constructor(
                     }
                 } else {
                     if (resourceProvider.isAllLocationPermissionsGranted()) {
-                        if (resourceProvider.isGPSEnabled()) {
+                        if (!resourceProvider.isGPSEnabled()) {
                             state = state.copy(
                                 isEnableGPSBeingRequested = true,
                             )

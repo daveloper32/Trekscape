@@ -73,4 +73,5 @@
     <string name="lab_selected_preferences">Selected preferences</string>
     <string name="lab_edit">Edit</string>
     <string name="lab_attempts">Attempts</string>
+    <string name="lab_is_favorite">Is favorite</string>
 </resources>

@@ -100,4 +100,23 @@ class PlaceRepositoryImpl @Inject constructor(
             emptyFlow<PagingData<PlaceData>>()
         }
     }
+
+    override suspend fun updateIsFavoriteById(
+        id: String,
+        isFavorite: Boolean
+    ): Result<Boolean, DataError.DB> {
+        return try {
+            withContext(Dispatchers.IO) {
+                dao.updateIsFavorite(
+                    id         = id,
+                    isFavorite = isFavorite,
+                )
+                Result.Success(
+                    true
+                )
+            }
+        } catch (e: Exception) {
+            Result.Error(DataError.DB.UNKNOWN)
+        }
+    }
 }
