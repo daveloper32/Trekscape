@@ -43,7 +43,7 @@ class GetSomePlaceRecommendationsUseCase @Inject constructor(
             quantity           = quantity,
             ownPreferences     = userStorage.preferences.toList(),
             locationPreference = userStorage.locationPreference,
-            currentLocation    = if (userStorage.locationPreference != LocationPreference.ALL_WORLD) {
+            currentLocation    = if (resourceProvider.isGPSEnabled()) {
                 resourceProvider.getCurrentCoordinates()
             } else {
                 null
