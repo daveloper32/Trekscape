@@ -268,13 +268,16 @@ fun HomeScreen(
                         state.placeDetails != null,
                 showLabel = false,
                 expanded  = true,
-                onDismiss = { onAction(HomeAction.OnDismissPlaceRecommendationDetails)}
+                onDismiss = { onAction(HomeAction.OnDismissPlaceRecommendationDetails) },
             ) {
                 DetailHistoricalScreenRoot(
                     place = state.placeDetails!!,
                     onShowPlaceOnMap = { place ->
                         onAction(HomeAction.OnShowSomePlaceOnMapClicked(place))
-                    }
+                    },
+                    onDismiss = {
+                        onAction(HomeAction.OnDismissPlaceRecommendationDetails)
+                    },
                 )
             }
             TrekScapeMagicLoadingDialog(

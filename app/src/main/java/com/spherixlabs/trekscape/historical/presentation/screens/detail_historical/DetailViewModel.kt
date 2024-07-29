@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.spherixlabs.trekscape.place.domain.use_cases.DeletePlaceUseCase
 import com.spherixlabs.trekscape.place.domain.use_cases.SetPlaceAsFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -22,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val setPlaceAsFavoriteUseCase : SetPlaceAsFavoriteUseCase,
+    private val deletePlaceUseCase        : DeletePlaceUseCase,
 ) : ViewModel() {
     /**
      * Private mutable [Channel] that exposes the current events [DetailEvent] launched by
@@ -59,6 +61,7 @@ class DetailViewModel @Inject constructor(
                     eventChannel.send(DetailEvent.OnShowSomePlaceOnMap(state.place))
                 }
             }
+            DetailAction.OnDeletePlaceClicked -> handleDeletePlace()
         }
     }
 
@@ -77,6 +80,20 @@ class DetailViewModel @Inject constructor(
                         isFavorite = !state.place.isFavorite,
                     ),
                 )
+            }
+        } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * This function handles the delete place action.
+     * */
+    private fun handleDeletePlace() {
+        try {
+            viewModelScope.launch {
+                deletePlaceUseCase.invoke(
+                    id = state.place.id,
+                )
+                eventChannel.send(DetailEvent.OnDismiss)
             }
         } catch (e: Exception) { Unit }
     }

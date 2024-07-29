@@ -67,10 +67,22 @@ interface PlaceDao {
     /**
      * This function updates the [PlaceEntity.isFavorite] value of a [PlaceEntity] based on its
      * [PlaceEntity.id].
+     *
+     * @param id [String] The [PlaceEntity.id] of the [PlaceEntity] to update.
+     * @param isFavorite [Boolean] The new value of the [PlaceEntity.isFavorite] field.
      * */
     @Query("UPDATE PlaceEntity SET isFavorite = :isFavorite WHERE id = :id")
     fun updateIsFavorite(
         id         : String,
         isFavorite : Boolean,
+    )
+    /**
+     * This function deletes the  a [PlaceEntity] based on its [PlaceEntity.id].
+     *
+     * @param id [String] The [PlaceEntity.id] of the [PlaceEntity] to delete.
+     * */
+    @Query("DELETE FROM PlaceEntity WHERE id = :id")
+    fun delete(
+        id : String,
     )
 }

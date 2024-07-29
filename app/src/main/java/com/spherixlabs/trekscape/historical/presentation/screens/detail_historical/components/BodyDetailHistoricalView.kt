@@ -14,25 +14,30 @@ import com.spherixlabs.trekscape.core.presentation.components.TrekScapeActionBut
 import com.spherixlabs.trekscape.core.presentation.components.TrekScapeWritingTextAnimation
 
 @Composable
-fun BodyDetailHistoricalView(name : String, description : String){
+fun BodyDetailHistoricalView(
+    name            : String,
+    description     : String,
+    onDeleteClicked : () -> Unit,
+) {
     Column(modifier = Modifier.padding(20.dp)) {
         TrekScapeWritingTextAnimation(
             text       = name,
             textStyle  = MaterialTheme.typography.displayMedium.copy(fontWeight = FontWeight.Bold),
             textColor  = MaterialTheme.colorScheme.onSurface,
             animationDuration = 500,
-            delayBeforeStart  = 200
+            delayBeforeStart  = 200,
         )
         Text(
             text  = description,
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSurface,
         )
         TrekScapeActionButton(
             text      = stringResource(id = R.string.lab_delete),
             isLoading = false,
             enabled   = true,
             modifier  = Modifier.padding(vertical = 40.dp) ,
-            onClick   = { })
+            onClick   = onDeleteClicked,
+        )
     }
 }

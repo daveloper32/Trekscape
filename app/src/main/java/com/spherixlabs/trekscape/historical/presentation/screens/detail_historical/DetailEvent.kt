@@ -14,4 +14,8 @@ sealed interface DetailEvent {
     data class OnShowSomePlaceOnMap(
         val place : PlaceData
     ) : DetailEvent
+    /**
+     * [OnDismiss] should be triggered when the dialog is dismissed.
+     * */
+    data object OnDismiss : DetailEvent
 }

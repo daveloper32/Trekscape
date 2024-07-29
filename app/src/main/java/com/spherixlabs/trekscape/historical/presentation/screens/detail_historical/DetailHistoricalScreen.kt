@@ -20,6 +20,7 @@ import com.spherixlabs.trekscape.place.domain.model.PlaceData
 fun DetailHistoricalScreenRoot(
     place            : PlaceData,
     onShowPlaceOnMap : (PlaceData) -> Unit,
+    onDismiss        : () -> Unit,
     viewModel        : DetailViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(key1 = place) {
@@ -28,6 +29,7 @@ fun DetailHistoricalScreenRoot(
     ObserveAsEvents(flow = viewModel.events) { event ->
         when (event) {
             is DetailEvent.OnShowSomePlaceOnMap -> onShowPlaceOnMap(event.place)
+            DetailEvent.OnDismiss -> onDismiss()
         }
     }
     DetailHistoricalScreen(
@@ -60,7 +62,10 @@ fun DetailHistoricalScreen(
         )
         BodyDetailHistoricalView(
             name = state.place.name,
-            description = state.place.description
+            description = state.place.description,
+            onDeleteClicked = {
+                onAction(DetailAction.OnDeletePlaceClicked)
+            }
         )
     }
 }

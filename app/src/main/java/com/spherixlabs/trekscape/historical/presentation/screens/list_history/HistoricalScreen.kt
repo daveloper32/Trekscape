@@ -72,12 +72,16 @@ fun HistoricalScreen(
             isOpen    = state.isShowingDetailHistorical != null,
             showLabel = false,
             expanded  = true,
-            onDismiss = { onAction(HistoricalAction.OnDismissDetailHistorical)}) {
+            onDismiss = { onAction(HistoricalAction.OnDismissDetailHistorical) },
+        ) {
             DetailHistoricalScreenRoot(
                 place = state.isShowingDetailHistorical!!,
                 onShowPlaceOnMap = { place ->
                     onAction(HistoricalAction.OnShowSomePlaceOnMapClicked(place))
-                }
+                },
+                onDismiss = {
+                    onAction(HistoricalAction.OnDismissDetailHistorical)
+                },
             )
         }
     }

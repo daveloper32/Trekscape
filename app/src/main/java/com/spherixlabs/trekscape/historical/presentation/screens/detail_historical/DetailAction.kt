@@ -22,4 +22,8 @@ sealed interface DetailAction {
      * [OnShowPlaceOnMapClicked] should be called when the place should be shown on map.
      * */
     data object OnShowPlaceOnMapClicked: DetailAction
+    /**
+     * [OnDeletePlaceClicked] should be called when the place should be deleted.
+     * */
+    data object OnDeletePlaceClicked: DetailAction
 }

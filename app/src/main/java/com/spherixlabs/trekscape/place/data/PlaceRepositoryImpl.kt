@@ -47,7 +47,7 @@ class PlaceRepositoryImpl @Inject constructor(
     }
 
     override suspend fun get(
-        amount: Int
+        amount : Int
     ): Result<List<PlaceData>, DataError.DB> {
         return try {
             withContext(Dispatchers.IO) {
@@ -102,14 +102,31 @@ class PlaceRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateIsFavoriteById(
-        id: String,
-        isFavorite: Boolean
+        id         : String,
+        isFavorite : Boolean
     ): Result<Boolean, DataError.DB> {
         return try {
             withContext(Dispatchers.IO) {
                 dao.updateIsFavorite(
                     id         = id,
                     isFavorite = isFavorite,
+                )
+                Result.Success(
+                    true
+                )
+            }
+        } catch (e: Exception) {
+            Result.Error(DataError.DB.UNKNOWN)
+        }
+    }
+
+    override suspend fun deleteById(
+        id : String
+    ): Result<Boolean, DataError.DB> {
+        return try {
+            withContext(Dispatchers.IO) {
+                dao.delete(
+                    id = id,
                 )
                 Result.Success(
                     true

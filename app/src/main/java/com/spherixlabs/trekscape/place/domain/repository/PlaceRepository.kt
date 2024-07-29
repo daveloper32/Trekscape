@@ -52,4 +52,13 @@ interface PlaceRepository {
         id         : String,
         isFavorite : Boolean,
     ): Result<Boolean, DataError.DB>
+    /**
+     * This function deletes a [PlaceData] based on its [PlaceData.id].
+     *
+     * @param id [String] the [PlaceData.id].
+     * @return [Result]<[Boolean], [DataError.DB]>
+     * */
+    suspend fun deleteById(
+        id : String,
+    ): Result<Boolean, DataError.DB>
 }
