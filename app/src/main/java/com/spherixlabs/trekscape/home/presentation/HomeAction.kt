@@ -45,6 +45,16 @@ sealed interface HomeAction {
      * */
     data object OnProfileClicked : HomeAction
     /**
+     * [OnAboutClicked] should be called when the about button is clicked.
+     *
+     * */
+    data object OnAboutClicked : HomeAction
+    /**
+     * [OnDismissAbout] should be called when the about info should be dismissed.
+     *
+     * */
+    data object OnDismissAbout : HomeAction
+    /**
      * [OnDismissHistory] should be called when the history should be dismissed.
      *
      * */

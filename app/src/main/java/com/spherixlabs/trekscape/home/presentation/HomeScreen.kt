@@ -7,7 +7,10 @@ import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -32,6 +35,7 @@ import com.google.maps.android.compose.MarkerComposable
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
 import com.spherixlabs.trekscape.R
+import com.spherixlabs.trekscape.about.presentation.AboutScreenRoot
 import com.spherixlabs.trekscape.core.domain.storage.model.permissions.GrantPermissionData
 import com.spherixlabs.trekscape.core.presentation.components.ObserveAsEvents
 import com.spherixlabs.trekscape.core.presentation.components.TrekScapeConfirmDialog
@@ -45,6 +49,7 @@ import com.spherixlabs.trekscape.core.utils.maps.MapsUtils
 import com.spherixlabs.trekscape.historical.presentation.screens.detail_historical.DetailHistoricalScreenRoot
 import com.spherixlabs.trekscape.historical.presentation.screens.list_history.HistoricalScreenRoot
 import com.spherixlabs.trekscape.home.domain.enums.HomeType
+import com.spherixlabs.trekscape.home.presentation.components.AboutHome
 import com.spherixlabs.trekscape.home.presentation.components.AttemptsAvailableView
 import com.spherixlabs.trekscape.home.presentation.components.BottomBarHome
 import com.spherixlabs.trekscape.home.presentation.components.MarkerWithImage
@@ -139,12 +144,24 @@ fun HomeScreen(
     Scaffold(
         modifier  = Modifier.fillMaxSize(),
         topBar    = {
-            TopBarHome(
-                name = state.userName,
-                onClick = {
-                    onAction(HomeAction.OnProfileClicked)
-                }
-            )
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                TopBarHome(
+                    name = state.userName,
+                    onClick = {
+                        onAction(HomeAction.OnProfileClicked)
+                    }
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                AboutHome(
+                    onClick = {
+                        onAction(HomeAction.OnAboutClicked)
+                    },
+                )
+            }
         },
         bottomBar = {
             Column(
@@ -208,6 +225,13 @@ fun HomeScreen(
                 onYesClick = { onAction(HomeAction.OnGrantLocationPermissions) },
                 onNoClick  = { onAction(HomeAction.OnNotGrantLocationPermissions) }
             )
+            TrekScapeSheetDialog(
+                isOpen = state.isShowingAbout,
+                expanded  = true,
+                onDismiss = { onAction(HomeAction.OnDismissAbout) }
+            ) {
+                AboutScreenRoot()
+            }
             TrekScapeSheetDialog(
                 isOpen = state.isShowingHistory,
                 onDismiss = { onAction(HomeAction.OnDismissHistory) }

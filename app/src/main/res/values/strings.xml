@@ -18,7 +18,7 @@
     <string name="jungles_p">Jungles</string>
     <string name="forests_p">Forests</string>
     <string name="safaris_p">Safaris</string>
-    <string name="deserts_p">deserts</string>
+    <string name="deserts_p">Deserts</string>
 
     <string name="historic_cities_p">Historic cities</string>
     <string name="museums_p">Museums</string>
@@ -30,7 +30,7 @@
     <string name="castles_p">Castles</string>
 
     <string name="spas_p">Spas</string>
-    <string name="tropical_islands_p">tropical islands</string>
+    <string name="tropical_islands_p">Tropical islands</string>
     <string name="resorts_p">All-inclusive resorts</string>
     <string name="yoga_p">Yoga retreat</string>
     <string name="meditation_p">Meditation</string>
@@ -74,4 +74,19 @@
     <string name="lab_edit">Edit</string>
     <string name="lab_attempts">Attempts</string>
     <string name="lab_is_favorite">Is favorite</string>
+
+    <string name="lab_about">About</string>
+    <string name="lab_development_team">Development team</string>
+    <string name="lab_go_to_profile">Go to profile</string>
+    <string name="lab_about_description">
+        Developed by a passionate team of Colombian mobile developers, TrekScape is your go-to app for personalized travel experiences. Whether you crave adventure, cultural exploration, or relaxation, we tailor recommendations just for you.
+        \n\nOur Features:
+            \n-Travel Preferences: Choose from Nature and Adventure, Culture and History, or Relaxation and Wellbeing.
+            \n- Custom Recommendations: Discover destinations worldwide, within your continent, country, or city.
+            \n- Interactive Map: View and explore recommended spots with images, names, and descriptions.
+            \n- History and Favorites: Save and revisit your favorite places, and manage your recommendations.
+            \n- Powered by Gemini AI: Get personalized suggestions with an advanced AI.
+          \n\nEmbark on your next adventure with TrekScape, where every journey is crafted for you. Happy travels!
+    </string>
+    <string name="lab_info">Info</string>
 </resources>

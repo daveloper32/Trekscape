@@ -43,4 +43,20 @@ object IntentUtils {
             context.startActivity(intent)
         } catch (e: Exception) { Unit }
     }
+    /**
+     * Navigates to some URL.
+     *
+     * @param context [Context] The application context.
+     * @param url     [String] The URL to navigate to.
+     * */
+    fun goToWebPage(
+        context : Context,
+        url     : String,
+    ) {
+        try {
+            val webpage: Uri = Uri.parse(url)
+            val intent = Intent(Intent.ACTION_VIEW, webpage)
+            context.startActivity(intent)
+        } catch (e: Exception) { Unit }
+    }
 }

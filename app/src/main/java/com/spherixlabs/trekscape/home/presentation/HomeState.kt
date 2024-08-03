@@ -17,6 +17,7 @@ import com.spherixlabs.trekscape.place.domain.model.PlaceData
  * @param isDonTAskAgainLocationPreferencesSelected [Boolean] True if the user has selected to not ask again, false otherwise.
  * @param isEnableGPSBeingRequested [Boolean] True if the GPS is being requested, false otherwise.
  * @param currentLocationPreference [LocationPreference] The current location preference.
+ * @param isShowingAbout [Boolean] True if the about is being shown, false otherwise.
  * @param isShowingHistory [Boolean] True if the history is being shown, false otherwise.
  * @param isShowingProfile [Boolean] True if the profile is being shown, false otherwise.
  * @param currentMapCameraLocation [CoordinatesData] The current map camera location.
@@ -37,6 +38,7 @@ data class HomeState(
     val isDonTAskAgainLocationPreferencesSelected : Boolean = false,
     val isEnableGPSBeingRequested                 : Boolean = false,
     val currentLocationPreference                 : LocationPreference = LocationPreference.ALL_WORLD,
+    val isShowingAbout                            : Boolean = false,
     val isShowingHistory                          : Boolean = false,
     val isShowingProfile                          : Boolean = false,
     val currentMapCameraLocation                  : CoordinatesData = MapsUtils.DEFAULT_COORDINATES,

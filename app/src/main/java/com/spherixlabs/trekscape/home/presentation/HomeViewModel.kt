@@ -96,6 +96,8 @@ class HomeViewModel @Inject constructor(
             HomeAction.OnEditGeneralPreferences -> handleEditGeneralPreferences()
             HomeAction.OnEditLocationPreferences -> handleEditLocationPreferences()
             HomeAction.OnDismissGeneralPreferences -> handleDismissGeneralPreferences()
+            HomeAction.OnAboutClicked -> handleAboutClicked()
+            HomeAction.OnDismissAbout -> handleDismissAbout()
         }
     }
 
@@ -269,6 +271,28 @@ class HomeViewModel @Inject constructor(
         try {
             state = state.copy(
                 isShowingHistory = true,
+            )
+        } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * This function handles the about click action.
+     * */
+    private fun handleAboutClicked() {
+        try {
+            state = state.copy(
+                isShowingAbout = true,
+            )
+        } catch (e: Exception) { Unit }
+    }
+
+    /**
+     * This function handles the about dismiss action.
+     * */
+    private fun handleDismissAbout() {
+        try {
+            state = state.copy(
+                isShowingAbout = false,
             )
         } catch (e: Exception) { Unit }
     }
