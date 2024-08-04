@@ -90,6 +90,7 @@ class ProfileViewModel @Inject constructor(
         try {
             state = state.copy(
                 userName                   = userStorage.name,
+                apiKey                     = userStorage.apiKey,
                 natureAdventurePreferences = userStorage.preferences
                     .filter { PreferenceModel.isNatureAdventure(it) }
                     .mapNotNull { PreferenceModel.fromString(it) },

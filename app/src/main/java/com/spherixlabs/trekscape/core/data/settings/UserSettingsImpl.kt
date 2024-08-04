@@ -46,6 +46,10 @@ class UserSettingsImpl @Inject constructor(
         get() = LocationPreference.fromString(sharedPreferences.getString(Keys.LOCATION_PREFERENCE.key, EMPTY_STR))
         set(value) = preferencesEditor.putStringValue(Keys.LOCATION_PREFERENCE.key, value.name)
 
+    override var apiKey: String
+        get() = sharedPreferences.getString(Keys.APIKEY.key, EMPTY_STR) ?: EMPTY_STR
+        set(value) = preferencesEditor.putStringValue(Keys.APIKEY.key, value)
+
     override fun clear() {
         name = EMPTY_STR
         preferences = emptySet()
@@ -61,6 +65,7 @@ class UserSettingsImpl @Inject constructor(
             ATTEMPTS,
             LAST_ATTEMPT,
             PREFERENCES,
+            APIKEY,
             DON_T_ASK_AGAIN_LOCATION_PREFERENCES,
             LOCATION_PREFERENCE;
             val key get() = this.name

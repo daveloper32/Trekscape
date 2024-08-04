@@ -28,6 +28,10 @@ interface UserStorage {
      * */
     var isLocationPreferencesSetAsDonTAskAgain : Boolean
     /**
+     * Get/Set user's apikey
+     * */
+    var apiKey : String
+    /**
      * Get/Set user's location preference
      * */
     var locationPreference : LocationPreference

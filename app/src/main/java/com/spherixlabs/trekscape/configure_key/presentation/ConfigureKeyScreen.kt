@@ -17,17 +17,33 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.spherixlabs.trekscape.R
 import com.spherixlabs.trekscape.core.presentation.animations.ZoomInOrOutAnimation
+import com.spherixlabs.trekscape.core.presentation.components.ObserveAsEvents
 import com.spherixlabs.trekscape.core.presentation.components.TrekScapeFloatingButton
 import com.spherixlabs.trekscape.core.presentation.components.TrekScapeTextField
 
 @Composable
-fun ConfigureKeyScreenRoot(){
-    ConfigureKeyScreen()
+fun ConfigureKeyScreenRoot(
+    onDismiss  : ()-> Unit,
+    viewModel  : ConfigureKeyViewModel = hiltViewModel(),
+){
+    ObserveAsEvents(flow = viewModel.events) { event ->
+        when (event) {
+            ConfigureEvent.GoBack -> onDismiss()
+        }
+    }
+    ConfigureKeyScreen(
+        state    = viewModel.state,
+        onAction = viewModel::onAction
+    )
 }
 @Composable
-fun ConfigureKeyScreen(){
+fun ConfigureKeyScreen(
+    state    : ConfigureKeyState,
+    onAction : (ConfigureKeyAction) -> Unit,
+){
     Column(modifier = Modifier
         .padding(horizontal = 20.dp)
         .safeDrawingPadding()) {
@@ -43,15 +59,15 @@ fun ConfigureKeyScreen(){
         )
         Spacer(modifier = Modifier.height(20.dp))
         TrekScapeTextField(
-            text          = "",
+            text          = state.apiKey,
             hint          = stringResource(R.string.lab_your_api_key),
-            onValueChange = { value ->}
+            onValueChange = { value -> onAction(ConfigureKeyAction.OnApiKeyChanged(value))}
         )
         Spacer(modifier = Modifier.height(20.dp))
         ZoomInOrOutAnimation(show = true,modifier = Modifier.align(Alignment.End)){
             TrekScapeFloatingButton(
-                enable   = false,
-                onClick  = { },
+                enable   = state.enableSave,
+                onClick  = { onAction(ConfigureKeyAction.SaveApiKey) },
                 content  = { Icon(Icons.AutoMirrored.Rounded.NavigateNext, contentDescription = "TrekScapeFloatingButton") },
             )
         }
@@ -61,5 +77,8 @@ fun ConfigureKeyScreen(){
 @Preview
 @Composable
 private fun ConfigureKeyScreenPreview(){
-    ConfigureKeyScreen()
+    ConfigureKeyScreen(
+        state    = ConfigureKeyState(),
+        onAction = {}
+    )
 }

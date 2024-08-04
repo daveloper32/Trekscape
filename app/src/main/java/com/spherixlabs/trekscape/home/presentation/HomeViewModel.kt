@@ -113,7 +113,7 @@ class HomeViewModel @Inject constructor(
      * Shows the dialog where the apikey is entered
      * */
     private fun handleShowEditApiKey() {
-        state = state.copy(isShowingEditApiKey = true)
+        state = state.copy(isShowingEditApiKey = true, isShowingProfile = false)
     }
 
     /**

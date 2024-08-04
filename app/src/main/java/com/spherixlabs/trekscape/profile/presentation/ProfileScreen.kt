@@ -10,12 +10,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material.icons.rounded.Key
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -230,7 +233,11 @@ fun ProfileScreen(
                 }
             }
             Spacer(modifier = Modifier.size(8.dp))
-            Text(text = "No configurado")
+            Row {
+                Icon(Icons.Rounded.Key, contentDescription = "icon-Key")
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(text = state.apiKey.ifEmpty { stringResource(R.string.lab_not_configured) })
+            }
             Spacer(modifier = Modifier.size(16.dp))
         }
     }

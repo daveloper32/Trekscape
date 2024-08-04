@@ -314,7 +314,7 @@ fun HomeScreen(
                 expanded  = true,
                 onDismiss = {onAction(HomeAction.OnDismissEditApiKey) },
             ) {
-                ConfigureKeyScreenRoot()
+                ConfigureKeyScreenRoot(onDismiss = { onAction(HomeAction.OnDismissEditApiKey)  })
             }
             TrekScapeMagicLoadingDialog(
                 isOpen = state.isLoadingRecommendations,
