@@ -16,4 +16,8 @@ sealed interface ProfileAction {
      * [OnEditLocationPreferences] should be called when the user wants to edit the location preferences
      * */
     data object OnEditLocationPreferences : ProfileAction
+    /**
+     * [OnEditApiKey] should be called when the user wants to edit the apikey
+     * */
+    data object OnEditApiKey : ProfileAction
 }

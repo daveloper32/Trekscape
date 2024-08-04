@@ -73,6 +73,13 @@ class ProfileViewModel @Inject constructor(
                     )
                 }
             }
+            ProfileAction.OnEditApiKey -> {
+                viewModelScope.launch {
+                    eventChannel.send(
+                        ProfileEvent.GoToEditApiKey
+                    )
+                }
+            }
         }
     }
 

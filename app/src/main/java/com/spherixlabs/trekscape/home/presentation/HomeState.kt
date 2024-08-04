@@ -27,6 +27,7 @@ import com.spherixlabs.trekscape.place.domain.model.PlaceData
  * @param attemptsAvailable [Int] the missing attempts.
  * @param timeRemaining [String] the remaining time to be able to have 5 attempts again.
  * @param isShowingPlaceRecommendationDetails [Boolean] True if the place recommendation details are being shown, false otherwise.
+ * @param isShowingEditApiKey [Boolean] True if the edit apikey dialog is being shown, false otherwise.
  * @param placeDetails [PlaceData] The place recommendation details.
  * */
 data class HomeState(
@@ -48,5 +49,6 @@ data class HomeState(
     val attemptsAvailable                         : Int  = 0,
     val timeRemaining                             : String  = "",
     val isShowingPlaceRecommendationDetails       : Boolean = false,
+    val isShowingEditApiKey                       : Boolean = false,
     val placeDetails                              : PlaceData? = null,
 )

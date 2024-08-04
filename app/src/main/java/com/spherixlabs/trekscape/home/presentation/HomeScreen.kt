@@ -36,6 +36,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
 import com.spherixlabs.trekscape.R
 import com.spherixlabs.trekscape.about.presentation.AboutScreenRoot
+import com.spherixlabs.trekscape.configure_key.presentation.ConfigureKeyScreenRoot
 import com.spherixlabs.trekscape.core.domain.storage.model.permissions.GrantPermissionData
 import com.spherixlabs.trekscape.core.presentation.components.ObserveAsEvents
 import com.spherixlabs.trekscape.core.presentation.components.TrekScapeConfirmDialog
@@ -253,6 +254,9 @@ fun HomeScreen(
                     },
                     onGoToLocationPreferences = {
                         onAction(HomeAction.OnEditLocationPreferences)
+                    },
+                    onGoToEditApiKey = {
+                        onAction(HomeAction.OnGoToEditApiKey)
                     }
                 )
             }
@@ -303,6 +307,14 @@ fun HomeScreen(
                         onAction(HomeAction.OnDismissPlaceRecommendationDetails)
                     },
                 )
+            }
+            TrekScapeSheetDialog(
+                isOpen    = state.isShowingEditApiKey,
+                showLabel = false,
+                expanded  = true,
+                onDismiss = {onAction(HomeAction.OnDismissEditApiKey) },
+            ) {
+                ConfigureKeyScreenRoot()
             }
             TrekScapeMagicLoadingDialog(
                 isOpen = state.isLoadingRecommendations,

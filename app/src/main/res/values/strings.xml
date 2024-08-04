@@ -92,4 +92,7 @@
     <string name="lab_favorites">Favorites</string>
     <string name="lab_all">All</string>
     <string name="lab_empty_information">Empty information</string>
+    <string name="lab_usage_limit">Usage Limit Reached</string>
+    <string name="lab_reached_limit_message">You have reached the limit of 5 uses of our special features. To continue enjoying place searches and intelligent assistance, please enter your Google key. This will help us provide you with a complete and personalized experience.</string>
+    <string name="lab_your_api_key">Your api key</string>
 </resources>

@@ -126,4 +126,12 @@ sealed interface HomeAction {
      * [OnEditLocationPreferences] should be called when the user wants to edit the location preferences
      * */
     data object OnEditLocationPreferences : HomeAction
+    /**
+     * [OnGoToEditApiKey] should be called when the user wants to edit the api key
+     * */
+    data object OnGoToEditApiKey : HomeAction
+    /**
+     * [OnDismissEditApiKey] should be called when the edit apikey dialog should be dismissed.
+     * */
+    data object OnDismissEditApiKey : HomeAction
 }

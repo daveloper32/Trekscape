@@ -45,6 +45,7 @@ import com.spherixlabs.trekscape.welcome.presentation.screens.preferences_reques
 fun ProfileScreenRoot(
     onGoToGeneralPreferences  : () -> Unit,
     onGoToLocationPreferences : () -> Unit,
+    onGoToEditApiKey          : () -> Unit,
     viewModel                 : ProfileViewModel = hiltViewModel(),
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -65,6 +66,7 @@ fun ProfileScreenRoot(
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            ProfileEvent.GoToEditApiKey -> onGoToEditApiKey()
         }
     }
     ProfileScreen(
@@ -206,6 +208,29 @@ fun ProfileScreen(
                 enableAnimation = false,
                 onClick = {},
             )
+            Spacer(modifier = Modifier.size(16.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text  = "Add Api key",
+                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Button(
+                    onClick = { onAction(ProfileAction.OnEditApiKey) }
+                ) {
+                    Image(
+                        imageVector = Icons.Rounded.Edit,
+                        contentDescription = stringResource(id = R.string.lab_edit)
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.size(8.dp))
+            Text(text = "No configurado")
             Spacer(modifier = Modifier.size(16.dp))
         }
     }

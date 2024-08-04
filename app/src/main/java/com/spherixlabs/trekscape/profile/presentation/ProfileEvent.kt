@@ -15,6 +15,10 @@ sealed interface ProfileEvent {
      * */
     data object GoToLocationPreferences : ProfileEvent
     /**
+     * [GoToEditApiKey] should be called when the user wants to go to the edit apikey
+     * */
+    data object GoToEditApiKey : ProfileEvent
+    /**
      * [Error] should be called when an error occurs during the view process.
      *
      * @param error [UiText] The error that occurred during the view process.

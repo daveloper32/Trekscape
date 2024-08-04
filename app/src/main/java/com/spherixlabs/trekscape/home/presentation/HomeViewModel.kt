@@ -98,7 +98,22 @@ class HomeViewModel @Inject constructor(
             HomeAction.OnDismissGeneralPreferences -> handleDismissGeneralPreferences()
             HomeAction.OnAboutClicked -> handleAboutClicked()
             HomeAction.OnDismissAbout -> handleDismissAbout()
+            HomeAction.OnGoToEditApiKey -> handleShowEditApiKey()
+            HomeAction.OnDismissEditApiKey -> handleDismissApiKey()
         }
+    }
+    /**
+     * closes the dialog where the apikey is placed
+     * */
+    private fun handleDismissApiKey() {
+        state = state.copy(isShowingEditApiKey = false)
+    }
+
+    /**
+     * Shows the dialog where the apikey is entered
+     * */
+    private fun handleShowEditApiKey() {
+        state = state.copy(isShowingEditApiKey = true)
     }
 
     /**
