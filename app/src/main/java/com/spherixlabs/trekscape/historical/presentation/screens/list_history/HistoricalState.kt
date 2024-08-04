@@ -10,8 +10,10 @@ import kotlinx.coroutines.flow.emptyFlow
  *
  * @property historicalList List of [PlaceData] representing user history.
  * @property isShowingDetailHistorical  Indicates whether the detail historical screen should be visible or not.
+ * @property showOnlyFavorites Indicates that only favorite places should be displayed.
  * */
 data class HistoricalState(
     val historicalList             : Flow<PagingData<PlaceData>> = emptyFlow(),
-    val isShowingDetailHistorical  : PlaceData?  = null
+    val isShowingDetailHistorical  : PlaceData?  = null,
+    val showOnlyFavorites          : Boolean  = false
 )

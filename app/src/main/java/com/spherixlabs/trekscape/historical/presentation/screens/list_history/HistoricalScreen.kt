@@ -50,7 +50,7 @@ fun HistoricalScreen(
     AutoFinishBackPressHandler()
     Box {
         LazyColumn(modifier = Modifier.padding(horizontal = 20.dp)) {
-            item { HeaderHistoricalView() }
+            item { HeaderHistoricalView(state.showOnlyFavorites) {onAction(HistoricalAction.ShowOnlyFavorites(it))  } }
             items(
                 count       = historicalLazyPagingItems.itemCount,
                 key         = historicalLazyPagingItems.itemKey { place -> place.id },

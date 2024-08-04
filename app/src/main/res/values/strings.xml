@@ -89,4 +89,6 @@
           \n\nEmbark on your next adventure with TrekScape, where every journey is crafted for you. Happy travels!
     </string>
     <string name="lab_info">Info</string>
+    <string name="lab_favorites">Favorites</string>
+    <string name="lab_all">All</string>
 </resources>

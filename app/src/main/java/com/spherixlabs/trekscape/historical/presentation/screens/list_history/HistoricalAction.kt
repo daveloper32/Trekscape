@@ -35,4 +35,9 @@ sealed interface HistoricalAction {
      *
      * */
     data object OnDismissDetailHistorical : HistoricalAction
+    /**
+     * [ShowOnlyFavorites] Should be called when the user selects to show only favorites in history.
+     *
+     * */
+    data class ShowOnlyFavorites(val showOnlyFavorites : Boolean) : HistoricalAction
 }

@@ -16,6 +16,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -58,7 +59,7 @@ class HistoricalViewModel @Inject constructor(
         viewModelScope.launch {
             state = state.copy(
                 historicalList = getAndSearchPlacesFromLocalUseCase
-                    .invoke(coordinatesData = resourceProvider.getCurrentCoordinates())
+                    .invoke(coordinatesData = resourceProvider.getCurrentCoordinates(), showOnlyFavorites = state.showOnlyFavorites)
                     .cachedIn(viewModelScope)
             )
         }
@@ -81,7 +82,19 @@ class HistoricalViewModel @Inject constructor(
             is HistoricalAction.OnHistoricalClicked -> handleHistoricalItemClicked(action.place)
             is HistoricalAction.OnShowSomePlaceOnMapClicked -> handleShowSomePlaceOnMap(action.place)
             HistoricalAction.OnDismissDetailHistorical -> handleHistoricalItemClicked(null)
+            is HistoricalAction.ShowOnlyFavorites -> showOnlyFavorites(action.showOnlyFavorites)
         }
+    }
+    /**
+     * This function indicates that only favorite places should be displayed.
+     *
+     * @param showOnlyFavorites show only favorite places
+     * */
+    private fun showOnlyFavorites(showOnlyFavorites: Boolean) {
+        val job = viewModelScope.launch { state.historicalList.cancellable().collect { } }
+        job.cancel()
+        state = state.copy(showOnlyFavorites = showOnlyFavorites)
+        getLocalPlaces()
     }
 
     /**
