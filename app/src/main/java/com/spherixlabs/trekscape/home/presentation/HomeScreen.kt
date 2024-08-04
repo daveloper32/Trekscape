@@ -57,6 +57,7 @@ import com.spherixlabs.trekscape.home.presentation.components.MarkerWithImage
 import com.spherixlabs.trekscape.home.presentation.components.TopBarHome
 import com.spherixlabs.trekscape.home.presentation.components.dialogs.LocationPreferencesDialog
 import com.spherixlabs.trekscape.home.presentation.components.dialogs.RequestLocationPermissionDialog
+import com.spherixlabs.trekscape.home.presentation.components.dialogs.WarningAttemptsDialog
 import com.spherixlabs.trekscape.profile.presentation.ProfileScreenRoot
 import com.spherixlabs.trekscape.welcome.presentation.screens.preferences_request.PreferencesRequestScreenRoot
 import kotlinx.coroutines.launch
@@ -225,6 +226,12 @@ fun HomeScreen(
                 onDismiss  = { onAction(HomeAction.OnNotGrantLocationPermissions) },
                 onYesClick = { onAction(HomeAction.OnGrantLocationPermissions) },
                 onNoClick  = { onAction(HomeAction.OnNotGrantLocationPermissions) }
+            )
+            WarningAttemptsDialog(
+                isOpen     = state.isShowingWarningAttempts,
+                onDismiss  = { onAction(HomeAction.OnDismissWarningAttempts) },
+                onYesClick = { onAction(HomeAction.OnGrantWarningAttempts) },
+                onNoClick  = { onAction(HomeAction.OnDismissWarningAttempts) }
             )
             TrekScapeSheetDialog(
                 isOpen = state.isShowingAbout,

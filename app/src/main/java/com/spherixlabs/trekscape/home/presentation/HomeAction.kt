@@ -134,4 +134,12 @@ sealed interface HomeAction {
      * [OnDismissEditApiKey] should be called when the edit apikey dialog should be dismissed.
      * */
     data object OnDismissEditApiKey : HomeAction
+    /**
+     * [OnDismissEditApiKey] should be called when the warning attempts dialog should be dismissed.
+     * */
+    data object OnDismissWarningAttempts : HomeAction
+    /**
+     * [OnGrantWarningAttempts] should be called when the user wants to edit the api key
+     * */
+    data object OnGrantWarningAttempts : HomeAction
 }

@@ -10,6 +10,7 @@ import com.spherixlabs.trekscape.place.domain.model.PlaceData
  * Describe the state [HomeState] of the home screen.
  *
  * @param isLocationPermissionBeingRequested [Boolean] True if the location permission is being requested, false otherwise.
+ * @param isShowingWarningAttempts [Boolean] True if the waning attempt dialog is shown, false otherwise.
  * @param isMyLocationEnabled [Boolean] True if the my location is enabled, false otherwise.
  * @param isGeneralPreferencesBeingRequested [Boolean] True if the general preferences are being requested, false otherwise.
  * @param isLocationPreferencesBeingRequested [Boolean] True if the recommendations based on location is being requested, false otherwise.
@@ -32,6 +33,7 @@ import com.spherixlabs.trekscape.place.domain.model.PlaceData
  * */
 data class HomeState(
     val isLocationPermissionBeingRequested        : Boolean = false,
+    val isShowingWarningAttempts                  : Boolean = false,
     val isMyLocationEnabled                       : Boolean = false,
     val isGeneralPreferencesBeingRequested        : Boolean = false,
     val isLocationPreferencesBeingRequested       : Boolean = false,

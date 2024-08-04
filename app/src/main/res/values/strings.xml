@@ -96,4 +96,6 @@
     <string name="lab_reached_limit_message">You have reached the limit of 5 uses of our special features. To continue enjoying place searches and intelligent assistance, please enter your Google key. This will help us provide you with a complete and personalized experience.</string>
     <string name="lab_your_api_key">Your api key</string>
     <string name="lab_not_configured">Not configured</string>
+    <string name="lab_warning">Warning!!</string>
+    <string name="lab_warning_attempts">You have only one attempt left to generate places. If you want to use this feature without limits, please enter your own Google key. Would you like to add your key now?</string>
 </resources>

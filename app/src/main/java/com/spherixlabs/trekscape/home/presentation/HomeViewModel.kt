@@ -60,6 +60,7 @@ class HomeViewModel @Inject constructor(
         state = state.copy(
             userName                  = userStorage.name,
             attemptsAvailable         = getCurrentAttempt(),
+            isShowingWarningAttempts  = getCurrentAttempt() == 1,
             currentLocationPreference = userStorage.locationPreference,
         )
         if(userStorage.lastAttempt != Constants.LONG_INVALID) startCountdown()
@@ -100,6 +101,8 @@ class HomeViewModel @Inject constructor(
             HomeAction.OnDismissAbout -> handleDismissAbout()
             HomeAction.OnGoToEditApiKey -> handleShowEditApiKey()
             HomeAction.OnDismissEditApiKey -> handleDismissApiKey()
+            HomeAction.OnDismissWarningAttempts -> state = state.copy(isShowingWarningAttempts = false)
+            HomeAction.OnGrantWarningAttempts -> state = state.copy(isShowingWarningAttempts = false, isShowingEditApiKey = true)
         }
     }
     /**
@@ -493,6 +496,7 @@ class HomeViewModel @Inject constructor(
                                     )
                                 },
                                 attemptsAvailable    = getCurrentAttempt(),
+                                isShowingWarningAttempts = getCurrentAttempt() == 1,
                                 isLoadingRecommendations = false,
                             )
                             if(state.attemptsAvailable == 0){
