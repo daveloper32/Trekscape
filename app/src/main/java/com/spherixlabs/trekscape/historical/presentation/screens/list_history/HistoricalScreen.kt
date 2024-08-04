@@ -1,10 +1,23 @@
 package com.spherixlabs.trekscape.historical.presentation.screens.list_history
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ManageSearch
+import androidx.compose.material.icons.rounded.ManageSearch
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -18,10 +31,12 @@ import com.spherixlabs.trekscape.core.presentation.components.TrekScapeSheetDial
 import com.spherixlabs.trekscape.core.presentation.components.handlers.AutoFinishBackPressHandler
 import com.spherixlabs.trekscape.core.presentation.ui.theme.TrekScapeTheme
 import com.spherixlabs.trekscape.historical.presentation.screens.detail_historical.DetailHistoricalScreenRoot
+import com.spherixlabs.trekscape.historical.presentation.screens.list_history.components.EmptyHistoricalView
 import com.spherixlabs.trekscape.historical.presentation.screens.list_history.components.HeaderHistoricalView
 import com.spherixlabs.trekscape.historical.presentation.screens.list_history.components.ItemHistoricalView
 import com.spherixlabs.trekscape.place.domain.model.PlaceData
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.toList
 
 @Composable
 fun HistoricalScreenRoot(
@@ -51,6 +66,7 @@ fun HistoricalScreen(
     Box {
         LazyColumn(modifier = Modifier.padding(horizontal = 20.dp)) {
             item { HeaderHistoricalView(state.showOnlyFavorites) {onAction(HistoricalAction.ShowOnlyFavorites(it))  } }
+            item {if(historicalLazyPagingItems.itemCount == 0) EmptyHistoricalView()}
             items(
                 count       = historicalLazyPagingItems.itemCount,
                 key         = historicalLazyPagingItems.itemKey { place -> place.id },

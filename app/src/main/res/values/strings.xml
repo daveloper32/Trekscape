@@ -91,4 +91,5 @@
     <string name="lab_info">Info</string>
     <string name="lab_favorites">Favorites</string>
     <string name="lab_all">All</string>
+    <string name="lab_empty_information">Empty information</string>
 </resources>
