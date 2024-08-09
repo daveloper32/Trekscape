@@ -69,6 +69,8 @@ fun AboutScreen(
             .fillMaxSize()
             .padding(
                 horizontal = 16.dp,
+            ).padding(
+                bottom = 32.dp,
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

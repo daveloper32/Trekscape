@@ -7,7 +7,6 @@ import com.spherixlabs.trekscape.core.domain.utils.results.DataError
 import com.spherixlabs.trekscape.core.domain.utils.results.Result
 import com.spherixlabs.trekscape.core.domain.utils.results.map
 import com.spherixlabs.trekscape.core.utils.os.OsUtils
-import com.spherixlabs.trekscape.home.domain.enums.LocationPreference
 import com.spherixlabs.trekscape.place.domain.model.PlaceData
 import com.spherixlabs.trekscape.place.domain.use_cases.GetPlacesFromLocalUseCase
 import com.spherixlabs.trekscape.place.domain.use_cases.SavePlacesInLocalUseCase
@@ -34,13 +33,23 @@ class GetSomePlaceRecommendationsUseCase @Inject constructor(
      * @return [Result]<[List]<[PlaceData]>, [DataError.Network]>
      * */
     suspend operator fun invoke(
-        quantity : Int = DEFAULT_QUANTITY,
+        quantity     : Int = DEFAULT_QUANTITY,
+        customApiKey : String? = null,
     ): Result<List<PlaceData>, DataError.Network> {
         if (!networkProvider.isConnected()) {
             return Result.Error(DataError.Network.NOT_INTERNET)
         }
         val result = repository.getSomeRecommendations(
             quantity           = quantity,
+            customApiKey       = if (customApiKey != null) {
+                customApiKey
+            } else {
+                if (userStorage.apiKey.isNotEmpty()) {
+                    userStorage.apiKey
+                } else {
+                    null
+                }
+            },
             ownPreferences     = userStorage.preferences.toList(),
             locationPreference = userStorage.locationPreference,
             currentLocation    = if (resourceProvider.isGPSEnabled()) {

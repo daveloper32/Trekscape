@@ -93,9 +93,16 @@
     <string name="lab_all">All</string>
     <string name="lab_empty_information">Empty information</string>
     <string name="lab_usage_limit">Usage Limit Reached</string>
-    <string name="lab_reached_limit_message">You have reached the limit of 5 uses of our special features. To continue enjoying place searches and intelligent assistance, please enter your Google key. This will help us provide you with a complete and personalized experience.</string>
-    <string name="lab_your_api_key">Your api key</string>
+    <string name="lab_reached_limit_message">You have reached the limit of 5 uses of our special features. To keep our app free and ad-free, we\'ve implemented an API key system. By adding your own key, you can enjoy unlimited use of the app. Please note that using these APIs may incur additional costs based on your usage and Google Cloud Platform plans. Activate the Generative AI (Generative Language API) and Places (New API) on Google Cloud Platform to get your key and start enjoying a full experience.</string>
+    <string name="lab_your_api_key">Enter your api key</string>
     <string name="lab_not_configured">Not configured</string>
     <string name="lab_warning">Warning!!</string>
     <string name="lab_warning_attempts">You have only one attempt left to generate places. If you want to use this feature without limits, please enter your own Google key. Would you like to add your key now?</string>
+    <string name="lab_add_own_api_key">Add your own Api key</string>
+    <string name="lab_validating_api_key">Validating your Api key</string>
+    <string name="lab_api_key_not_valid">"The entered Api key doesn't met the minimum requeriments, please enter a valid api key "</string>
+    <string name="lab_is_valid">Is valid</string>
+    <string name="lab_gemini">Generative Language API</string>
+    <string name="lab_place">Places (New API)</string>
+    <string name="lab_api_key_valid">Your API key is valid! You can now generate unlimited recommendations. Please note that using this API may incur additional costs based on your usage on Google Cloud Platform. By clicking "Save," you confirm and agree that you are solely responsible for any associated costs. Additionally, your API key will be securely stored on your device to ensure your privacy and will not be exposed or stored in the cloud.</string>
 </resources>

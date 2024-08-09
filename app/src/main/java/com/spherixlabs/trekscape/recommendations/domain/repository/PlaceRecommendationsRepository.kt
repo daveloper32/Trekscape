@@ -12,6 +12,7 @@ interface PlaceRecommendationsRepository {
      * This function retrieves a list of place recommendations based on the specified parameters.
      *
      * @param quantity [Int] The number of recommendations to retrieve.
+     * @param customApiKey [String]? The custom API key to use for the recommendations.
      * @param ownPreferences [List]<[String]> The list of preferences that the user has set.
      * @param locationPreference [LocationPreference] The location preference for the recommendations.
      * @param currentLocation [CoordinatesData]? The current location of the user. It will only be
@@ -22,6 +23,7 @@ interface PlaceRecommendationsRepository {
      * */
     suspend fun getSomeRecommendations(
         quantity           : Int = 5,
+        customApiKey       : String? = null,
         ownPreferences     : List<String> = emptyList(),
         locationPreference : LocationPreference = LocationPreference.ALL_WORLD,
         currentLocation    : CoordinatesData? = null,

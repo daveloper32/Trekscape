@@ -18,6 +18,8 @@ object Constants {
     val DEFAULT_AMOUNT = 100
     /** The name of the Gemini model to use */
     val GEMINI_MODEL_NAME = "gemini-1.5-flash"
+    /** A default image url to use when no image is available */
+    val DEFAULT_IMAGE_ON_NOT_IMAGE_PROVIDER = "https://upload.wikimedia.org/wikipedia/commons/e/eb/Machu_Picchu%2C_Peru.jpg"
     /** Json Keys for the Place Recommendation response */
     object JsonPlaceRecommendation {
         val NAME = "name"

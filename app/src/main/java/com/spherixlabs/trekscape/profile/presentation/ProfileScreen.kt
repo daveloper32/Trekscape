@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.DeleteForever
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Key
 import androidx.compose.material3.Button
@@ -219,15 +220,21 @@ fun ProfileScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text  = "Add Api key",
+                    text  = stringResource(R.string.lab_add_own_api_key),
                     style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Button(
-                    onClick = { onAction(ProfileAction.OnEditApiKey) }
+                    onClick = {
+                        if (state.apiKey.isEmpty()) {
+                            onAction(ProfileAction.OnEditApiKey)
+                        } else {
+                            onAction(ProfileAction.OnRemoveApiKey)
+                        }
+                    }
                 ) {
                     Image(
-                        imageVector = Icons.Rounded.Edit,
+                        imageVector = if (state.apiKey.isEmpty()) Icons.Rounded.Edit else Icons.Rounded.DeleteForever,
                         contentDescription = stringResource(id = R.string.lab_edit)
                     )
                 }
@@ -236,9 +243,15 @@ fun ProfileScreen(
             Row {
                 Icon(Icons.Rounded.Key, contentDescription = "icon-Key")
                 Spacer(modifier = Modifier.width(5.dp))
-                Text(text = state.apiKey.ifEmpty { stringResource(R.string.lab_not_configured) })
+                Text(
+                    text = if (state.apiKey.isEmpty()) {
+                        stringResource(R.string.lab_not_configured)
+                    } else {
+                        "*".repeat(state.apiKey.count())
+                    }
+                )
             }
-            Spacer(modifier = Modifier.size(16.dp))
+            Spacer(modifier = Modifier.size(32.dp))
         }
     }
 }

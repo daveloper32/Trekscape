@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.spherixlabs.trekscape.core.data.provider.ResourceProvider
 import com.spherixlabs.trekscape.core.domain.storage.UserStorage
+import com.spherixlabs.trekscape.core.utils.constants.Constants.EMPTY_STR
 import com.spherixlabs.trekscape.welcome.domain.model.PreferenceModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -79,6 +80,13 @@ class ProfileViewModel @Inject constructor(
                         ProfileEvent.GoToEditApiKey
                     )
                 }
+            }
+
+            ProfileAction.OnRemoveApiKey -> {
+                userStorage.apiKey = EMPTY_STR
+                state = state.copy(
+                    apiKey = EMPTY_STR
+                )
             }
         }
     }

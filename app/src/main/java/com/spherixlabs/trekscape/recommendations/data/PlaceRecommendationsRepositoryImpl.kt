@@ -8,6 +8,7 @@ import com.spherixlabs.trekscape.core.domain.model.CoordinatesData
 import com.spherixlabs.trekscape.core.domain.utils.results.DataError
 import com.spherixlabs.trekscape.core.domain.utils.results.Result
 import com.spherixlabs.trekscape.core.utils.constants.Constants
+import com.spherixlabs.trekscape.core.utils.constants.Constants.DEFAULT_IMAGE_ON_NOT_IMAGE_PROVIDER
 import com.spherixlabs.trekscape.core.utils.constants.Constants.EMPTY_STR
 import com.spherixlabs.trekscape.core.utils.constants.Constants.GEMINI_MODEL_NAME
 import com.spherixlabs.trekscape.core.utils.coordinates.CoordinatesUtils
@@ -27,6 +28,7 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
 ): PlaceRecommendationsRepository {
     override suspend fun getSomeRecommendations(
         quantity           : Int,
+        customApiKey       : String?,
         ownPreferences     : List<String>,
         locationPreference : LocationPreference,
         currentLocation    : CoordinatesData?,
@@ -35,7 +37,7 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
     ): Result<List<PlaceRecommendation>, DataError.Network> {
         val generativeModel = GenerativeModel(
             modelName = GEMINI_MODEL_NAME,
-            apiKey    = BuildConfig.GEMINI_API_KEY,
+            apiKey    = if (customApiKey != null) customApiKey else BuildConfig.GEMINI_API_KEY,
         )
         val prompt = generatePrompt(
             quantity           = quantity,
@@ -46,21 +48,25 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
             placesToSkip       = placesToSkip,
         )
         Timber.d("Prompt: $prompt")
-        val response: GenerateContentResponse = generativeModel.generateContent(prompt)
-        val mappedResponse: List<PlaceRecommendation> = cleanAndMapResponse(response).map { place ->
-            place.copy(
-                missingMeters = if (currentLocation == null) EMPTY_STR
-                else CoordinatesUtils.formatDistance(
-                    CoordinatesUtils.calculateDistance(
-                        lat1 = currentLocation.latitude,
-                        lon1 = currentLocation.longitude,
-                        lat2 = place.location.latitude,
-                        lon2 = place.location.longitude,
+        return try {
+            val response: GenerateContentResponse = generativeModel.generateContent(prompt)
+            val mappedResponse: List<PlaceRecommendation> = cleanAndMapResponse(response).map { place ->
+                place.copy(
+                    missingMeters = if (currentLocation == null) EMPTY_STR
+                    else CoordinatesUtils.formatDistance(
+                        CoordinatesUtils.calculateDistance(
+                            lat1 = currentLocation.latitude,
+                            lon1 = currentLocation.longitude,
+                            lat2 = place.location.latitude,
+                            lon2 = place.location.longitude,
+                        )
                     )
                 )
-            )
+            }
+            Result.Success(mappedResponse)
+        } catch (e: Exception) {
+            Result.Error(DataError.Network.NOT_FOUND)
         }
-        return Result.Success(mappedResponse)
     }
 
     /**
@@ -187,7 +193,7 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
                                 latitude = latitude,
                                 longitude = longitude
                             ),
-                            imageUrl = "https://upload.wikimedia.org/wikipedia/commons/e/eb/Machu_Picchu%2C_Peru.jpg",
+                            imageUrl = DEFAULT_IMAGE_ON_NOT_IMAGE_PROVIDER,
                         )
                     )
                 }

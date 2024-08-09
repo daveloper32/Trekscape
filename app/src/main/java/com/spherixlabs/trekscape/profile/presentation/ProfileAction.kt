@@ -20,4 +20,8 @@ sealed interface ProfileAction {
      * [OnEditApiKey] should be called when the user wants to edit the apikey
      * */
     data object OnEditApiKey : ProfileAction
+    /**
+     * [OnRemoveApiKey] should be called when the user wants to delete the provided apikey
+     * */
+    data object OnRemoveApiKey : ProfileAction
 }
