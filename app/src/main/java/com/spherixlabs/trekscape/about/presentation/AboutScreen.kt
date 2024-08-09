@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -71,7 +72,7 @@ fun AboutScreen(
                 horizontal = 16.dp,
             ).padding(
                 bottom = 32.dp,
-            ),
+            ).safeDrawingPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         item {
@@ -92,7 +93,7 @@ fun AboutScreen(
                     id = R.string.app_name
                 ),
                 color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.headlineLarge,
+                style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
             )

@@ -43,7 +43,7 @@ fun AboutHome(
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             text  = stringResource(id = R.string.lab_about),
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.onSurface
         )
     }

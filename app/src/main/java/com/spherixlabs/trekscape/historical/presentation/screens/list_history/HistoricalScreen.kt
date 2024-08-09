@@ -64,7 +64,10 @@ fun HistoricalScreen(
 ) {
     AutoFinishBackPressHandler()
     Box {
-        LazyColumn(modifier = Modifier.padding(horizontal = 20.dp)) {
+        LazyColumn(
+            modifier = Modifier.padding(horizontal = 20.dp)
+                .safeDrawingPadding()
+        ) {
             item { HeaderHistoricalView(state.showOnlyFavorites) {onAction(HistoricalAction.ShowOnlyFavorites(it))  } }
             item {if(historicalLazyPagingItems.itemCount == 0) EmptyHistoricalView()}
             items(

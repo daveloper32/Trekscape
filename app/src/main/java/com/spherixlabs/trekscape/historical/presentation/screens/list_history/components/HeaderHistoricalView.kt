@@ -32,7 +32,7 @@ fun HeaderHistoricalView(showFavorites : Boolean, onSelectFavorite:(Boolean) -> 
     Column {
         Text(
             text     = stringResource(id = R.string.lab_history),
-            style    = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+            style    = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
             color    = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.padding(bottom = 20.dp)
         )

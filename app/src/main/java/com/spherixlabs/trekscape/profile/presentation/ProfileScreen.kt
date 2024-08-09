@@ -3,12 +3,15 @@ package com.spherixlabs.trekscape.profile.presentation
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -27,6 +30,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -93,7 +97,7 @@ fun ProfileScreen(
             )
             .padding(
                 bottom = 24.dp,
-            ),
+            ).safeDrawingPadding(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.Start,
     ) {
@@ -134,22 +138,27 @@ fun ProfileScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(
-                    text  = stringResource(id = R.string.lab_selected_preferences),
-                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Button(
-                    onClick = { onAction(ProfileAction.OnEditGeneralPreferences) }
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary)
+                        .clickable { onAction(ProfileAction.OnEditGeneralPreferences) },
+                    contentAlignment = Alignment.Center
                 ) {
                     Image(
                         imageVector = Icons.Rounded.Edit,
                         contentDescription = stringResource(id = R.string.lab_edit)
                     )
                 }
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text  = stringResource(id = R.string.lab_selected_preferences),
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
             }
             Spacer(modifier = Modifier.size(16.dp))
             Text(
@@ -184,62 +193,72 @@ fun ProfileScreen(
                 preferences = state.relaxationPreferences,
                 selections  = emptyList(),
             ) {}
-            Spacer(modifier = Modifier.size(16.dp))
+            Spacer(modifier = Modifier.size(24.dp))
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(
-                    text  = stringResource(id = R.string.lab_location_preferences),
-                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Button(
-                    onClick = { onAction(ProfileAction.OnEditLocationPreferences) }
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary)
+                        .clickable { onAction(ProfileAction.OnEditLocationPreferences) },
+                    contentAlignment = Alignment.Center
                 ) {
                     Image(
                         imageVector = Icons.Rounded.Edit,
                         contentDescription = stringResource(id = R.string.lab_edit)
                     )
                 }
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text  = stringResource(id = R.string.lab_location_preferences),
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
             }
-            Spacer(modifier = Modifier.size(8.dp))
+            Spacer(modifier = Modifier.size(16.dp))
             TrekScapeSelectableText(
                 text = state.locationPreference.toUiText().asString(),
                 isSelected = true,
                 enableAnimation = false,
                 onClick = {},
             )
-            Spacer(modifier = Modifier.size(16.dp))
+            Spacer(modifier = Modifier.size(24.dp))
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(
-                    text  = stringResource(R.string.lab_add_own_api_key),
-                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Button(
-                    onClick = {
-                        if (state.apiKey.isEmpty()) {
-                            onAction(ProfileAction.OnEditApiKey)
-                        } else {
-                            onAction(ProfileAction.OnRemoveApiKey)
-                        }
-                    }
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary)
+                        .clickable {
+                            if (state.apiKey.isEmpty()) {
+                                onAction(ProfileAction.OnEditApiKey)
+                            } else {
+                                onAction(ProfileAction.OnRemoveApiKey)
+                            }
+                        },
+                    contentAlignment = Alignment.Center
                 ) {
                     Image(
                         imageVector = if (state.apiKey.isEmpty()) Icons.Rounded.Edit else Icons.Rounded.DeleteForever,
                         contentDescription = stringResource(id = R.string.lab_edit)
                     )
                 }
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text  = stringResource(R.string.lab_add_own_api_key),
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
             }
-            Spacer(modifier = Modifier.size(8.dp))
+            Spacer(modifier = Modifier.size(16.dp))
             Row {
                 Icon(Icons.Rounded.Key, contentDescription = "icon-Key")
                 Spacer(modifier = Modifier.width(5.dp))
