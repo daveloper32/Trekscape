@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lab_next">Siguiente</string>
+    <string name="let_get">Vamos a</string>
+    <string name="started">Comenzar</string>
+    <string name="enter_name">Ingresa tu nombre</string>
+    <string name="nature_and_adventure">Naturaleza y Aventura</string>
+    <string name="nature_and_adventure_description">¿Eres apasionado por la naturaleza y la aventura? ¡Elige las opciones que mejor se adapten a tu espíritu explorador!</string>
+    <string name="culture_and_history">Cultura e Historia</string>
+    <string name="culture_and_history_description">¿Eres amante de la cultura y la historia? Selecciona destinos que despierten tu curiosidad y pasión por el pasado.</string>
+    <string name="relaxation_and_wellbeing">Relajación y Bienestar</string>
+    <string name="relaxation_and_wellbeing_description">¿Buscas relajarte y recargar energías? Selecciona destinos que te ofrezcan la máxima tranquilidad y bienestar.</string>
+
+    <!-- PREFERENCIAS -->
+    <string name="mountain_p">Montañas</string>
+    <string name="beach_p">Playas</string>
+    <string name="national_parks_p">Parques Nacionales</string>
+    <string name="jungles_p">Selvas</string>
+    <string name="forests_p">Bosques</string>
+    <string name="safaris_p">Safaris</string>
+    <string name="deserts_p">Desiertos</string>
+
+    <string name="historic_cities_p">Ciudades Históricas</string>
+    <string name="museums_p">Museos</string>
+    <string name="art_galleries_p">Galerías de Arte</string>
+    <string name="archaeological_sites_p">Sitios Arqueológicos</string>
+    <string name="festivals_p">Festivales</string>
+    <string name="cultural_events_p">Eventos Culturales</string>
+    <string name="historical_monuments_p">Monumentos Históricos</string>
+    <string name="castles_p">Castillos</string>
+
+    <string name="spas_p">Spas</string>
+    <string name="tropical_islands_p">Islas Tropicales</string>
+    <string name="resorts_p">Resorts Todo Incluido</string>
+    <string name="yoga_p">Retiro de Yoga</string>
+    <string name="meditation_p">Meditación</string>
+    <string name="spa_centers_p">Centros de Spa</string>
+    <string name="hotels_p">Hoteles</string>
+    <string name="lab_select_one_or_more">Selecciona uno o más</string>
+
+    <string name="lab_yes">Sí</string>
+    <string name="lab_no">No</string>
+    <string name="lab_required_permission">Permiso requerido</string>
+    <string name="lab_app_needs_permission_to_access_location">¿Te gustaría mejorar tu experiencia y obtener recomendaciones de viaje más precisas basadas en tu ubicación?</string>
+    <string name="lab_history">Historial</string>
+    <string name="lab_recommend">Recomendar</string>
+    <string name="lab_profile">Perfil</string>
+    <string name="lab_swipe_up">Desliza hacia arriba</string>
+    <string name="lab_hi">¡Hola!</string>
+    <string name="lab_delete">Eliminar</string>
+    <string name="lab_location_preferences">Preferencias de Ubicación</string>
+    <string name="lab_location_preferences_expl">Para mejorar tu experiencia y recibir recomendaciones personalizadas, elige una preferencia de búsqueda basada en la ubicación que se adapte a tus necesidades.</string>
+    <string name="lab_ok">Ok</string>
+    <string name="lab_don_t_ask_again">No volver a preguntar</string>
+
+    <string name="error_no_internet_connection">Parece que no tienes conexión a internet. Por favor, inténtalo más tarde.</string>
+    <string name="error_unknown">Ups, ocurrió un error desconocido.</string>
+    <string name="error_timeout">El tiempo de conexión al servidor ha expirado</string>
+    <string name="error_too_many_requests">Has alcanzado tu límite de solicitudes.</string>
+    <string name="error_data_not_found">No se encontraron datos</string>
+    <string name="lab_all_world">Todo el mundo</string>
+    <string name="lab_same_continent">Mismo continente</string>
+    <string name="lab_same_country">Mismo país</string>
+    <string name="lab_same_city">Misma ciudad</string>
+    <string name="lab_checked">Marcado</string>
+    <string name="lab_magic_wand">Varita mágica</string>
+    <string name="lab_turn_on_gps">Activar GPS</string>
+    <string name="lab_recommend_in_all_world">Recomendar en todo el mundo</string>
+    <string name="lab_gps_enabled_is_required">Es necesario activar el GPS</string>
+    <string name="lab_gps_enabled_is_required_explanation">Para preferencias de ubicación en el mismo continente, país o ciudad, es necesario tener el GPS activado.\n¿Qué deseas hacer?</string>
+
+    <string name="lab_hello_user">Hola, %1$s</string>
+    <string name="lab_selected_preferences">Preferencias seleccionadas</string>
+    <string name="lab_edit">Editar</string>
+    <string name="lab_attempts">Intentos</string>
+    <string name="lab_is_favorite">Es favorito</string>
+
+    <string name="lab_about">Acerca de</string>
+    <string name="lab_development_team">Equipo de desarrollo</string>
+    <string name="lab_go_to_profile">Ir al perfil</string>
+    <string name="lab_about_description">
+        Desarrollada por un equipo apasionado de desarrolladores móviles colombianos, TrekScape es tu aplicación ideal para experiencias de viaje personalizadas. Ya sea que anheles aventura, exploración cultural o relajación, adaptamos las recomendaciones solo para ti.
+        \n\nNuestras Características:
+            \n- Preferencias de Viaje: Elige entre Naturaleza y Aventura, Cultura e Historia, o Relajación y Bienestar.
+            \n- Recomendaciones Personalizadas: Descubre destinos en todo el mundo, dentro de tu continente, país o ciudad.
+            \n- Mapa Interactivo: Visualiza y explora lugares recomendados con imágenes, nombres y descripciones.
+            \n- Historial y Favoritos: Guarda y revisita tus lugares favoritos, y gestiona tus recomendaciones.
+            \n- Impulsado por Gemini AI: Obtén sugerencias personalizadas con una IA avanzada.
+          \n\nEmprende tu próxima aventura con TrekScape, donde cada viaje está diseñado para ti. ¡Felices viajes!
+    </string>
+    <string name="lab_info">Información</string>
+    <string name="lab_favorites">Favoritos</string>
+    <string name="lab_all">Todos</string>
+    <string name="lab_empty_information">Información vacía</string>
+    <string name="lab_usage_limit">Límite de Uso Alcanzado</string>
+    <string name="lab_reached_limit_message">Has alcanzado el límite de 5 usos de nuestras funciones especiales. Para mantener nuestra aplicación gratuita y sin anuncios, hemos implementado un sistema de claves API. Al agregar tu propia clave, podrás disfrutar del uso ilimitado de la aplicación. Ten en cuenta que el uso de estas APIs puede incurrir en costos adicionales según tu uso y los planes de Google Cloud Platform. Activa la API de Lenguaje Generativo (Generative Language API) y Places (New API) en Google Cloud Platform para obtener tu clave y comenzar a disfrutar de una experiencia completa.</string>
+    <string name="lab_your_api_key">Ingresa tu clave API</string>
+    <string name="lab_not_configured">No configurado</string>
+    <string name="lab_warning">¡Advertencia!</string>
+    <string name="lab_warning_attempts">Te queda solo un intento para generar lugares. Si deseas usar esta función sin límites, por favor ingresa tu propia clave de Google. ¿Te gustaría agregar tu clave ahora?</string>
+    <string name="lab_add_own_api_key">Agregar tu propia clave API</string>
+    <string name="lab_validating_api_key">Validando tu clave API</string>
+    <string name="lab_api_key_not_valid">La clave API ingresada no cumple con los requisitos mínimos, por favor ingresa una clave API válida</string>
+    <string name="lab_is_valid">Es válida</string>
+    <string name="lab_api_key_valid">¡Tu clave API es válida! Ahora puedes generar recomendaciones ilimitadas. Ten en cuenta que el uso de esta API puede incurrir en costos adicionales según tu uso en Google Cloud Platform. Al hacer clic en "Guardar", confirmas y aceptas que eres el único responsable de cualquier costo asociado. Además, tu clave API se almacenará de forma segura en tu dispositivo para garantizar tu privacidad y no será expuesta ni almacenada en la nube.</string>
+    <string name="lab_loading_activities">Cargando actividades</string>
+    <string name="lab_activities">Actividades</string>
+</resources>
