@@ -81,7 +81,7 @@
     <string name="lab_about_description">
         Developed by a passionate team of Colombian mobile developers, TrekScape is your go-to app for personalized travel experiences. Whether you crave adventure, cultural exploration, or relaxation, we tailor recommendations just for you.
         \n\nOur Features:
-            \n-Travel Preferences: Choose from Nature and Adventure, Culture and History, or Relaxation and Wellbeing.
+            \n- Travel Preferences: Choose from Nature and Adventure, Culture and History, or Relaxation and Wellbeing.
             \n- Custom Recommendations: Discover destinations worldwide, within your continent, country, or city.
             \n- Interactive Map: View and explore recommended spots with images, names, and descriptions.
             \n- History and Favorites: Save and revisit your favorite places, and manage your recommendations.
@@ -100,7 +100,7 @@
     <string name="lab_warning_attempts">You have only one attempt left to generate places. If you want to use this feature without limits, please enter your own Google key. Would you like to add your key now?</string>
     <string name="lab_add_own_api_key">Add your own Api key</string>
     <string name="lab_validating_api_key">Validating your Api key</string>
-    <string name="lab_api_key_not_valid">"The entered Api key doesn't met the minimum requeriments, please enter a valid api key "</string>
+    <string name="lab_api_key_not_valid">"The entered Api key doesn't met the minimum requirements, please enter a valid api key "</string>
     <string name="lab_is_valid">Is valid</string>
     <string name="lab_gemini" translatable="false">Generative Language API</string>
     <string name="lab_place" translatable="false">Places (New API)</string>
