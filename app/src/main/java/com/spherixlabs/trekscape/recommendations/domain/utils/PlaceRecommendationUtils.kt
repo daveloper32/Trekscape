@@ -10,6 +10,6 @@ fun PlaceRecommendation.toPlaceData(): PlaceData = PlaceData(
     name          = this.name,
     description   = this.description,
     imageUrl      = this.imageUrl,
-    location   = this.location,
+    location      = this.location,
     missingMeters = this.missingMeters,
 )

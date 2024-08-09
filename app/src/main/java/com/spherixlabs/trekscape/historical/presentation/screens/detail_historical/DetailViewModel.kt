@@ -5,8 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.spherixlabs.trekscape.core.domain.utils.results.Result
+import com.spherixlabs.trekscape.place.domain.model.PlaceData
 import com.spherixlabs.trekscape.place.domain.use_cases.DeletePlaceUseCase
 import com.spherixlabs.trekscape.place.domain.use_cases.SetPlaceAsFavoriteUseCase
+import com.spherixlabs.trekscape.recommendations.domain.use_cases.GetSomePlaceActivityRecommendationsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -22,8 +25,9 @@ import javax.inject.Inject
  * */
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    private val setPlaceAsFavoriteUseCase : SetPlaceAsFavoriteUseCase,
-    private val deletePlaceUseCase        : DeletePlaceUseCase,
+    private val getSomePlaceActivityRecommendationsUseCase : GetSomePlaceActivityRecommendationsUseCase,
+    private val setPlaceAsFavoriteUseCase                  : SetPlaceAsFavoriteUseCase,
+    private val deletePlaceUseCase                         : DeletePlaceUseCase,
 ) : ViewModel() {
     /**
      * Private mutable [Channel] that exposes the current events [DetailEvent] launched by
@@ -52,8 +56,10 @@ class DetailViewModel @Inject constructor(
         when (action) {
             is DetailAction.OnDataReceived -> {
                 state = state.copy(
-                    place = action.place
+                    place = action.place,
+                    activities = emptyList(),
                 )
+                tryToGetSomeActivitiesOnPlace(place = action.place)
             }
             DetailAction.OnSetOrUnsetPlaceAsFavorite -> handleSetOrUnsetPlaceAsFavorite()
             DetailAction.OnShowPlaceOnMapClicked -> {
@@ -63,6 +69,38 @@ class DetailViewModel @Inject constructor(
             }
             DetailAction.OnDeletePlaceClicked -> handleDeletePlace()
         }
+    }
+
+    /**
+     * This function tries to get some activities on a place.
+     * */
+    private fun tryToGetSomeActivitiesOnPlace(
+        place: PlaceData
+    ) {
+        try {
+            viewModelScope.launch {
+                state = state.copy(
+                    isLoadingActivities = true,
+                )
+                val result = getSomePlaceActivityRecommendationsUseCase.invoke(
+                    place = place,
+                )
+                when (result) {
+                    is Result.Success -> {
+                        state = state.copy(
+                            activities = result.data,
+                            isLoadingActivities = false,
+                        )
+                    }
+                    is Result.Error -> {
+                        state = state.copy(
+                            activities = emptyList(),
+                            isLoadingActivities = false,
+                        )
+                    }
+                }
+            }
+        } catch (e: Exception) { Unit }
     }
 
     /**

@@ -28,4 +28,9 @@ object Constants {
         val LATITUDE = "latitude"
         val LONGITUDE = "longitude"
     }
+    /** Json Keys for the Place Activity Recommendation response */
+    object JsonPlaceActivityRecommendation {
+        val NAME = "name"
+        val DESCRIPTION = "description"
+    }
 }

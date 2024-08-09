@@ -105,4 +105,6 @@
     <string name="lab_gemini">Generative Language API</string>
     <string name="lab_place">Places (New API)</string>
     <string name="lab_api_key_valid">Your API key is valid! You can now generate unlimited recommendations. Please note that using this API may incur additional costs based on your usage on Google Cloud Platform. By clicking "Save," you confirm and agree that you are solely responsible for any associated costs. Additionally, your API key will be securely stored on your device to ensure your privacy and will not be exposed or stored in the cloud.</string>
+    <string name="lab_loading_activities">Loading activities</string>
+    <string name="lab_activities">Activities</string>
 </resources>

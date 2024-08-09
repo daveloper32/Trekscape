@@ -1,6 +1,7 @@
 package com.spherixlabs.trekscape.di
 
 import android.app.Application
+import com.spherixlabs.trekscape.activity.data.db.dao.ActivityDao
 import com.spherixlabs.trekscape.core.data.db.TrekScapeDatabase
 import com.spherixlabs.trekscape.core.data.settings.PermissionsStateSettingsImpl
 import com.spherixlabs.trekscape.core.data.settings.UserSettingsImpl
@@ -77,6 +78,13 @@ object DataModule {
     fun providePlaceDao(
         db: TrekScapeDatabase
     ): PlaceDao = db.placeDao
+
+    /**DI function that provides a singleton of a [ActivityDao]*/
+    @Provides
+    @Singleton
+    fun provideActivityDao(
+        db: TrekScapeDatabase
+    ): ActivityDao = db.activityDao
 
     /**DI function that provides a singleton of a [UserStorage]*/
     @Provides

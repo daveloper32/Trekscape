@@ -30,6 +30,7 @@ class GetSomePlaceRecommendationsUseCase @Inject constructor(
      * This function gets some number of place recommendations based on previous preferences setup.
      *
      * @param quantity [Int] The number of recommendations to retrieve.
+     * @param customApiKey [String]? The custom API key to use for the recommendations.
      * @return [Result]<[List]<[PlaceData]>, [DataError.Network]>
      * */
     suspend operator fun invoke(
