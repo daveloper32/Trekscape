@@ -62,9 +62,13 @@ class GetSomePlaceRecommendationsUseCase @Inject constructor(
             placesToSkip = getOldPlaceRecommendations(),
         )
         var placeRecommendations: List<PlaceData> = listOf()
-        if (result is Result.Success) {
+        if (
+            result is Result.Success
+        ) {
             placeRecommendations = result.data.map { it.toPlaceData() }
-            saveRecommendations(placeRecommendations)
+            if (customApiKey == null) {
+                saveRecommendations(placeRecommendations)
+            }
         }
         return result.map { placeRecommendations }
     }

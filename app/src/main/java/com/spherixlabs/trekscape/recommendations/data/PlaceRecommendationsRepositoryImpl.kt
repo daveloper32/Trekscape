@@ -37,7 +37,7 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
     ): Result<List<PlaceRecommendation>, DataError.Network> {
         val generativeModel = GenerativeModel(
             modelName = GEMINI_MODEL_NAME,
-            apiKey    = if (customApiKey != null) customApiKey else BuildConfig.GEMINI_API_KEY,
+            apiKey    = customApiKey ?: BuildConfig.GEMINI_API_KEY,
         )
         val prompt = generatePrompt(
             quantity           = quantity,
@@ -50,7 +50,10 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
         Timber.d("Prompt: $prompt")
         return try {
             val response: GenerateContentResponse = generativeModel.generateContent(prompt)
-            val mappedResponse: List<PlaceRecommendation> = cleanAndMapResponse(response).map { place ->
+            val mappedResponse: List<PlaceRecommendation> = cleanAndMapResponse(
+                response     = response,
+                customApiKey = customApiKey,
+            ).map { place ->
                 place.copy(
                     missingMeters = if (currentLocation == null) EMPTY_STR
                     else CoordinatesUtils.formatDistance(
@@ -165,10 +168,12 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
      * This function cleans and maps the response from the generative model to a list of [PlaceRecommendation].
      *
      * @param response [GenerateContentResponse] The response from the generative model.
+     * @param customApiKey [String]? The custom API key to use.
      * @return [List]<[PlaceRecommendation]> The cleaned and mapped response.
      * */
     private suspend fun cleanAndMapResponse(
-        response : GenerateContentResponse
+        response     : GenerateContentResponse,
+        customApiKey : String?,
     ): List<PlaceRecommendation> {
         return try {
             val mappedData: MutableList<PlaceRecommendation> = mutableListOf()
@@ -198,7 +203,10 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
                     )
                 }
             }
-            tryToFetchImagesToRecommendations(mappedData)
+            tryToFetchImagesToRecommendations(
+                data         = mappedData,
+                customApiKey = customApiKey,
+            )
         } catch (e: Exception) {
            emptyList()
         }
@@ -208,16 +216,21 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
      * This function tries to fetch images to recommendations.
      *
      * @param data [List]<[PlaceRecommendation]> The list of recommendations.
+     * @param customApiKey [String]? The custom API key to use.
      * @return [List]<[PlaceRecommendation]> The list of recommendations with images.
      * */
     private suspend fun tryToFetchImagesToRecommendations(
-        data : List<PlaceRecommendation>
+        data         : List<PlaceRecommendation>,
+        customApiKey : String?,
     ) : List<PlaceRecommendation> {
         return try {
             val dataWithImages: MutableList<PlaceRecommendation> = mutableListOf()
             data.forEach { placeRecommendation ->
                 dataWithImages.add(
-                    tryToFetchImageToRecommendation(placeRecommendation)
+                    tryToFetchImageToRecommendation(
+                        data         = placeRecommendation,
+                        customApiKey = customApiKey,
+                    )
                 )
             }
             dataWithImages
@@ -228,15 +241,17 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
      * This function tries to fetch an image to a recommendation.
      *
      * @param data [PlaceRecommendation] The recommendation.
+     * @param customApiKey [String]? The custom API key to use.
      * @return [PlaceRecommendation] The recommendation with an image.
      * */
     private suspend fun tryToFetchImageToRecommendation(
-        data : PlaceRecommendation
+        data         : PlaceRecommendation,
+        customApiKey : String?,
     ): PlaceRecommendation {
         return try {
             val placeIdOfFirstPrediction: String = placesUtils
                 .getAutocompletePredictions(
-                    apiKey   = BuildConfig.PLACES_API_KEY,
+                    apiKey   = customApiKey ?: BuildConfig.PLACES_API_KEY,
                     query    = data.name,
                     location = data.location,
                 )?.firstOrNull()?.placeId ?: return data
