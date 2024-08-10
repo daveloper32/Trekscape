@@ -30,6 +30,7 @@ import com.spherixlabs.trekscape.place.domain.model.PlaceData
  * @param isShowingPlaceRecommendationDetails [Boolean] True if the place recommendation details are being shown, false otherwise.
  * @param isShowingEditApiKey [Boolean] True if the edit apikey dialog is being shown, false otherwise.
  * @param placeDetails [PlaceData] The place recommendation details.
+ * @param showAttempts [Boolean] The attempts and all their logic are shown if you have not configured an apikey
  * */
 data class HomeState(
     val isLocationPermissionBeingRequested        : Boolean = false,
@@ -49,6 +50,7 @@ data class HomeState(
     val placeRecommendations                      : List<PlaceData> = emptyList(),
     val userName                                  : String  = EMPTY_STR,
     val attemptsAvailable                         : Int  = 0,
+    val showAttempts                              : Boolean  = true,
     val timeRemaining                             : String  = "",
     val isShowingPlaceRecommendationDetails       : Boolean = false,
     val isShowingEditApiKey                       : Boolean = false,

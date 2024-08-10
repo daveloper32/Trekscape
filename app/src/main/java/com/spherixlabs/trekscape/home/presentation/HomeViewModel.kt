@@ -62,6 +62,7 @@ class HomeViewModel @Inject constructor(
             attemptsAvailable         = getCurrentAttempt(),
             isShowingWarningAttempts  = getCurrentAttempt() == 1,
             currentLocationPreference = userStorage.locationPreference,
+            showAttempts              = userStorage.apiKey.isEmpty()
         )
         if(userStorage.lastAttempt != Constants.LONG_INVALID) startCountdown()
     }
@@ -109,7 +110,7 @@ class HomeViewModel @Inject constructor(
      * closes the dialog where the apikey is placed
      * */
     private fun handleDismissApiKey() {
-        state = state.copy(isShowingEditApiKey = false)
+        state = state.copy(isShowingEditApiKey = false, showAttempts = userStorage.apiKey.isEmpty())
     }
 
     /**
@@ -486,7 +487,7 @@ class HomeViewModel @Inject constructor(
                     val result = getSomePlaceRecommendationsUseCase.invoke()
                     when (result) {
                         is Result.Success -> {
-                            userStorage.attempts += 1
+                            if(userStorage.apiKey.isEmpty()) userStorage.attempts += 1
                             state = state.copy(
                                 placeRecommendations = result.data.map { place ->
                                     place.copy(

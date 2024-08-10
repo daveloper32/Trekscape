@@ -170,9 +170,9 @@ fun HomeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.safeDrawingPadding()
             ) {
-                AttemptsAvailableView(attempts = state.attemptsAvailable)
+                if(state.showAttempts) AttemptsAvailableView(attempts = state.attemptsAvailable)
                 BottomBarHome(
-                    enable        = state.attemptsAvailable != 0,
+                    enable        = state.attemptsAvailable != 0 || !state.showAttempts,
                     timeRemaining = state.timeRemaining
                 ) {itemData->
                     when (itemData) {
