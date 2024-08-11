@@ -28,7 +28,7 @@ You should select at least 1 preferences for the 3 group of preferences to recei
 Process to generate a pull of travel place recommendations and select the location preferences for the generation
 <div style="display: flex; justify-content: space-between;">
   <img src="screens/06_home.png" alt="First overview of the Home" width="200" height="444">
-  <img src="screens/07_select_location_preferences_2.png" alt="First selection of Location preferences" width="200" height="444">
+  <img src="screens/07_select_location_preferences.png" alt="First selection of Location preferences" width="200" height="444">
   <img src="screens/08_generate_recommendations.png" alt="Generating recommendations" width="200" height="444">
   <img src="screens/09_recommendations_result.png" alt="Recommendations result on map" width="200" height="444">
 </div>
