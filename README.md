@@ -13,12 +13,12 @@ Embark on your next adventure with TrekScape, where every journey is crafted for
 ## App Screenshots
 
 ### On boarding
-<img src="screens/01_onboarding.png" alt="On boarding" width="300" height="667">
+<img src="screens/01_onboarding.png" alt="On boarding" width="200" height="444">
 
 ### Choose your preferences
 <div style="display: flex; justify-content: space-between;">
-  <img src="screens/02_select_preferences_1.png" alt="First selectable preferences screen" width="300" height="667">
-  <img src="screens/03_select_preferences_2.png" alt="First selectable preferences screen with selection" width="300" height="667">
-  <img src="screens/04_select_preferences_3.png" alt="Second selectable preferences screen with selection" width="300" height="667">
-  <img src="screens/05_select_preferences_4.png" alt="Third selectable preferences screen with selection" width="300" height="667">
+  <img src="screens/02_select_preferences_1.png" alt="First selectable preferences screen" width="200" height="444">
+  <img src="screens/03_select_preferences_2.png" alt="First selectable preferences screen with selection" width="200" height="444">
+  <img src="screens/04_select_preferences_3.png" alt="Second selectable preferences screen with selection" width="200" height="444">
+  <img src="screens/05_select_preferences_4.png" alt="Third selectable preferences screen with selection" width="200" height="444">
 </div>
