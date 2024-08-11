@@ -49,7 +49,7 @@ You have access to all the travel place recommendations, filter by favorites, ad
 </div>
 
 ### Profile
-You can edit your init preferences, your location preferences and set up a custom api key to have unlimited travel place recommendation generation.
+You can review and edit your init setup of preferences, your location preferences and set up a custom api key to have unlimited travel place recommendation generation.
 <div style="display: flex; justify-content: space-between;">
   <img src="screens/15_profile_1.png" alt="Profile up" width="200" height="444">
   <img src="screens/16_profile_2.png" alt="Profile down" width="200" height="444">
