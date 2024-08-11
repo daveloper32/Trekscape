@@ -39,15 +39,15 @@ fun BottomBarHome(
             .clip(CircleShape)
             .background(MaterialTheme.colorScheme.background)
             .padding(5.dp)
-            .fillMaxWidth()
-
+            .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
             modifier = Modifier
                 .padding(
                     end = 12.dp,
                 )
-                .clickable(enabled = enable) { onItemClicked(HomeType.HISTORY) }
+                .clickable { onItemClicked(HomeType.HISTORY) }
                 .padding(
                     start = 12.dp,
                 )
@@ -69,6 +69,7 @@ fun BottomBarHome(
                 .clickable(enabled = enable) { onItemClicked(HomeType.RECOMMENDATIONS) }
                 .background(if (enable) MaterialTheme.colorScheme.secondary else Color.LightGray)
                 .padding(20.dp),
+            contentAlignment = Alignment.Center,
         ) {
             if (enable) {
                 Icon(
@@ -91,7 +92,7 @@ fun BottomBarHome(
                 .padding(
                     start = 12.dp,
                 )
-                .clickable(enabled = enable) { onItemClicked(HomeType.PROFILE) }
+                .clickable { onItemClicked(HomeType.PROFILE) }
                 .padding(
                     end = 12.dp,
                 )
@@ -113,6 +114,9 @@ fun BottomBarHome(
 @Composable
 private fun BottomBarHomePreview() {
     TrekScapeTheme {
-        BottomBarHome{}
+        BottomBarHome(
+            timeRemaining = "00:00",
+            enable = false
+        ){}
     }
 }
