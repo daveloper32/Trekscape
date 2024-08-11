@@ -52,9 +52,14 @@ class ConfigureKeyViewModel @Inject constructor(
     private fun initConfiguration(){
         try {
             state = state.copy(
-                isRequestingApiKey = true,
-                enableValidate = false,
-                apiKey = EMPTY_STR,
+                isRequestingApiKey     = true,
+                enableValidate         = false,
+                apiKey                 = EMPTY_STR,
+                isGeminiBeingValidated = false,
+                isPlacesBeingValidated = false,
+                isGeminiValid          = false,
+                isPlacesValid          = false,
+                enableSave             = false,
             )
         } catch (e: Exception) { Unit }
     }
