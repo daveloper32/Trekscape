@@ -13,4 +13,4 @@ Embark on your next adventure with TrekScape, where every journey is crafted for
 ## App Screenshots
 
 ### On boarding
-![On boarding](screens/01_onboarding.png){width="300px"}
+<img src="screens/01_onboarding.png" alt="Imagen de la pantalla de onboarding" width="300" height="200">
