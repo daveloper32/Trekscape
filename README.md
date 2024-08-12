@@ -10,10 +10,6 @@ Our Features:
 
 Embark on your next adventure with TrekScape, where every journey is crafted for you. Happy travels!
 
-## Video Overview
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>
-
 ## App Screenshots
 
 ### On boarding
@@ -74,3 +70,8 @@ Info of the app and the Development team
   <img src="screens/21_about_1.png" alt="About up" width="200" height="444">
   <img src="screens/22_about_2.png" alt="About down" width="200" height="444">
 </div>
+
+## Video Overview
+
+[<iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>](https://youtu.be/cMORfB4qEng)
+
