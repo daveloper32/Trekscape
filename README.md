@@ -12,7 +12,7 @@ Embark on your next adventure with TrekScape, where every journey is crafted for
 
 ## Video Overview
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/cMORfB4qEng?si=nEGJ40FRKFJhvwdH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>
 
 ## App Screenshots
 
