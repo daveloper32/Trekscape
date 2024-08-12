@@ -73,5 +73,5 @@ Info of the app and the Development team
 
 ## Video Overview
 
-[<iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>](https://youtu.be/cMORfB4qEng)
+https://youtu.be/cMORfB4qEng
 
